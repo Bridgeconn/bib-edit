@@ -13,8 +13,21 @@
 
       <!-- .toolbar-header sits at the top of your app -->
       <header class="toolbar toolbar-header" id="header">
-	     <h1 class="title">Select Book</h1>
-       <button class="btn btn-default" >Default</button>
+	     <h1 class="title">Bible browse stuff</h1>
+        <div class="toolbar-actions" align="right">
+          <a class="btn btn-default btn-lg" href="settings.html" role="button">
+            <span class="icon icon-pencil"></span>
+            Editor</a>
+          </button>
+          <a class="btn btn-default btn-lg" href="about.html" role="button">
+            <span class="icon icon-cog btn-lg"></span>
+            Settings</a>
+          </button>
+          <a class="btn btn-default btn-lg" href="translate.htm" role="button">
+            <span class="icon icon-info"></span>
+            About</a>
+          </button>
+          </div>
       </header>
 
       <!-- Your app's content goes inside .window-content -->
@@ -25,28 +38,22 @@
 
       	    <div class="radio">
       	      <label>
-      		    <input type="radio" name="radios" checked>OT</label>
+      		    <input type="radio" name="radios_book" value="OT" id="OT" checked>OT</label>
       	    </div>
       	    <div class="radio">
       	      <label>
-      		    <input type="radio" name="radios">NT</label>
-
-
+      		    <input type="radio" name="radios_book" value="NT" id="NT" >NT
+              </label>
       	    </div>
       	  </div>
 
       	  <div id="chapters-pane" class="pane">
-      	    Bible browse stuff.
-      	    <a href="settings.html">Settings</a>
-            <a href="about.html">About</a>
-            <a href="translate.html">Editor</a>
-      	  </div>
-
       	</div>
 
       </div>
 
     </div>
     <script>require('./js/index.js')</script>
+
   </body>
 </html>
