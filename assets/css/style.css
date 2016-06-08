@@ -3,8 +3,10 @@
     padding: 10px 20px;
 }
 #leftpane {
-    padding-left: 30px;
+    padding-left: 15px;
     width: 200px;
     overflow: scroll;
 }
-#button
+#button{
+  overflow: hidden;
+}

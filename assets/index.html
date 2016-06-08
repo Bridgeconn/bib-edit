@@ -5,7 +5,10 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="css/photon.min.css">
+     <link rel="stylesheet" href="css/picnic.min.css">
+
     <link rel="stylesheet" type="text/css" href="css/style.css">
+
   </head>
 
   <body>
@@ -13,21 +16,18 @@
 
       <!-- .toolbar-header sits at the top of your app -->
       <header class="toolbar toolbar-header" id="header">
-	     <h1 class="title">Bible browse stuff</h1>
+
+	     <h1 class="title">Bible Browser </h1>
         <div class="toolbar-actions" align="right">
-          <a class="btn btn-default btn-lg" href="settings.html" role="button">
-            <span class="icon icon-pencil"></span>
+
+          <a class="pseudo button"  href="translate.html"><span class="icon icon-pencil"></span>
             Editor</a>
-          </button>
-          <a class="btn btn-default btn-lg" href="about.html" role="button">
-            <span class="icon icon-cog btn-lg"></span>
+          <a class="pseudo button"  href="settings.html"><span class="icon icon-cog btn-lg"></span>
             Settings</a>
-          </button>
-          <a class="btn btn-default btn-lg" href="translate.htm" role="button">
-            <span class="icon icon-info"></span>
+          <a class="pseudo button" href="about.html"><span class="icon icon-info"></span>
             About</a>
-          </button>
-          </div>
+
+        </div>
       </header>
 
       <!-- Your app's content goes inside .window-content -->
@@ -36,19 +36,26 @@
       	<div  class="pane-group">
       	  <div id="leftpane" class="pane-sm sidebar">
 
-      	    <div class="radio">
-      	      <label>
-      		    <input type="radio" name="radios_book" value="OT" id="OT" checked>OT</label>
-      	    </div>
-      	    <div class="radio">
-      	      <label>
-      		    <input type="radio" name="radios_book" value="NT" id="NT" >NT
-              </label>
-      	    </div>
-      	  </div>
+              <div class="radioSelect">
+               <article class="card">
+                  <header>
+                    <h4>Select Book</h4>
+                  </header>
+                </article>
+                <div class="radio">
+                   <label>
+                    <input type='radio'  name="radios_book" value="OT" id="OT" checked>
+                    <span class="checkable">OT</span>
+                  </label>
+                  <label>
+                  <input type="radio" name="radios_book" value="NT" id="NT" >
+                  <span class="checkable">NT</span></label>
+              </div>
+              </div>
 
       	  <div id="chapters-pane" class="pane">
-      	</div>
+          </div>
+        </div>
 
       </div>
 

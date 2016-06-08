@@ -3,19 +3,16 @@ const ipc = require('electron').ipcRenderer;
 
 const PouchDB = require('pouchdb');
 var db = new PouchDB('database');
-var ot_book;
-var nt_book;
 
 var booksList = ["Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy", "Joshua", "Judges", "Ruth", "1 Samuel", "2 Samuel", "1 Kings", "2 Kings", "1 Chronicles", "2 Chronicles", "Ezra", "Nehemiah", "Esther", "Job", "Psalms", "Proverbs", "Ecclesiastes", "Song of Solomon", "Isaiah", "Jeremiah", "Lamentations", "Ezekiel", "Daniel", "Hosea", "Joel", "Amos", "Obadiah", "Jonah", "Micah", "Nahum", "Habakkuk", "Zephaniah", "Haggai", "Zechariah", "Malachi", "Matthew", "Mark", "Luke", "John", "Acts", "Romans", "1 Corinthians", "2 Corinthians", "Galatians", "Ephesians", "Philippians", "Colossians", "1 Thessalonians", "2 Thessalonians", "1 Timothy", "2 Timothy", "Titus", "Philemon", "Hebrews", "James", "1 Peter", "2 Peter", "1 John", "2 John", "3 John", "Jude", "Revelation"]
 
-function createBooksList(booksLimit, book_arr) {
-
+function createBooksList(booksLimit) {
     var i;
     for (i=1; i<=booksLimit; i++) {
 	b = document.createElement('button');
-	b.className = "btn btn-default";
+	b.className = "stack pseudo button";
 	b.id = "b"+i;
-	t = document.createTextNode(book_arr[i-1]);
+	t = document.createTextNode(booksList[i-1]);
 	b.appendChild(t);
 	document.getElementById('leftpane').appendChild(b);
     }
@@ -42,18 +39,7 @@ function createChaptersList(chaptersLimit) {
     }
 }
 
-		ot_book = booksList.slice(0,39);
-		nt_book = booksList.slice(39,booksList.length);
-
- 	document.getElementById("OT").onclick = function() {
- 		createBooksList(ot_book.length, ot_book);
- 	}
-
- 	document.getElementById("NT").onclick = function() {
- 		createBooksList(nt_book.length, nt_book);
- 	}
-
-
+createBooksList(66);
 
 books = document.querySelectorAll("button[id^=b]");
 for(i=1; i<=books.length; i++) {
