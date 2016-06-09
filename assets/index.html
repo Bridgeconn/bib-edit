@@ -17,17 +17,15 @@
       <!-- .toolbar-header sits at the top of your app -->
       <header class="toolbar toolbar-header" id="header">
 
-	     <h1 class="title">Bible Browser </h1>
-        <div class="toolbar-actions" align="right">
+          <div class="toolbar-actions" align="right">
+            <a class="pseudo button"  href="translate.html"><span class="icon icon-pencil"></span>
+              Editor</a>
+            <a class="pseudo button"  href="settings.html"><span class="icon icon-cog btn-lg"></span>
+              Settings</a>
+            <a class="pseudo button" href="about.html"><span class="icon icon-info"></span>
+              About</a>
+          </div>
 
-          <a class="pseudo button"  href="translate.html"><span class="icon icon-pencil"></span>
-            Editor</a>
-          <a class="pseudo button"  href="settings.html"><span class="icon icon-cog btn-lg"></span>
-            Settings</a>
-          <a class="pseudo button" href="about.html"><span class="icon icon-info"></span>
-            About</a>
-
-        </div>
       </header>
 
       <!-- Your app's content goes inside .window-content -->
@@ -37,11 +35,11 @@
       	  <div id="leftpane" class="pane-sm sidebar">
 
               <div class="radioSelect">
-               <article class="card">
+
                   <header>
-                    <h4>Select Book</h4>
+                    <h3>Select Book</h3>
                   </header>
-                </article>
+
                 <div class="radio">
                    <label>
                     <input type='radio'  name="radios_book" value="OT" id="OT" checked>
@@ -52,12 +50,16 @@
                   <span class="checkable">NT</span></label>
               </div>
               </div>
+              </div>
 
       	  <div id="chapters-pane" class="pane">
           </div>
         </div>
 
       </div>
+      <footer class="toolbar toolbar-footer">
+        <!-- <h1 class="title">Footer</h1> -->
+      </footer>
 
     </div>
     <script>require('./js/index.js')</script>

@@ -22,7 +22,7 @@ function createChaptersList(chaptersLimit) {
     var i;
     for (i=1; i<=chaptersLimit; i++) {
 	c = document.createElement('button');
-	c.className = "access btn btn-default";
+	c.className = "access pseudo button";
 	t = document.createTextNode(i);
 	c.appendChild(t);
 	c.id = "c"+i;
