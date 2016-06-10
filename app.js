@@ -67,6 +67,17 @@ function createWindow() {
 	// when you should delete the corresponding element.
 	win = null;
     });
+
+    settingsWindow = new BrowserWindow({
+        width: 400,
+        height: 400,
+        show: false
+    })
+    settingsWindow.loadURL('file://' + __dirname + '/settings.html');
+
+    ipc.on('show-settings', function(){
+        settingsWindow.show()
+    });
 }
 
 // This method will be called when Electron has finished

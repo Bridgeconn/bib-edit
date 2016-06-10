@@ -1,15 +1,21 @@
-var remote = require('remote')
+var remote = require('remote');
+var ipc = require('ipc');
 var Menu = remote.require('menu')
 var MenuItem = remote.require('menu-item')
 
 // Build our new menu
 var menu = new Menu()
 menu.append(new MenuItem({
-  label: 'Delete',
-  click: function() {
+  label: 'Autographa Lite 1.0 ',
+  submenu: [
+  {
+    label: 'Prefs',
+    click: function() {
     // Trigger an alert when menu item is clicked
-    alert('Deleted')
+    ipc.show('send-settings');
   }
+  }]
+
 }))
 menu.append(new MenuItem({
   label: 'More Info...',
@@ -25,3 +31,4 @@ document.addEventListener('DOMContentLoaded', function () {
     menu.popup(remote.getCurrentWindow());
   })
 })
+
