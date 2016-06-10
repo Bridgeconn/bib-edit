@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-  	<title>Autographa Lite 1.0</title>
+    <title>Autographa Lite 1.0</title>
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="css/photon.min.css">
@@ -12,37 +12,28 @@
   </head>
   <body>
     <div class="window">
-
       <header class="toolbar toolbar-header" id="header">
         <h1 class="title">Settings</h1>
-       <div align="right"><a class="pseudo button"  href="index.html"><span class="icon icon-reply"></span>
-              Back</a>
-              </div>
+	<div align="right">
+	  <a class="pseudo button"  href="index.html">
+	    <span class="icon icon-reply"></span>Back</a>
+        </div>
       </header>
-
-  	<!-- <div class="radio">
-				<label>
-					<input type="radio" name="radios" checked>Option 1</label>
-			</div>
-			<div class="radio">
-				<label>
-					<input type="radio" name="radios">Option 2</label>
-			</div> -->
-    <form id ="form">
-      <div class="form-group">
-        <label>Email address</label>
-        <input type="email" class="form-control" placeholder="Email">
+      <div class="window-content">
+	<div class="padded-more">
+	  Reference USFM settings
+	  <div class="form-group">
+	    <label>Language</label>
+	    <input id="lang" class="form-control" placeholder="Language">
+	  </div>
+	  <div class="form-group">
+	    <label>Version</label>
+	    <input id="version" class="form-control" placeholder="Version">
+	  </div>
+	  <button id="ref-select-btn" class="btn btn-primary">Select</button>	    
+	</div>
       </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-control" placeholder="Password">
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" class="btn btn-form btn-default">Cancel</button>
-        <button type="submit" class="btn btn-form btn-primary">OK</button>
-      </div>
-    </form>
-
+    </div>
+    <script>require('./js/settings.js')</script>    
   </body>
 </html>
