@@ -73,7 +73,7 @@ function createWindow() {
         height: 400,
         show: false
     })
-    settingsWindow.loadURL('file://' + __dirname + '/settings.html');
+    settingsWindow.loadURL(`file:${__dirname}/assets/settings.html`);
 
     ipc.on('show-settings', function(){
         settingsWindow.show()
