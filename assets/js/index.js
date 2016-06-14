@@ -1,8 +1,9 @@
-const session = require('electron').remote.session;
-const ipc = require('electron').ipcRenderer;
-const {Menu} = require('electron').remote;
+const session = require('electron').remote.session,
+      ipc = require('electron').ipcRenderer,
+      {Menu} = require('electron').remote,
+      PouchDB = require('pouchdb');
+var bibUtil = require("../util/json_to_usfm.js");
 
-const PouchDB = require('pouchdb');
 var db = new PouchDB('database');
 
 const menu = Menu.buildFromTemplate([
@@ -10,9 +11,9 @@ const menu = Menu.buildFromTemplate([
         label: 'Autographa',
 	submenu: [
 	    {
-		label: 'Prefs',
+		label: 'Import Reference',
 		click: function () {
-		    ipc.sendSync('show-export-window');
+		    ipc.sendSync('show-import-window');
 		}
 	    }
 	]
@@ -79,3 +80,14 @@ for(i=1; i<=books.length; i++) {
 	});
     });
 }
+
+document.getElementById("export-btn").addEventListener("click", function (e) {
+    session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, cookie) => {
+	console.log(cookie);
+	book = {};
+	book.bookNumber = cookie[0].value;
+	book.bookName = booksList[parseInt(book.bookNumber, 10)-1];
+	book.outputPath = '/home/joel/temp/';
+	bibUtil.toUsfm(book);
+    });
+});

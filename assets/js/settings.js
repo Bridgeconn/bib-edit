@@ -35,7 +35,6 @@ document.getElementById('ref-select-btn').addEventListener('click', function (e)
 					  bibUtil.toJson(options);
 				      }
 				  });
-				  //TODO Connect this to util.
 			      }
 			  });
 });

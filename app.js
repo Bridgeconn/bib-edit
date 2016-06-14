@@ -97,7 +97,7 @@ ipc.on('synchronous-message', function (event, arg) {
     event.returnValue = 'pong';
 });
 
-ipc.on('show-export-window', function () {
+ipc.on('show-import-window', function () {
     exportWindow.show();
 });
 
