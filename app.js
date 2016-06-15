@@ -20,14 +20,15 @@ var db = new PouchDB('database');
 
 db.get('isDBSetup').then(function (doc) {
     // handle doc
-    console.log('Already loaded.');
+    db.close();    
+/*    console.log('Already loaded.');
     db.get('targetBible').then(function (doc) {
 	console.log(doc);
 	db.close();
     }).catch(function (err) {
 	console.log('targetBible not set');
 	db.close();
-    });
+    });*/
 }).catch(function (err) {
     console.log(err);
     const bibleJson = require('./lib/full_net_bible.json');
@@ -74,6 +75,7 @@ function createWindow() {
 	// in an array if your app supports multi windows, this is the time
 	// when you should delete the corresponding element.
 	win = null;
+	exportWindow = null;
     });
 
     exportWindow = new BrowserWindow({

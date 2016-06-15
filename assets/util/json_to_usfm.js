@@ -7,11 +7,11 @@ module.exports = {
 	    path = require("path"),
 	    usfmContent = [];
 	usfmContent.push('\\id ' + book.bookName);
-	usfmContent.push('mt ' + book.bookName);
+	usfmContent.push('\\mt ' + book.bookName);
 	db.get(book.bookNumber).then(function (doc) {
 	    var chapterLimit = doc.chapters.length;
 	    doc.chapters.forEach(function (chapter, index) {
-		console.log(chapter);
+//		console.log(chapter);
 
 		// Push chapter number.
 		usfmContent.push('\n\\c ' + chapter.chapter);
@@ -21,17 +21,16 @@ module.exports = {
 		    usfmContent.push('\\v ' + verse.verse_number + ' ' + verse.verse);
 		});
 		if(index === chapterLimit-1) {
-		    console.log(usfmContent);
+//		    console.log(usfmContent);
 		    var filePath = path.join(book.outputPath, book.bookName);
 		    filePath += '.usfm';
-		    console.log(filePath);
 		    fs.writeFileSync(filePath, usfmContent.join('\n'), 'utf8');
-		    console.log('it is done.');
+		    console.log('File exported at ' + filePath);
 		    db.close();
 		}
 	    });
 	}).catch(function (err) {
-	    console.log('Do nothing.');
+	    console.log(err);
 	});
     }
 };
