@@ -21,7 +21,13 @@ var db = new PouchDB('database');
 db.get('isDBSetup').then(function (doc) {
     // handle doc
     console.log('Already loaded.');
-    db.close();
+    db.get('targetBible').then(function (doc) {
+	console.log(doc);
+	db.close();
+    }).catch(function (err) {
+	console.log('targetBible not set');
+	db.close();
+    });
 }).catch(function (err) {
     console.log(err);
     const bibleJson = require('./lib/full_net_bible.json');
@@ -54,6 +60,8 @@ function createWindow() {
 	'webPreferences': {'session': session}
     });
 
+    win.maximize();
+
     // Open the DevTools.
     win.webContents.openDevTools();
 
@@ -69,11 +77,15 @@ function createWindow() {
     });
 
     exportWindow = new BrowserWindow({
-	width: 400,
-	height: 400,
+	width: 500,
+	height: 800,
 	show: false
     });
     exportWindow.loadURL(`file:${__dirname}/assets/settings.html`);
+    exportWindow.openDevTools();
+    exportWindow.on('closed', () => {
+	exportWindow = null;
+    });
 }
 
 // This method will be called when Electron has finished
