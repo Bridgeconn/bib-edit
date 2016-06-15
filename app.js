@@ -20,8 +20,15 @@ var db = new PouchDB('database');
 
 db.get('isDBSetup').then(function (doc) {
     // handle doc
-    console.log('Already loaded.');
-    db.close();
+    db.close();    
+/*    console.log('Already loaded.');
+    db.get('targetBible').then(function (doc) {
+	console.log(doc);
+	db.close();
+    }).catch(function (err) {
+	console.log('targetBible not set');
+	db.close();
+    });*/
 }).catch(function (err) {
     console.log(err);
     const bibleJson = require('./lib/full_net_bible.json');
@@ -54,6 +61,8 @@ function createWindow() {
 	'webPreferences': {'session': session}
     });
 
+    win.maximize();
+
     // Open the DevTools.
     win.webContents.openDevTools();
 
@@ -66,6 +75,18 @@ function createWindow() {
 	// in an array if your app supports multi windows, this is the time
 	// when you should delete the corresponding element.
 	win = null;
+	exportWindow = null;
+    });
+
+    exportWindow = new BrowserWindow({
+	width: 500,
+	height: 800,
+	show: false
+    });
+    exportWindow.loadURL(`file:${__dirname}/assets/settings.html`);
+    exportWindow.openDevTools();
+    exportWindow.on('closed', () => {
+	exportWindow = null;
     });
 
     settingsWindow = new BrowserWindow({
@@ -99,6 +120,10 @@ ipc.on('synchronous-message', function (event, arg) {
     db.close();
     win.loadURL(`file:${__dirname}/assets/translate.html`);
     event.returnValue = 'pong';
+});
+
+ipc.on('show-import-window', function () {
+    exportWindow.show();
 });
 
 app.on('activate', () => {
