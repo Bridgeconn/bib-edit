@@ -4,7 +4,7 @@ const session = require('electron').remote.session,
       PouchDB = require('pouchdb');
 var bibUtil = require("../util/json_to_usfm.js");
 
-const menu = Menu.buildFromTemplate([
+/*const menu = Menu.buildFromTemplate([
     {
         label: 'Autographa Lite'/*,
 	submenu: [
@@ -14,11 +14,11 @@ const menu = Menu.buildFromTemplate([
 		    ipc.sendSync('show-import-window');
 		}
 	    }
-	]*/
+	]
     }
-]);
+]);*/
 
-Menu.setApplicationMenu(menu);
+//Menu.setApplicationMenu(menu);
 
 var constants = require('../util/constants.js');
 
@@ -81,7 +81,15 @@ function onBookSelect(bookId) {
 }
 
 createBooksList(66);
-onBookSelect('b1');
+
+// Check for existing book in session.
+session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, cookie) => {
+    var onLoadBookId = 'b1';
+    if(cookie.length > 0) {
+	onLoadBookId = 'b'+cookie[0].value;
+    }
+    onBookSelect(onLoadBookId);
+});
 
 books = document.querySelectorAll("a[id^=b]");
 for(i=1; i<=books.length; i++) {

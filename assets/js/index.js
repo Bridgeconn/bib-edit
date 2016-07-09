@@ -59,6 +59,9 @@ function createVerseInputs(verses, chunks, chapter) {
     highlightRef();
 }
 
+var constants = require('../util/constants.js');
+var booksList = constants.booksList;
+
 session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, cookie) => {
     book = '1';
     if(cookie.length > 0) {
@@ -70,6 +73,7 @@ session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, 
 	    chapter = cookie[0].value;	    
 	}
 	console.log('values are ' + book + ' ' + chapter);
+	document.getElementById('book-chapter-btn').innerHTML = booksList[parseInt(book,10)-1] + ' : ' + chapter;
 	db.get(book).then(function (doc) {
 	    refDb.get('refChunks').then(function (chunkDoc) {
 		console.log(doc.chapters[parseInt(chapter,10)-1].verses.length);
@@ -83,7 +87,7 @@ session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, 
     });
 });
 
-var bookCodeList = require('../util/constants.js').bookCodeList;
+var bookCodeList = constants.bookCodeList;
 
 function showReferenceText(ref_id) {
     ref_id = (ref_id === 0 ? document.getElementById('refs-select').value : ref_id);
@@ -106,7 +110,6 @@ function showReferenceText(ref_id) {
 
 function createRefSelections() {
     refDb.get('refs').then(function (doc) {
-	console.log(doc);
 	doc.ref_ids.forEach(function (ref_doc) {
 	    if(ref_doc.isDefault) {
 		$('#selected-ref').text(ref_doc.ref_name);
@@ -123,19 +126,12 @@ function createRefSelections() {
 	});
 	$('#refs-list li a').click(function() {
 	    $('#selected-ref').text($(this).text());
-	    console.log($(this).attr("data-value"));
 	    showReferenceText($(this).attr("data-value"));
 	});
     }).catch(function (err) {
 	console.log('Info: No references found in Database. ' + err);
     });
 }
-
-/*
-document.getElementById("refs-select").addEventListener("change", function (e) {
-    showReferenceText(e.target.value);
-});
-*/
 
 function highlightRef() {
     var i,
@@ -146,7 +142,6 @@ function highlightRef() {
 	    var limits = e.target.getAttribute("chunk-group").split("-").map(function (element) {
 		return parseInt(element, 10) - 1;
 	    });;
-	    console.log(limits);
 	    var refs = document.querySelectorAll("div[id^=r]");
 	    refs.forEach(function (ref) {
 		ref.style.backgroundColor = "";
