@@ -101,7 +101,7 @@ function showReferenceText(ref_id) {
 	    }
 	}
 	document.getElementById('ref').innerHTML = doc.chapters[i].verses.map(function (verse, verseNum) {
-	    return '<div id="r' + (verseNum+1) +'"><span>' + (verseNum+1) + '</span><span>' + verse.verse + '</span></div>';
+	    return '<div data-verse="r' + (verseNum+1) +'"><span>' + (verseNum+1) + '</span><span>' + verse.verse + '</span></div>';
 	}).join('');
     }).catch(function (err) {
 	console.log('Error: Unable to find requested reference in DB. ' + err);
@@ -141,14 +141,63 @@ function highlightRef() {
 	verses[i].addEventListener("focus", function (e) {
 	    var limits = e.target.getAttribute("chunk-group").split("-").map(function (element) {
 		return parseInt(element, 10) - 1;
-	    });;
-	    var refs = document.querySelectorAll("div[id^=r]");
-	    refs.forEach(function (ref) {
-		ref.style.backgroundColor = "";
 	    });
+	    $('div[data-verse^="r"]').css('background-color', '');
 	    for(j=limits[0]; j<=limits[1]; j++) {
-		refs[j+1].style.backgroundColor = "#b3ffa8";
+		$('div[data-verse="r' + (j+1) + '"]').css('background-color', '#b3ffa8');
 	    }
 	});
     }
 }
+
+// Multi-reference windows
+$('a[role="multi-window-btn"]').click(function () {
+    var children = $('div.row-col-fixed').children(),
+	editor = children[children.length-1],
+	i,
+	clone;
+    if($(this).data('output') === '2x') {
+	if(children.length === 2) {
+	    return;
+	}
+	for(i=0; i<children.length; i++) {
+	    $(children[i]).removeClass (function (index, css) {
+		return (css.match (/(^|\s)col-sm-\S+/g) || []).join(' ');
+	    });
+	    $(children[i]).addClass('col-sm-6');
+	}
+	if(children.length > 2) {
+	    for(i=1; i<children.length-1; i++) {
+		children[i].remove();
+	    }
+	}
+    } else if($(this).data('output') === '3x') {
+	if(children.length === 3) {
+	    return;
+	}
+	for(i=0; i<children.length; i++) {
+	    $(children[i]).removeClass (function (index, css) {
+		return (css.match (/(^|\s)col-sm-\S+/g) || []).join(' ');
+	    });
+	    $(children[i]).addClass('col-sm-4');
+	}
+	if(children.length > 3) {
+	    children[0].remove();
+	} else if(children.length < 3) {
+	    $(children[0]).clone().insertBefore('div.col-editor');
+	}
+    } else if($(this).data('output') === '4x') {
+	if(children.length === 4) {
+	    return;
+	}
+	for(i=0; i<children.length; i++) {
+	    $(children[i]).removeClass (function (index, css) {
+		return (css.match (/(^|\s)col-sm-\S+/g) || []).join(' ');
+	    });
+	    $(children[i]).addClass('col-sm-3');
+	}
+	for(i=0; i<(4-children.length); i++) {
+	    $(children[0]).clone().insertBefore('div.col-editor');
+	}
+    }
+});
