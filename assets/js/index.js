@@ -89,9 +89,9 @@ session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, 
 
 var bookCodeList = constants.bookCodeList;
 
-function showReferenceText(ref_id) {
-    ref_id = (ref_id === 0 ? document.getElementById('refs-select').value : ref_id);
-    var id = ref_id + '_' + bookCodeList[parseInt(book,10)-1],
+function getReferenceText(refId, callback) {
+    refId = (refId === 0 ? document.getElementById('refs-select').value : refId);
+    var id = refId + '_' + bookCodeList[parseInt(book,10)-1],
 	i;
     console.log('id is = ' + id);
     refDb.get(id).then(function (doc) {
@@ -100,11 +100,12 @@ function showReferenceText(ref_id) {
 		break;
 	    }
 	}
-	document.getElementById('ref').innerHTML = doc.chapters[i].verses.map(function (verse, verseNum) {
+	ref_string = doc.chapters[i].verses.map(function (verse, verseNum) {
 	    return '<div data-verse="r' + (verseNum+1) +'"><span>' + (verseNum+1) + '</span><span>' + verse.verse + '</span></div>';
 	}).join('');
+	callback(null, ref_string);
     }).catch(function (err) {
-	console.log('Error: Unable to find requested reference in DB. ' + err);
+	callback(err)
     });
 }
 
@@ -112,21 +113,35 @@ function createRefSelections() {
     refDb.get('refs').then(function (doc) {
 	doc.ref_ids.forEach(function (ref_doc) {
 	    if(ref_doc.isDefault) {
-		$('#selected-ref').text(ref_doc.ref_name);
-		showReferenceText(ref_doc.ref_id);
+		$('button[role="ref-selector"]').text(ref_doc.ref_name);
+		getReferenceText(ref_doc.ref_id, function(err, refContent) {
+		    if(err) {
+			console.log('Info: No references found in database. ' + err);
+			return;
+		    }
+		    $('div[type="ref"]').html(refContent);
+		});
 	    }
 	    var li = document.createElement('li'),
 		a = document.createElement('a');
 	    a.setAttribute('href', '#');
 	    a.setAttribute('data-value', ref_doc.ref_id);
+	    a.setAttribute('type', 'ref-selection');
 	    var t = document.createTextNode(ref_doc.ref_name);
 	    a.appendChild(t);
 	    li.appendChild(a);
-	    document.getElementById('refs-list').appendChild(li);
+	    $('ul[type="refs-list"]').append(li);
 	});
-	$('#refs-list li a').click(function() {
-	    $('#selected-ref').text($(this).text());
-	    showReferenceText($(this).attr("data-value"));
+	$('a[type="ref-selection"]').click(function() {
+	    var selectedRefElement = $(this);
+	    selectedRefElement.closest('ul[type="refs-list"]').siblings('button[role="ref-selector"]').text($(this).text());
+	    getReferenceText($(this).attr("data-value"), function(err, refContent) {
+		if(err) {
+		    console.log('Info: No references found in database. ' + err);
+		    return;
+		}
+		selectedRefElement.closest('div.row').next('div.row').children('div[type="ref"]').html(refContent);
+	    });
 	});
     }).catch(function (err) {
 	console.log('Info: No references found in Database. ' + err);
@@ -184,7 +199,7 @@ $('a[role="multi-window-btn"]').click(function () {
 	if(children.length > 3) {
 	    children[0].remove();
 	} else if(children.length < 3) {
-	    $(children[0]).clone().insertBefore('div.col-editor');
+	    $(children[0]).clone(true, true).insertBefore('div.col-editor');
 	}
     } else if($(this).data('output') === '4x') {
 	if(children.length === 4) {
@@ -197,7 +212,7 @@ $('a[role="multi-window-btn"]').click(function () {
 	    $(children[i]).addClass('col-sm-3');
 	}
 	for(i=0; i<(4-children.length); i++) {
-	    $(children[0]).clone().insertBefore('div.col-editor');
+	    $(children[0]).clone(true, true).insertBefore('div.col-editor');
 	}
     }
 });
