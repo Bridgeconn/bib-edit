@@ -33,7 +33,6 @@ document.getElementById('save-btn').addEventListener('click', function (e) {
 		return;
     db = new PouchDB('database');
     db.get('targetBible').then(function (doc) {
-	console.log(doc);
 	db.put({
 	    _id: 'targetBible',
 	    _rev: doc._rev,
@@ -167,56 +166,73 @@ document.getElementById('ref-path').addEventListener('click', function (e) {
 
 // Validation check for reference settings
 function reference_setting(){
-  var name     = $("#ref-name").val();
-  var langCode = $("#ref-lang-code").val();
-  var Version  = $("#ref-version").val();
-  var path     = $("#ref-path").val();
-  var isValid = true;
-  if(name==null || name==""){
-    alert_message(".alert-danger", "Reference bible name must not be blank");
+  var name     = $("#ref-name").val(),
+  	 langCode = $("#ref-lang-code").val(),
+  	 version  = $("#ref-version").val(),
+  	 path     = $("#ref-path").val(),
+  	 isValid = true;
+  if(name == ""){
+    alert_message(".alert-danger", "Reference Bible name must not be blank");
     isValid = false;
-  }else if(langCode==null || langCode==""){
-    alert_message(".alert-danger", "Reference bible langCode must not be blank");
+  }else if(langCode === null || langCode === "") {
+    alert_message(".alert-danger", "Reference Bible language code must not be blank");
      isValid = false;
-  }else if(Version==null || Version==""){
-    alert_message(".alert-danger", "Reference bible Version must not be blank");
+  }else if(version === null || version === ""){
+    alert_message(".alert-danger", "Reference Bible version must not be blank");
     isValid = false;
-  }else if(path==null || path==""){
-    alert_message(".alert-danger", "Reference bible path must not be blank");
+  }else if(path === null || path === ""){
+    alert_message(".alert-danger", "Reference Bible path must not be blank");
     isValid = false;
   }else{
-    alert_message("alert-success", "Successfully reference settings saved!")
+    isValid = true;
     
   }
   return isValid;
-};
+} //validation reference settings
 
 // Validation check for target language settings
 function target_setting(){
-  var langCode  = $("#target-lang").val();
-  var Version   = $("#target-version").val();
-  var path     = $("#export-path").val();
-  var isValid = true;
+  var langCode  = $("#target-lang").val(),
+  	 version   = $("#target-version").val(),
+  	 path     = $("#export-path").val(),
+     isValid = true;
 
-  if(langCode==null || langCode==""){
-    alert_message(".alert-danger", "Target bible langCode must not be blank");
+  if(langCode === null || langCode === ""){
+    alert_message(".alert-danger", "Target Bible language code must not be blank");
     isValid = false;
-  }else if(Version==null || Version==""){
-    alert_message(".alert-danger", "Target bible Version must not be blank");
+  }else if(version === null || version === ""){
+    alert_message(".alert-danger", "Target Bible version must not be blank");
     isValid = false;
-  }else if(path==null || path==""){
-    alert_message(".alert-danger", "Target bible path must not be blank");
+  }else if(path === null || path === ""){
+    alert_message(".alert-danger", "Target Bible path must not be blank");
     isValid = false;
   }else{
-    alert_message("alert-success", "Successfully target settings saved!")
-    return isValid;
+    isValid = true;
   }
-};
+  return isValid;
+} //validation target setting
 
 function alert_message(type,message){
   $(type).css("display", "block");
     $(type).fadeTo(2000, 1000).slideUp(1000, function(){
        $(type).css("display", "none");
     });
-  $(type+" span").html(message);
+  $(type+" "+"span").html(message);
 }
+
+function setReferenceSetting(){
+	db = new PouchDB('database');
+	db.get('targetBible').then(function (doc) {
+		$("#target-lang").val(doc.targetLang);
+  	 	$("#target-version").val(doc.targetVersion);
+  	 	$("#export-path").val(doc.targetPath);
+	}).catch(function (err) {
+		$("#target-lang").val("");
+  	 	$("#target-version").val("");
+  	 	$("#export-path").val("");
+	});	
+}
+//get reference setting
+$(function(){
+	setReferenceSetting();
+});
