@@ -29,6 +29,8 @@ document.getElementById('target-import-path').addEventListener('click', function
 });
 
 document.getElementById('save-btn').addEventListener('click', function (e) {
+	if (target_setting() == false)
+		return;
     db = new PouchDB('database');
     db.get('targetBible').then(function (doc) {
 	console.log(doc);
@@ -40,6 +42,7 @@ document.getElementById('save-btn').addEventListener('click', function (e) {
 	    targetPath: document.getElementById('export-path').value
 	}).then(function (e) {
 	    db.close();
+	    alert_message(".alert-success", "Successfully target settings saved!");
 	});
     }).catch(function (err) {
 	db.put({
@@ -49,13 +52,17 @@ document.getElementById('save-btn').addEventListener('click', function (e) {
 	    targetPath: document.getElementById('export-path').value
 	}).then(function (e) {
 	    db.close();
+	    alert_message(".alert-success", "Successfully target settings saved!");
 	}).catch(function (err) {
 	    db.close();
+	    alert_message(".alert-danger", "Something went wrong!! Please try again");
 	});
     });
 });
 
 document.getElementById('ref-import-btn').addEventListener('click', function (e) {
+	if (reference_setting() == false )
+		return;
     var refDb = new PouchDB('reference'),
 	ref_id_value = document.getElementById('ref-lang-code').value.toLowerCase() + '_' + document.getElementById('ref-version').value.toLowerCase(),
 	ref_entry = {},
@@ -158,15 +165,58 @@ document.getElementById('ref-path').addEventListener('click', function (e) {
 			  });
 });
 
-// function validateForm()
-//     {
-//     var a=document.forms["Form"]["target_lang"].value;
-//     var b=document.forms["Form"]["target_version"].value;
-//     var c=document.forms["Form"]["export"].value;
+// Validation check for reference settings
+function reference_setting(){
+  var name     = $("#ref-name").val();
+  var langCode = $("#ref-lang-code").val();
+  var Version  = $("#ref-version").val();
+  var path     = $("#ref-path").val();
+  var isValid = true;
+  if(name==null || name==""){
+    alert_message(".alert-danger", "Reference bible name must not be blank");
+    isValid = false;
+  }else if(langCode==null || langCode==""){
+    alert_message(".alert-danger", "Reference bible langCode must not be blank");
+     isValid = false;
+  }else if(Version==null || Version==""){
+    alert_message(".alert-danger", "Reference bible Version must not be blank");
+    isValid = false;
+  }else if(path==null || path==""){
+    alert_message(".alert-danger", "Reference bible path must not be blank");
+    isValid = false;
+  }else{
+    alert_message("alert-success", "Successfully reference settings saved!")
+    
+  }
+  return isValid;
+};
 
-//     if (a==null || a=="",b==null || b=="",c==null || c=="")
-//       {
-//       alert("Please Fill All Required Field");
-//       return false;
-//       }
-//     }
+// Validation check for target language settings
+function target_setting(){
+  var langCode  = $("#target-lang").val();
+  var Version   = $("#target-version").val();
+  var path     = $("#export-path").val();
+  var isValid = true;
+
+  if(langCode==null || langCode==""){
+    alert_message(".alert-danger", "Target bible langCode must not be blank");
+    isValid = false;
+  }else if(Version==null || Version==""){
+    alert_message(".alert-danger", "Target bible Version must not be blank");
+    isValid = false;
+  }else if(path==null || path==""){
+    alert_message(".alert-danger", "Target bible path must not be blank");
+    isValid = false;
+  }else{
+    alert_message("alert-success", "Successfully target settings saved!")
+    return isValid;
+  }
+};
+
+function alert_message(type,message){
+  $(type).css("display", "block");
+    $(type).fadeTo(2000, 1000).slideUp(1000, function(){
+       $(type).css("display", "none");
+    });
+  $(type+" span").html(message);
+}
