@@ -70,10 +70,11 @@ session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, 
     session.defaultSession.cookies.get({url: 'http://chapter.autographa.com'}, (error, cookie) => {
 	chapter = '1';
 	if(cookie.length > 0) {
-	    chapter = cookie[0].value;	    
+	    chapter = cookie[0].value;
 	}
 	console.log('values are ' + book + ' ' + chapter);
-	document.getElementById('book-chapter-btn').innerHTML = booksList[parseInt(book,10)-1] + ' : ' + chapter;
+	document.getElementById('book-chapter-btn').innerHTML = booksList[parseInt(book,10)-1];
+	document.getElementById('chapterBtn').innerHTML = '<a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList('+"'"+book+"'"+');" >'+chapter+'</a>'
 	db.get(book).then(function (doc) {
 	    refDb.get('refChunks').then(function (chunkDoc) {
 		console.log(doc.chapters[parseInt(chapter,10)-1].verses.length);
@@ -216,3 +217,107 @@ $('a[role="multi-window-btn"]').click(function () {
 	}
     }
 });
+function createBooksList(booksLimit) {
+	document.getElementById('books-pane').innerHTML = "";
+  for (var i=1; i<=booksLimit; i++) {
+  	var li = document.createElement('li'),
+  	    a = document.createElement('a'),
+  	    bookName = document.createTextNode(constants.booksList[i-1]);
+        a.id = 'b'+i;
+  	a.setAttribute('href', "javascript:setBookName("+"'"+"b"+i+"'"+")");
+  	a.appendChild(bookName);
+  	li.appendChild(a);
+  	document.getElementById('books-pane').appendChild(li);
+  }
+}
+
+function createChaptersList(chaptersLimit) {
+  document.getElementById('chaptersList').innerHTML = "";
+  for (var i=1; i<=chaptersLimit; i++) {
+    var li = document.createElement('li'),
+        a = document.createElement('a'),
+        chapterNumber = document.createTextNode(i);
+        a.id = 'c'+i;
+    a.setAttribute('href', "index.html");
+    a.appendChild(chapterNumber);
+    li.appendChild(a);
+    document.getElementById('chaptersList').appendChild(li);
+     a.addEventListener('click', function (e) {
+	    const cookie = {url: 'http://chapter.autographa.com', name: 'chapter', value: e.target.id.substring(1)};
+	    session.defaultSession.cookies.set(cookie, (error) => {
+		    if (error)
+		      console.error(error);
+	    });
+    });
+  }
+  $("#chapters").modal().toggle();    
+}
+
+function setBookName(bookId){
+	var db = new PouchDB('database');
+	db.get(bookId.substring(1).toString()).then(function (doc) {
+  	document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" href="javascript:getBookList();" id="book-chapter-btn">'+doc.book_name+'</a><a class="btn btn-default" href="javascript:getBookChapterList('+"'"+bookId.substring(1).toString()+"'"+')" >1</a>'
+  	const cookie = {url: 'http://book.autographa.com', name: 'book', value: bookId.substring(1)};
+  	session.defaultSession.cookies.set(cookie, (error) => {
+	if (error)
+	    console.error(error);
+	});
+	setChapterCookie();
+	location.reload();
+  	db.close();
+  }).catch(function (err) {
+  	console.log('Error: While retrieving document. ' + err);
+  	db.close();
+  });
+
+}
+
+function setChapterCookie(){
+	const cookie = {url: 'http://chapter.autographa.com', name: 'chapter', value: '1'};
+	session.defaultSession.cookies.set(cookie, (error) => {
+	if (error)
+	    console.error(error);
+	});
+}
+
+
+function onBookSelect(bookId) {
+ // document.querySelector('.page-header').innerHTML = constants.booksList[parseInt(bookId.substring(1), 10)-1];
+  const cookie = {url: 'http://book.autographa.com', name: 'book', value: bookId.substring(1)};
+  session.defaultSession.cookies.set(cookie, (error) => {
+    if (error)
+      console.error(error);
+  });
+  var db = new PouchDB('database');
+  db.get(bookId.substring(1).toString()).then(function (doc) {
+    chaptersPane = document.getElementById("chapters-pane");
+  	while (chaptersPane.lastChild) {
+      chaptersPane.removeChild(chaptersPane.lastChild);
+  	}
+  	createChaptersList(doc.chapters.length);
+  	db.close();
+  }).catch(function (err) {
+  	console.log('Error: While retrieving document. ' + err);
+  	db.close();
+  });
+}
+function getBookList(){
+  createBooksList(66);
+   $("#books").modal().toggle();   
+}
+
+
+/************ get book chapter list in popup*************/
+function getBookChapterList(bookId){
+	var db = new PouchDB('database');
+	console.log()
+	db.get(bookId).then(function (doc) {
+    createChaptersList(doc.chapters.length)
+  	//document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" href="javascript:getBookList();" id="book-chapter-btn">'+doc.book_name+'</a><a class="btn btn-default" href="#" >1</a>'
+  	db.close();
+  }).catch(function (err) {
+  	console.log('Error: While retrieving document. ' + err);
+  	db.close();
+  });
+
+}/************** end book chapter list **************************************/
