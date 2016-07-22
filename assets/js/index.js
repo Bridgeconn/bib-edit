@@ -1,5 +1,6 @@
 const session = require('electron').remote.session,
       PouchDB = require('pouchdb');
+var bibUtil = require("../util/json_to_usfm.js");
 
 var db = new PouchDB('database'),
     refDb = new PouchDB('reference'),
@@ -117,6 +118,8 @@ function getReferenceText(refId, callback) {
 }
 
 function createRefSelections() {
+
+	$('ul[type="refs-list"] li').remove();
     refDb.get('refs').then(function (doc) {
 	doc.ref_ids.forEach(function (ref_doc) {
 	    if(ref_doc.isDefault) {
@@ -288,10 +291,7 @@ function setBookName(bookId){
   	console.log('Error: While retrieving document. ' + err);
   	db.close();
   });
-  
-  
-	//document.getElementById("chapterBtn").click();
-
+ 
 }
 
 function setChapter(chapter){
@@ -383,4 +383,47 @@ function getBookChapterList(bookId){
 
 function closeModal(modal){
 	modal.modal('hide');
+}
+
+//validation for export
+document.getElementById('export-usfm').addEventListener('click', function (e) {
+  console.log("hi...");
+  db = new PouchDB('database');
+  // Reading the database object
+  db.get('targetBible').then(function (doc) {
+    if(doc){
+      session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, cookie) => {
+		book = {};
+		var db = new PouchDB('database');
+		db.get('targetBible').then(function (doc) {
+		    book.bookNumber = cookie[0].value;
+		    book.bookName = constants.booksList[parseInt(book.bookNumber, 10)-1];
+		    book.bookCode = constants.bookCodeList[parseInt(book.bookNumber, 10)-1];
+		    book.outputPath = doc.targetPath;
+		    filepath = bibUtil.toUsfm(book);
+		    return filepath;
+		}).then(function(filepath){
+			alertModal("Export Message!!", "File exported at: "+ filepath);
+			return;
+		}).catch(function (err) {
+		    console.log('Error: Cannot get details from DB' + err);
+		});
+    });
+    }else{
+      //****** export logic *****************/
+      alertModal("Export Alert!!", "Please configure export setting!!");
+      return;
+    }
+  }).catch(function (err) {
+    alertModal("Something went wrong!!", "Contact support team!!");
+    return;
+  });
+});
+
+// Alert Model Function for dynamic message
+function alertModal(heading, formContent) {
+  $("#heading").html(heading);
+  $("#content").html(formContent);
+  $("#dynamicModal").modal();
+  $("#dynamicModal").toggle();
 }

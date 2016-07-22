@@ -33,14 +33,14 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
-          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="#"><img alt="Brand" src="../images/logo.png"></a>
+          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="index.html"><img alt="Brand" src="../images/logo.png"></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="index.html" data-toggle="tooltip" data-placement="bottom" title="Editor"><i class="fa fa-pencil-square-o fa-2x"></i></a></li>
             <li><a href="settings.html" data-toggle="tooltip" data-placement="bottom" title="Settings"><i class="fa fa-cog fa-2x"></i></a></li>
             <li><a href="about.html" data-toggle="tooltip" data-placement="bottom" title="About"><i class="fa fa-info fa-2x"></i></a></li>
-            <li><a href="#" type="export" data-toggle="tooltip" data-placement="bottom" title="Export"><i class="fa fa-database fa-2x"></i></a></li>
+            <li><a href="#" type="export" data-toggle="tooltip" data-placement="bottom" title="Export" id="export-usfm"><i class="fa fa-database fa-2x"></i></a></li>
           </ul>
         </div>
       </div>
@@ -67,22 +67,7 @@
         </div>
       </div>
     </div>
-    <div class="modal fade"  tabindex="-1" role="dialog" id="dynamicModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title" id="heading"></h4>
-          </div>
-          <div class="modal-body" id="content"></div>
-          <div class="modal-footer">
-            <span class="btn btn-primary" data-dismiss="modal">Close</span>
-          </div>
-        </div>
-        <!-- /.modal-content-->
-      </div>
-      <!-- /.modal-dialog-->
-    </div>
+    
     <!--
     Bootstrap core JavaScript
     ==================================================

@@ -5179,7 +5179,19 @@ button.close {
   top: -9999px;
   width: 50px;
   height: 50px;
-  overflow: scroll; }
+  overflow: hidden; }
+
+body.modal-open {
+    overflow: auto;
+}
+body.modal-open {
+    padding-right: 0px !important;
+}
+
+.modal::-webkit-scrollbar {
+    width: 0 !important; /*removes the scrollbar but still scrollable*/
+    /* reference: http://stackoverflow.com/a/26500272/2259400 */
+}
 
 @media (min-width: 768px) {
   .modal-dialog {
