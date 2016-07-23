@@ -9,17 +9,18 @@ var db = new PouchDB('database'),
     currentBook;
 
 document.getElementById("save-btn").addEventListener("click", function (e) {
+	db = new PouchDB('database');
     var verses = currentBook.chapters[parseInt(chapter,10)-1].verses;
     verses.forEach(function (verse, index) {
 	var vId = 'v'+(index+1);
 	verse.verse = document.getElementById(vId).textContent;
     });
-
     currentBook.chapters[parseInt(chapter,10)-1].verses = verses;
     db.put(currentBook).then(function (response) {
-	console.log('Saved changes.');
+		db.close();
+		alertModal("Save Message!!", "Edited Content saved successfully!!");
     }).catch(function (err) {
-	console.log('Error: While retrieving document. ' + err);
+    	db.close();
     });
 });
 
@@ -74,7 +75,6 @@ session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, 
 	if(cookie.length > 0) {
 	    chapter = cookie[0].value;
 	}
-	console.log('values are ' + book + ' ' + chapter);
 	document.getElementById('book-chapter-btn').innerHTML = booksList[parseInt(book,10)-1];
 	document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList('+"'"+book+"'"+');" >'+chapter+'</a>'
 	db.get(book).then(function (doc) {
