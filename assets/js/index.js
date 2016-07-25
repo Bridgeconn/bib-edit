@@ -491,12 +491,11 @@ function saveReferenceLayout(layout){
 
 $(function(){
 	refDb = new PouchDB('reference');
-  refDb.get('targetReferenceLayout').then(function (doc) {
-		setMultiwindowReference(doc.layout);
-	}).catch(function (err) {
-		console.log(err);
-		refDb.close();
-	});
+  	refDb.get('targetReferenceLayout').then(function (doc) {
+			setMultiwindowReference(doc.layout);
+		}).catch(function (err) {
+			console.log(err);
+		});
 });
 
 
