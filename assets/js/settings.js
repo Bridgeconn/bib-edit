@@ -17,16 +17,16 @@ document.getElementById('export-path').addEventListener('click', function (e) {
 			  });
 });
 
-document.getElementById('target-import-path').addEventListener('click', function (e) {
-    dialog.showOpenDialog({properties: ['openDirectory'],
-			   filters: [{name: 'All Files', extensions: ['*']}],
-			   title: "Select import folder for target"
-			  }, function (selectedDir) {
-			      if(selectedDir != null) {
-				  e.target.value = selectedDir;
-			      }
-			  });
-});
+// document.getElementById('target-import-path').addEventListener('click', function (e) {
+//     dialog.showOpenDialog({properties: ['openDirectory'],
+// 			   filters: [{name: 'All Files', extensions: ['*']}],
+// 			   title: "Select import folder for target"
+// 			  }, function (selectedDir) {
+// 			      if(selectedDir != null) {
+// 				  e.target.value = selectedDir;
+// 			      }
+// 			  });
+// });
 
 document.getElementById('save-btn').addEventListener('click', function (e) {
 	if (target_setting() == false)
@@ -41,7 +41,7 @@ document.getElementById('save-btn').addEventListener('click', function (e) {
 	    targetPath: document.getElementById('export-path').value
 	}).then(function (e) {
 	    db.close();
-	    alert_message(".alert-success", "Successfully target settings saved!");
+	    alertModal("Language Setting", "Language setting saved successfully!!");
 	});
     }).catch(function (err) {
 	db.put({
@@ -51,7 +51,7 @@ document.getElementById('save-btn').addEventListener('click', function (e) {
 	    targetPath: document.getElementById('export-path').value
 	}).then(function (e) {
 	    db.close();
-	    alert_message(".alert-success", "Successfully target settings saved!");
+	    alertModal("Language Setting", "Language setting saved successfully!!");
 	}).catch(function (err) {
 	    db.close();
 	    alert_message(".alert-danger", "Something went wrong!! Please try again");
@@ -80,9 +80,11 @@ document.getElementById('ref-import-btn').addEventListener('click', function (e)
 	    doc.ref_ids.push(ref_entry);
 	    refDb.put(doc).then(function (res) {
 		saveJsonToDB(files);
+		alertModal("Reference Usfm Setting", "Reference Usfm Setting saved successfully!!");
 	    });
 	} else {
 	    saveJsonToDB(files);
+	    alertModal("Reference Usfm Setting", "Reference Usfm Setting saved successfully!!");
 	}
     }).catch(function (err) {
 	var refs = {
@@ -93,46 +95,47 @@ document.getElementById('ref-import-btn').addEventListener('click', function (e)
 	refs.ref_ids.push(ref_entry);
 	refDb.put(refs).then(function (res) {
 	    saveJsonToDB(files);
+	    alertModal("Reference Usfm Setting", "Reference Usfm Setting saved successfully!!");
 	});
     });
 });
 
-document.getElementById('target-import-btn').addEventListener('click', function (e) {
-/*    var contents = require('fs').readFileSync('./lib/full_net_bible.json', {
-	encoding: 'utf8',
-	flag: 'r'
-    });
-    eng_bible = JSON.parse(contents);
-    var codesList = require('../util/constants.js').bookCodeList, i;
-    for(i=0; i<eng_bible.length; i++) {
-	eng_bible[i]._id = "en_net_" + codesList[i];
-	delete eng_bible[i].bible_name;
-	delete eng_bible[i].book_name;
-	delete eng_bible[i].language_code;
-	delete eng_bible[i].version;
-    }
-    console.log(eng_bible);
-    require('fs').writeFileSync('./output_en.json', JSON.stringify(eng_bible), {
-	encoding: 'utf8',
-	flag: 'w'
-    });*/
+// document.getElementById('target-import-btn').addEventListener('click', function (e) {
+//     var contents = require('fs').readFileSync('./lib/full_net_bible.json', {
+// 	encoding: 'utf8',
+// 	flag: 'r'
+//     });
+//     eng_bible = JSON.parse(contents);
+//     var codesList = require('../util/constants.js').bookCodeList, i;
+//     for(i=0; i<eng_bible.length; i++) {
+// 	eng_bible[i]._id = "en_net_" + codesList[i];
+// 	delete eng_bible[i].bible_name;
+// 	delete eng_bible[i].book_name;
+// 	delete eng_bible[i].language_code;
+// 	delete eng_bible[i].version;
+//     }
+//     console.log(eng_bible);
+//     require('fs').writeFileSync('./output_en.json', JSON.stringify(eng_bible), {
+// 	encoding: 'utf8',
+// 	flag: 'w'
+//     });
 
-    var inputPath = document.getElementById('target-import-path').value;
-    var files = fs.readdirSync(inputPath);
-    files.forEach(function (file) {
-	var filePath = path.join(inputPath, file);
-	if(fs.statSync(filePath).isFile() && !file.startsWith('.')) {
-//	    console.log(filePath);
-	    var options = {
-		lang: 'hi',
-		version: 'ulb',
-		usfmFile: filePath,
-		targetDb: 'target'
-	    }
-	    bibUtil.toJson(options);
-	}
-    });
-});
+//     var inputPath = document.getElementById('target-import-path').value;
+//     var files = fs.readdirSync(inputPath);
+//     files.forEach(function (file) {
+// 	var filePath = path.join(inputPath, file);
+// 	if(fs.statSync(filePath).isFile() && !file.startsWith('.')) {
+// //	    console.log(filePath);
+// 	    var options = {
+// 		lang: 'hi',
+// 		version: 'ulb',
+// 		usfmFile: filePath,
+// 		targetDb: 'target'
+// 	    }
+// 	    bibUtil.toJson(options);
+// 	}
+//     });
+// });
 
 
 function saveJsonToDB(files) {
@@ -236,3 +239,10 @@ function setReferenceSetting(){
 $(function(){
 	setReferenceSetting();
 });
+
+function alertModal(heading, formContent) {
+  $("#heading").html(heading);
+  $("#content").html(formContent);
+  $("#dynamicModal").modal();
+  $("#dynamicModal").toggle();
+}
