@@ -441,15 +441,15 @@ function alertModal(heading, formContent) {
 }
 
 $("#otBooksBtn").on("click", function(){
-	getBooksByLimit(otBookStart, 39);
+	getBooksByLimit(otBookStart, otBookEnd);
 });
 $("#ntBooksBtn").on("click", function(){
-	getBooksByLimit(ntBookStart, 66);
+	getBooksByLimit(ntBookStart, ntBookEnd);
 });
 
 
 $("#allBooksBtn").on("click", function(){
-	getBooksByLimit(allBookStart, 66);
+	getBooksByLimit(allBookStart, allBookEnd);
 });
 
 function getBooksByLimit(start, booksLength){
@@ -479,8 +479,7 @@ function saveReferenceLayout(layout){
 	  }).catch(function (err) {
 		refDb.put({
 		     _id: 'targetReferenceLayout',
-		     layout: layout,
-		     _rev: doc._rev
+		     layout: layout
 		}).then(function (e) {
 		    refDb.close();
 		}).catch(function (err) {
