@@ -17,16 +17,16 @@ document.getElementById('export-path').addEventListener('click', function (e) {
 			  });
 });
 
-// document.getElementById('target-import-path').addEventListener('click', function (e) {
-//     dialog.showOpenDialog({properties: ['openDirectory'],
-// 			   filters: [{name: 'All Files', extensions: ['*']}],
-// 			   title: "Select import folder for target"
-// 			  }, function (selectedDir) {
-// 			      if(selectedDir != null) {
-// 				  e.target.value = selectedDir;
-// 			      }
-// 			  });
-// });
+document.getElementById('target-import-path').addEventListener('click', function (e) {
+    dialog.showOpenDialog({properties: ['openDirectory'],
+			   filters: [{name: 'All Files', extensions: ['*']}],
+			   title: "Select import folder for target"
+			  }, function (selectedDir) {
+			      if(selectedDir != null) {
+				  e.target.value = selectedDir;
+			      }
+			  });
+});
 
 document.getElementById('save-btn').addEventListener('click', function (e) {
 	if (target_setting() == false)
@@ -100,42 +100,45 @@ document.getElementById('ref-import-btn').addEventListener('click', function (e)
     });
 });
 
-// document.getElementById('target-import-btn').addEventListener('click', function (e) {
-//     var contents = require('fs').readFileSync('./lib/full_net_bible.json', {
-// 	encoding: 'utf8',
-// 	flag: 'r'
-//     });
-//     eng_bible = JSON.parse(contents);
-//     var codesList = require('../util/constants.js').bookCodeList, i;
-//     for(i=0; i<eng_bible.length; i++) {
-// 	eng_bible[i]._id = "en_net_" + codesList[i];
-// 	delete eng_bible[i].bible_name;
-// 	delete eng_bible[i].book_name;
-// 	delete eng_bible[i].language_code;
-// 	delete eng_bible[i].version;
-//     }
-//     console.log(eng_bible);
-//     require('fs').writeFileSync('./output_en.json', JSON.stringify(eng_bible), {
-// 	encoding: 'utf8',
-// 	flag: 'w'
-//     });
+document.getElementById('target-import-btn').addEventListener('click', function (e) {
+	if (import_sync_setting() == false)
+		return;
+    var contents = require('fs').readFileSync('./lib/full_net_bible.json', {
+			encoding: 'utf8',
+			flag: 'r'
+    });
+    eng_bible = JSON.parse(contents);
+    var codesList = require('../util/constants.js').bookCodeList, i;
+    for(i=0; i<eng_bible.length; i++) {
+			eng_bible[i]._id = "en_net_" + codesList[i];
+			delete eng_bible[i].bible_name;
+			delete eng_bible[i].book_name;
+			delete eng_bible[i].language_code;
+			delete eng_bible[i].version;
+    }
+    console.log(eng_bible);
+    require('fs').writeFileSync('./output_en.json', JSON.stringify(eng_bible), {
+			encoding: 'utf8',
+			flag: 'w'
+    });
 
-//     var inputPath = document.getElementById('target-import-path').value;
-//     var files = fs.readdirSync(inputPath);
-//     files.forEach(function (file) {
-// 	var filePath = path.join(inputPath, file);
-// 	if(fs.statSync(filePath).isFile() && !file.startsWith('.')) {
-// //	    console.log(filePath);
-// 	    var options = {
-// 		lang: 'hi',
-// 		version: 'ulb',
-// 		usfmFile: filePath,
-// 		targetDb: 'target'
-// 	    }
-// 	    bibUtil.toJson(options);
-// 	}
-//     });
-// });
+    var inputPath = document.getElementById('target-import-path').value;
+    var files = fs.readdirSync(inputPath);
+    files.forEach(function (file) {
+			var filePath = path.join(inputPath, file);
+			if(fs.statSync(filePath).isFile() && !file.startsWith('.')) {
+		//	    console.log(filePath);
+			    var options = {
+						lang: 'hi',
+						version: 'ulb',
+						usfmFile: filePath,
+						targetDb: 'target'
+			    }
+			    bibUtil.toJson(options);
+			}
+    });
+    alertModal("Import and Sync", "Import and Sync Setting saved successfully!!");
+});
 
 
 function saveJsonToDB(files) {
@@ -166,6 +169,8 @@ document.getElementById('ref-path').addEventListener('click', function (e) {
 			      }
 			  });
 });
+
+
 
 // Validation check for reference settings
 function reference_setting(){
@@ -214,6 +219,16 @@ function target_setting(){
   }
   return isValid;
 } //validation target setting
+
+function import_sync_setting(){
+	var targetImportPath = $("#target-import-path").val();
+	isValid = true;
+	if ( targetImportPath === null || targetImportPath === "") {
+		alert_message(".alert-danger", "Import and Sync target must not be blank.");
+    	isValid = false;
+	}
+	return isValid;
+}
 
 function alert_message(type,message){
   $(type).css("display", "block");
