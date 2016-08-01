@@ -154,14 +154,14 @@ function createRefSelections() {
 	    selectedRefElement.closest('ul[type="refs-list"]').siblings('button[role="ref-selector"]').text($(this).text());
 	    getReferenceText($(this).attr("data-value"), function(err, refContent) {
 		if(err) {
-		    console.log('Info: No references found in database. ' + err);
+			alertModal("Language!!", "The selected language on book for current chapter is not available!!");
 		    return;
 		}
 		selectedRefElement.closest('div.row').next('div.row').children('div[type="ref"]').html(refContent);
 	    });
 	});
     }).catch(function (err) {
-	console.log('Info: No references found in Database. ' + err);
+    	alertModal("Language!!", "The selected language on book for current chapter is not available!!");
     });
 }
 
