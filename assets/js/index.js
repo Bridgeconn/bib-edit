@@ -151,11 +151,13 @@ function createRefSelections() {
 	});
 	$('a[type="ref-selection"]').click(function() {
 	    var selectedRefElement = $(this);
-	    selectedRefElement.closest('ul[type="refs-list"]').siblings('button[role="ref-selector"]').text($(this).text());
+	    selectedText = $(this).text();
 	    getReferenceText($(this).attr("data-value"), function(err, refContent) {
 		if(err) {
 			alertModal("Language!!", "The selected language on book for current chapter is not available!!");
 		    return;
+		}else{
+			selectedRefElement.closest('ul[type="refs-list"]').siblings('button[role="ref-selector"]').text(selectedText);
 		}
 		selectedRefElement.closest('div.row').next('div.row').children('div[type="ref"]').html(refContent);
 	    });
