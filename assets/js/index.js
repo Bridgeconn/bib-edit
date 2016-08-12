@@ -518,7 +518,7 @@ function exportUsfm(){
 		    book.bookName = constants.booksList[parseInt(book.bookNumber, 10)-1];
 		    book.bookCode = constants.bookCodeList[parseInt(book.bookNumber, 10)-1];
 		    book.outputPath = doc.targetPath;
-		    filepath = bibUtil.toUsfm(book, $("#stageText").val());
+		    filepath = bibUtil.toUsfm(book, $("#stageText").val(), doc);
 		    return filepath;
 		}).then(function(filepath){
 			$("#exportChoice").modal('hide');
