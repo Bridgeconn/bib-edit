@@ -40,9 +40,9 @@ function getTimeStamp(date) {
 	var year = date.getFullYear(),
         month = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1), // months are zero indexed
         day = (date.getDate() < 10 ? '0' : '') + date.getDate(),
-        hour = date.getHours(),
-        minute = date.getMinutes(),
-        second = date.getSeconds();
+        hour = (date.getHours() < 10 ? '0' : '') + date.getHours(),
+        minute = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes(),
+        second = (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
         //hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
         //minuteFormatted = minute < 10 ? "0" + minute : minute,
         //morning = hour < 12 ? "am" : "pm";
