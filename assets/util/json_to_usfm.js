@@ -1,6 +1,5 @@
 module.exports = {
     toUsfm: function (book, stage, targetLangDoc) {
-	console.log(book);
 	const PouchDB = require('pouchdb');
 	var db = new PouchDB('database'),
 	    fs = require("fs"),
@@ -20,7 +19,7 @@ module.exports = {
 			});
 			if(index === chapterLimit-1) {
 				//var dateString = new Date(new Date().getTime()).format("dd-MM-yyyy hh:mm");
-				exportName = targetLangDoc.targetLang+"_"+ targetLangDoc.targetVersion+"_"+book.bookCode+"_"+book.bookName+"_"+stage+ "_" + getTimeStamp(new Date()); 
+				exportName = targetLangDoc.targetLang+"_"+ targetLangDoc.targetVersion+"_"+book.bookCode+"_"+stage+ "_" + getTimeStamp(new Date()); 
 			    filePath = path.join(book.outputPath, exportName);
 			    filePath += '.usfm';
 			    fs.writeFileSync(filePath, usfmContent.join('\n'), 'utf8');

@@ -464,6 +464,36 @@ function closeModal(modal){
 
 //validation for export
 document.getElementById('export-usfm').addEventListener('click', function (e) {
+	targetDB = new PouchDB('database');
+	referenceDB = new PouchDB('reference');
+  	targetDB.get('targetBible').catch(function(err){
+  		if(err.name === 'not_found'){
+  			alertModal("Setting Error", "Please entered target language and reference usfm setting to export.");
+  			return;
+  		} 
+  	}).then(function(doc){
+  		exportChoice();
+  	}).catch(function (err) {
+  		// handle any errors
+  		alertModal("Setting Error", "Please entered target language and reference usfm setting to export.");
+  		return;
+	});
+
+    referenceDB.get('refs').catch(function(err){
+  		if(err.name === 'not_found'){
+  			alertModal("Setting Error", "Please entered target language and reference usfm setting to export.");
+  			return;
+  		}else{
+  			exportChoice();
+  		}
+  	}).then(function(doc){
+  		exportChoice();
+  	}).catch(function (err) {
+  		// handle any errors
+  		alertModal("Setting Error", "Please entered target language and reference usfm setting to export.");
+  		return;
+	});
+   
   // console.log("hi...");
   // db = new PouchDB('database');
   // // Reading the database object
@@ -491,10 +521,7 @@ document.getElementById('export-usfm').addEventListener('click', function (e) {
   //     alertModal("Export Alert!!", "Please configure export setting!!");
   //     return;
   //   }
-  $("#dropdownBtn").html("Choose Stage"+' <span class="caret"></span>');
-  $("#stageText").val('');
-  $("#exportChoice").modal();
-  $("#exportChoice").toggle();
+  
   // }).catch(function (err) {
   //   alertModal("Something went wrong!!", "Contact support team!!");
   //   return;
@@ -503,6 +530,13 @@ document.getElementById('export-usfm').addEventListener('click', function (e) {
 $("#exportUsfm").on("click", function(){
 	exportUsfm();	
 })
+
+function exportChoice(){
+	$("#dropdownBtn").html("Choose Stage"+' <span class="caret"></span>');
+	$("#stageText").val('');
+	$("#exportChoice").modal();
+	$("#exportChoice").toggle();
+}
 
 function exportUsfm(){
 
