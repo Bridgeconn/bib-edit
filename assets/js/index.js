@@ -66,6 +66,7 @@ function createVerseInputs(verses, chunks, chapter) {
 		spanVerse.contentEditable = true;
 		spanVerse.id = "v"+i;
 		spanVerse.appendChild(document.createTextNode(verses[i-1].verse));
+		spanVerseNum.setAttribute("class", "verse-num");
 		spanVerseNum.appendChild(document.createTextNode(i));
 		divContainer.appendChild(spanVerseNum);
 		divContainer.appendChild(spanVerse);
@@ -181,7 +182,7 @@ function createVerseDiffInputs(verses, chunks, chapter, book_original_verses){
 		var ds = dmp_diff.diff_prettyHtml(d);
 		spanVerse+= ds;
 		spanVerse+='</span>'
-		spanVerseNum += '<span>'+i+'</span>'//appendChild(document.createTextNode(i));
+		spanVerseNum += '<span class="verse-num">'+i+'</span>'//appendChild(document.createTextNode(i));
 		divContainer += spanVerseNum;
 		divContainer += spanVerse;
 		divContainer += '</div>'
@@ -211,7 +212,7 @@ function getReferenceText(refId, callback) {
 	    }
 	}
 	ref_string = doc.chapters[i].verses.map(function (verse, verseNum) {
-	    return '<div data-verse="r' + (verseNum+1) +'"><span>' + (verseNum+1) + '</span><span>' + verse.verse + '</span></div>';
+	    return '<div data-verse="r' + (verseNum+1) +'"><span class="verse-num">' + (verseNum+1) + '</span><span>' + verse.verse + '</span></div>';
 	}).join('');
 	callback(null, ref_string);
     }).catch(function (err) {
