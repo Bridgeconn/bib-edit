@@ -8144,8 +8144,8 @@ body {
   padding: 5px 0; }
   .col-ref div span:first-child {
     padding: 0 10px 0 0;
-    font-weight: bold;
-    font-size: 10px; }
+    /*font-weight: bold;
+    font-size: 10px;*/ }
 
 .navbar-fixed-bottom .navbar-nav, .navbar-fixed-top .navbar-nav {
   display: inline-block;

@@ -1,6 +1,8 @@
 const session = require('electron').remote.session,
       PouchDB = require('pouchdb');
-var bibUtil = require("../util/json_to_usfm.js");
+var bibUtil = require("../util/json_to_usfm.js"),
+	DiffMatchPatch = require('diff-match-patch'),
+	dmp_diff = new DiffMatchPatch();
 
 var db = new PouchDB('database'),
     refDb = new PouchDB('reference'),
@@ -38,36 +40,36 @@ function createVerseInputs(verses, chunks, chapter) {
 	document.getElementById('input-verses').innerHTML = "";
     var i, chunkIndex = 0, chunkVerseStart, chunkVerseEnd;
     for(i=0; i<chunks.length; i++) {
-	if(parseInt(chunks[i].chp, 10) === parseInt(chapter, 10)) {
-	    chunkIndex = i+1;
-	    chunkVerseStart = parseInt(chunks[i].firstvs, 10);
-	    chunkVerseEnd = parseInt(chunks[i+1].firstvs, 10) - 1;
-	    break;
-	}
+		if(parseInt(chunks[i].chp, 10) === parseInt(chapter, 10)) {
+		    chunkIndex = i+1;
+		    chunkVerseStart = parseInt(chunks[i].firstvs, 10);
+		    chunkVerseEnd = parseInt(chunks[i+1].firstvs, 10) - 1;
+		    break;
+		}
     }
 
     for (i=1; i<=verses.length; i++) {
-	var divContainer = document.createElement('div'),
-	    spanVerseNum = document.createElement('span'),
-	    spanVerse = document.createElement('span');
-	if(i > chunkVerseEnd) {
-	    chunkVerseStart = parseInt(chunks[chunkIndex].firstvs, 10);
-	    if(chunkIndex === chunks.length-1 || parseInt((chunks[chunkIndex+1].chp), 10) != chapter) {
-		chunkVerseEnd = verses.length;
-	    } else {
-		chunkIndex++;
-		chunkVerseEnd = parseInt(chunks[chunkIndex].firstvs, 10)-1;
-	    }
-	}
-	var chunk = chunkVerseStart + '-' + chunkVerseEnd;
-	spanVerse.setAttribute("chunk-group", chunk);
-	spanVerse.contentEditable = true;
-	spanVerse.id = "v"+i;
-	spanVerse.appendChild(document.createTextNode(verses[i-1].verse));
-	spanVerseNum.appendChild(document.createTextNode(i));
-	divContainer.appendChild(spanVerseNum);
-	divContainer.appendChild(spanVerse);
-	document.getElementById('input-verses').appendChild(divContainer);
+		var divContainer = document.createElement('div'),
+		    spanVerseNum = document.createElement('span'),
+		    spanVerse = document.createElement('span');
+		if(i > chunkVerseEnd) {
+		    chunkVerseStart = parseInt(chunks[chunkIndex].firstvs, 10);
+		    if(chunkIndex === chunks.length-1 || parseInt((chunks[chunkIndex+1].chp), 10) != chapter) {
+				chunkVerseEnd = verses.length;
+		    } else {
+			chunkIndex++;
+				chunkVerseEnd = parseInt(chunks[chunkIndex].firstvs, 10)-1;
+		    }
+		}
+		var chunk = chunkVerseStart + '-' + chunkVerseEnd;
+		spanVerse.setAttribute("chunk-group", chunk);
+		spanVerse.contentEditable = true;
+		spanVerse.id = "v"+i;
+		spanVerse.appendChild(document.createTextNode(verses[i-1].verse));
+		spanVerseNum.appendChild(document.createTextNode(i));
+		divContainer.appendChild(spanVerseNum);
+		divContainer.appendChild(spanVerse);
+		document.getElementById('input-verses').appendChild(divContainer);
     }
     highlightRef();
 }
@@ -75,7 +77,7 @@ function createVerseInputs(verses, chunks, chapter) {
 session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, cookie) => {
     book = '1';
     if(cookie.length > 0) {
-	book = cookie[0].value;
+		book = cookie[0].value;
     }
     session.defaultSession.cookies.get({url: 'http://chapter.autographa.com'}, (error, cookie) => {
 	chapter = '1';
@@ -96,6 +98,98 @@ session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, 
 	});
     });
 });
+
+function getDiffReferenceText(refId, chapter) {
+	console.log("test");
+	refDb = new PouchDB('reference');
+	db = new PouchDB('database');
+	refId = 'en_net';
+	chapter = '1';
+	session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, cookie) => {
+		book = '1';
+	    if(cookie.length > 0) {
+			book = cookie[0].value;
+	    }
+	});
+	session.defaultSession.cookies.get({url: 'http://chapter.autographa.com'}, (error, cookie) => {
+		if(cookie.length > 0) {
+	    	chapter = cookie[0].value;
+		}
+	});
+	var book_verses = ''; 
+    refId = (refId === 0 ? document.getElementById('refs-select').value : refId);
+    var id = refId + '_' + bookCodeList[parseInt(book,10)-1],
+	i;
+    refDb.get(id).then(function (doc) {
+		for(i=0; i<doc.chapters.length; i++) {
+		    if(doc.chapters[i].chapter == parseInt(chapter, 10)) {
+			break;
+		    }
+		}
+	  book_verses = doc.chapters[i].verses
+	  	
+    }).catch(function (err) {
+    	console.log(err);
+    });
+
+    db.get(book).then(function (doc) {
+	    refDb.get('refChunks').then(function (chunkDoc) {
+			currentBook = doc;
+			createVerseDiffInputs(doc.chapters[parseInt(chapter,10)-1].verses, chunkDoc.chunks[parseInt(book,10)-1], chapter, book_verses);
+	    }).catch(function(err){
+	    	console.log(err);
+	    });
+	}).catch(function (err) {
+	    console.log('Error: While retrieving document. ' + err);
+	});
+    
+}
+
+
+function createVerseDiffInputs(verses, chunks, chapter, book_original_verses){
+	document.getElementById('input-verses').innerHTML = "";
+    var i, chunkIndex = 0, chunkVerseStart, chunkVerseEnd;
+    for(i=0; i<chunks.length; i++) {
+		if(parseInt(chunks[i].chp, 10) === parseInt(chapter, 10)) {
+		    chunkIndex = i+1;
+		    chunkVerseStart = parseInt(chunks[i].firstvs, 10);
+		    chunkVerseEnd = parseInt(chunks[i+1].firstvs, 10) - 1;
+		    break;
+		}
+    }
+
+    for (i=1; i<=verses.length; i++) {
+		var divContainer = '<div>';
+		    spanVerseNum = '';
+		    
+		if(i > chunkVerseEnd) {
+		    chunkVerseStart = parseInt(chunks[chunkIndex].firstvs, 10);
+		    if(chunkIndex === chunks.length-1 || parseInt((chunks[chunkIndex+1].chp), 10) != chapter) {
+				chunkVerseEnd = verses.length;
+		    } else {
+			chunkIndex++;
+				chunkVerseEnd = parseInt(chunks[chunkIndex].firstvs, 10)-1;
+		    }
+		}
+
+		var chunk = chunkVerseStart + '-' + chunkVerseEnd;
+			spanVerse = "<span chunk-group="+chunk+" id=v"+i+" contenteditable=true>";
+		//$(spanVerse).attr("chunk-group", chunk);
+		//spanVerse.contentEditable = true;
+		//spanVerse.id = "v"+i;
+		var d = dmp_diff.diff_main(book_original_verses[i-1].verse, verses[i-1].verse);
+		var ds = dmp_diff.diff_prettyHtml(d);
+		spanVerse+= ds;
+		spanVerse+='</span>'
+		spanVerseNum += '<span>'+i+'</span>'//appendChild(document.createTextNode(i));
+		divContainer += spanVerseNum;
+		divContainer += spanVerse;
+		divContainer += '</div>'
+		console.log(divContainer);
+		$("#input-verses").append(divContainer);
+    }
+    highlightRef();
+}
 
 var bookCodeList = constants.bookCodeList;
 
@@ -127,23 +221,23 @@ function getReferenceText(refId, callback) {
 
 function createRefSelections() {
 	//$('ul[type="refs-list"] li').remove();
-		
+
 		if ($(".ref-drop-down").val() === null ) {
 			$(".ref-drop-down").find('option').remove().end();
 			refDb.get('refs').then(function (doc) {
-			doc.ref_ids.forEach(function (ref_doc) {
-			    if(ref_doc.isDefault) {
-					$('button[role="ref-selector"]').text(ref_doc.ref_name);
-					$(".current-val").val(ref_doc.ref_id);
-					getReferenceText(ref_doc.ref_id, function(err, refContent) {
-					    if(err) {
-						console.log('Info: No references found in database. ' + err);
-						return;
-					    }
-					    $('div[type="ref"]').html(refContent);
-					});
-			    }
-			/*==================== old drop down commented =============================*/
+				doc.ref_ids.forEach(function (ref_doc) {
+				    if(ref_doc.isDefault) {
+						$('button[role="ref-selector"]').text(ref_doc.ref_name);
+						$(".current-val").val(ref_doc.ref_id);
+						getReferenceText(ref_doc.ref_id, function(err, refContent) {
+						    if(err) {
+							console.log('Info: No references found in database. ' + err);
+							return;
+						    }
+						    $('div[type="ref"]').html(refContent);
+						});
+				    }
+				/*==================== old drop down commented =============================*/
 			 //    var li = document.createElement('li'),
 				// a = document.createElement('a');
 			 //    a.setAttribute('href', '#');
@@ -165,7 +259,7 @@ function createRefSelections() {
   				$(".current-val").val($(selected).val());
 				getReferenceText($(selected).val(), function(err, refContent) {
 				    if(err) {
-				    	alertModal("Language!!", "The selected language on book for current chapter is not available!!");
+				    	console.log("The selected language on book for current chapter is not available!!");
 						return;
 				    }
 				    if($("#section-"+i).length > 0){
