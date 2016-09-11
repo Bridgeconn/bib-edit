@@ -137,11 +137,11 @@ function getDiffText(refId1, refId2, position, callback) {
 			callback(null, refString, position);
 		})
 	}).catch(function (err) {
-		callback(err, null);
+		callback(err, null, null);
 	});
 }
 
-function setDiffReferenceText(refId, chapter) {
+function setDiffReferenceText() {
 	refDb = new PouchDB('reference');
 	db = new PouchDB('database');
 	var j=0;
@@ -194,6 +194,42 @@ function setDiffReferenceText(refId, chapter) {
 		console.log('Error: While retrieving document. ' + err);
 	});
 
+}
+
+function setReferenceTextBack(){
+	refDb = new PouchDB('reference');
+	db = new PouchDB('database');
+	var j=0;
+	$('.ref-drop-down :selected').each(function(i, selected){
+			getReferenceText($(selected).val(), function(err, refContent){
+				if(err){
+					console.log(err);
+				}else {
+					$("#section-"+i).find('div[type="ref"]').html(refContent);
+				}
+			});
+	});
+	session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, cookie) => {
+		book = '1';
+		if(cookie.length > 0) {
+			book = cookie[0].value;
+		}
+	});
+	session.defaultSession.cookies.get({url: 'http://chapter.autographa.com'}, (error, cookie) => {
+		if(cookie.length > 0) {
+			chapter = cookie[0].value;
+		}
+	});
+	db.get(book).then(function (doc) {
+		refDb.get('refChunks').then(function (chunkDoc) {
+			currentBook = doc;
+			createVerseInputs(doc.chapters[parseInt(chapter,10)-1].verses, chunkDoc.chunks[parseInt(book,10)-1], chapter);
+		}).catch(function(err){
+			console.log(err);
+		});
+	}).catch(function (err) {
+		console.log('Error: While retrieving document. ' + err);
+	});
 }
 
 function createVerseDiffInputs(verses, chunks, chapter, book_original_verses){
@@ -265,13 +301,12 @@ function getReferenceText(refId, callback) {
 		}).join('');
 		callback(null, ref_string);
 	}).catch(function (err) {
-		callback(err)
+		callback(err, "");
 	});
 }
 
 function createRefSelections() {
 	//$('ul[type="refs-list"] li').remove();
-
 	if ($(".ref-drop-down").val() === null ) {
 		$(".ref-drop-down").find('option').remove().end();
 		refDb.get('refs').then(function (doc) {
@@ -299,9 +334,9 @@ function createRefSelections() {
 			 //    $('ul[type="refs-list"]').append(li);
 
 			 /*==============================================================*/ 
-					$('<option></option>').val(ref_doc.ref_id).text(ref_doc.ref_name).appendTo(".ref-drop-down"); //new code for ref drop down
+				$('<option></option>').val(ref_doc.ref_id).text(ref_doc.ref_name).appendTo(".ref-drop-down"); //new code for ref drop down
 
-				});
+			});
 		});
 	}else {
 		$('.ref-drop-down :selected').each(function(i, selected){ 
@@ -636,8 +671,8 @@ function exportChoice(){
 function exportUsfm(){
 
 	db = new PouchDB('database');
-  // Reading the database object
-  db.get('targetBible').then(function (doc) {
+	// Reading the database object
+	db.get('targetBible').then(function (doc) {
   	if(doc){
   		session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, cookie) => {
   			book = {};
@@ -728,6 +763,7 @@ function saveReferenceLayout(layout){
 }
 
 $(function(){
+	$('[type="checkbox"]').bootstrapSwitch();
 	refDb = new PouchDB('reference');
 	refDb.get('targetReferenceLayout').then(function (doc) {
 		setMultiwindowReference(doc.layout);
@@ -768,6 +804,18 @@ $(function(){
 		}
 	})
 
+});
+
+$('.check-diff').on('switchChange.bootstrapSwitch', function (event, state) {
+	if(state === true) {
+		setDiffReferenceText();
+		$(".verse-diff-on a").attr( "disabled" , "true" ).addClass("disable_a_href");
+		$(".ref-drop-down").attr("disabled", "true");
+	}else{
+		setReferenceTextBack();
+		$(".verse-diff-on a").removeAttr( "disabled").removeClass("disable_a_href");
+		$(".ref-drop-down").removeAttr("disabled", "true");
+	}
 });
 
 
