@@ -142,10 +142,29 @@ function getDiffText(refId1, refId2, position, callback) {
 }
 
 function setDiffReferenceText() {
+	/*	==================================================
+		========== save document after edit ==============
+		==================================================
+	*/
 	refDb = new PouchDB('reference');
 	db = new PouchDB('database');
+	var verses = currentBook.chapters[parseInt(chapter,10)-1].verses;
+	verses.forEach(function (verse, index) {
+		var vId = 'v'+(index+1);
+		verse.verse = document.getElementById(vId).textContent;
+	});
+	currentBook.chapters[parseInt(chapter,10)-1].verses = verses;
+	db.put(currentBook).then(function (response) {
+	}).catch(function (err) {
+		console.log(err);
+	});
+	/*	==================================================
+		========== save document after edit ==============
+		==================================================
+	*/
 	var j=0;
 	for(j=0; j<$('.ref-drop-down :selected').length; j++){ 
+		$("#section-"+j).find('div[type="ref"]').children().removeAttr("style");
 		if(j+1 < $('.ref-drop-down :selected').length){
 			getDiffText($($('.ref-drop-down :selected')[j]).val(), $($('.ref-drop-down :selected')[j+1]).val(), j+1, function(err, refContent, pos){
 				if(err){
@@ -817,7 +836,6 @@ $('.check-diff').on('switchChange.bootstrapSwitch', function (event, state) {
 		$(".ref-drop-down").removeAttr("disabled", "true");
 	}
 });
-
 
 
 
