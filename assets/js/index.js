@@ -28,11 +28,17 @@ document.getElementById("save-btn").addEventListener("click", function (e) {
 		verse.verse = document.getElementById(vId).textContent;
 	});
 	currentBook.chapters[parseInt(chapter,10)-1].verses = verses;
-	db.put(currentBook).then(function (response) {
-		db.close();
-		alertModal("Save Message!!", "Edited Content saved successfully!!");
+	db.get(currentBook._id).then(function (doc) {
+		doc.chapters[parseInt(chapter,10)-1].verses = verses;
+		db.put(doc).then(function (response) {
+			db.close();
+			alertModal("Save Message!!", "Edited Content saved successfully!!");
+		}).catch(function (err) {
+			console.log(err);
+			db.close();
+		});
 	}).catch(function (err) {
-		db.close();
+		console.log('Error: While retrieving document. ' + err);
 	});
 });
 
