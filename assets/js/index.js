@@ -369,7 +369,13 @@ function createRefSelections() {
 			$(".current-val").val($(selected).val());
 			getReferenceText($(selected).val(), function(err, refContent) {
 				if(err) {
-					console.log("The selected language on book for current chapter is not available!!");
+					$(".ref-drop-down").val($(".ref-drop-down option:first").val());
+					getReferenceText($(".ref-drop-down option:first").val(), function(err, refContent){
+						if(err){
+							console.log("The selected language on book for current chapter is not available!!");
+						}
+						$('div[type="ref"]').html(refContent);
+					})
 					return;
 				}
 				if($("#section-"+i).length > 0){
@@ -383,7 +389,6 @@ function createRefSelections() {
 		});
 
 	}
-
 }
 	// $('a[type="ref-selection"]').click(function() {
 	//     var selectedRefElement = $(this);
