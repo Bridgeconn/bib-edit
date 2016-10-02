@@ -838,11 +838,22 @@ $(function(){
 function isSameLanguage(){
 	var verseLangCode = ""
 	var db = new PouchDB('database');
-	return db.get(book).then(function (doc) {
-		verseLangCode = doc.language_code;
+	var check_value = false;
+	return db.get('targetBible').then(function (doc) {
+		verseLangCode = doc.targetLang;
 		languagedropDown = $(".ref-drop-down").length
-		for(var i = 1; i < languagedropDown; i++){
-			if((verseLangCode != $($('.ref-drop-down :selected')[i]).val().split("_")[0]) || (verseLangCode != $($('.ref-drop-down :selected')[i-1]).val().split("_")[0])){
+		for(var i = 0; i < languagedropDown-1; i++){
+			v1 = $($('.ref-drop-down :selected')[i]).val().split("_")[0]
+			v2=""
+			if($($('.ref-drop-down :selected')[i+1]).length){
+				v2 = $($('.ref-drop-down :selected')[i+1]).val().split("_")[0]
+			}
+			if((verseLangCode != v1) || (verseLangCode != v2 )){
+				return false;
+			}
+		}
+		if(languagedropDown == 1){
+			if((verseLangCode != $($('.ref-drop-down :selected')[0]).val().split("_")[0]) ){
 				return false;
 			}
 		}
