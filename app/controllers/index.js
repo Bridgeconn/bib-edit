@@ -925,12 +925,16 @@ $('#input-verses').on('keyup', debounce(function () {
 		db.get(currentBook._id).then(function(book){
 			currentBook._rev = book._rev;
 			db.put(currentBook).then(function(response){
-				$("#saved-time").html("Last saved target at: "+ new Date().toLocaleString());
+				var dateTime = new Date().toLocaleString();
+				$("#saved-time").html("Last saved target at: "+ dateTime);
+				setAutoSaveTime(dateTime)
 				db.close();
 				clearInterval(intervalId);
 			}).catch(function(err){
 				db.put(currentBook).then(function(response){
-					$("#saved-time").html("Last saved target at: "+ new Date().toLocaleString());
+					var dateTime = new Date().toLocaleString();
+					$("#saved-time").html("Last saved target at: "+ dateTime);
+					setAutoSaveTime(dateTime);
 				}).catch(function(err){
 					clearInterval(intervalId);
 					db.close();
@@ -952,6 +956,19 @@ $(".font-button").bind("click", function () {
         }
     }
     $('.col-ref').css("font-size", size);
+});
+
+function setAutoSaveTime(dateTime){
+	const cookie = {url: 'http://autosave.autographa.com', name: 'autosave', value: dateTime};
+	session.defaultSession.cookies.set(cookie, (error) => {
+		if (error)
+			console.error(error);
+	});
+}
+session.defaultSession.cookies.get({url: 'http://autosave.autographa.com'}, (error, cookie) => {
+	if(cookie.length > 0) {
+		$("#saved-time").html("Last saved target at: "+ cookie[0].value);
+	}
 });
 
 
