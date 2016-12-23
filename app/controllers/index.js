@@ -8,7 +8,8 @@ var db = new PouchDB('./db/targetDB'),
 refDb = new PouchDB('./db/referenceDB'),
 book,
 chapter,
-currentBook;
+currentBook,
+intervalId;
 
 
 var constants = require('../util/constants.js');
@@ -92,7 +93,8 @@ session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, 
 			chapter = cookie[0].value;
 		}
 		document.getElementById('book-chapter-btn').innerHTML = booksList[parseInt(book,10)-1];
-		document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList('+"'"+book+"'"+');" >'+chapter+'</a>'
+		document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" href="javascript:getBookChapterList('+"'"+book+"'"+');" >'+chapter+'</a>'
+		$('a[data-toggle=tooltip]').tooltip();
 		db.get(book).then(function (doc) {
 			refDb.get('refChunks').then(function (chunkDoc) {
 				console.log(doc.chapters[parseInt(chapter,10)-1].verses.length);
@@ -596,7 +598,8 @@ function setChapter(chapter){
 				createRefSelections();
 				createVerseInputs(doc.chapters[parseInt(chapter,10)-1].verses, chunkDoc.chunks[parseInt(book,10)-1], chapter);
 			});
-			document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" href="javascript:getBookList();" id="book-chapter-btn">'+doc.book_name+'</a><span id="chapterBtnSpan"><a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList('+"'"+book+"'"+')" >'+chapter+'</span></a>'
+			document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" data-toggle="tooltip" data-placement="bottom"  title="Select Book" href="javascript:getBookList();" id="book-chapter-btn">'+doc.book_name+'</a><span id="chapterBtnSpan"><a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList('+"'"+book+"'"+')" >'+chapter+'</span></a>'
+			$('a[data-toggle=tooltip]').tooltip();
 			setChapterButton(book, chapter);
 			setChapterCookie(chapter);
 			closeModal($("#chapters"));
@@ -612,7 +615,9 @@ function setChapter(chapter){
 }
 
 function setChapterButton(bookId, chapterId){
-	document.getElementById('chapterBtnSpan').innerHTML = '<a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList('+"'"+bookId+"'"+');" >'+chapterId+'</a>'
+	document.getElementById('chapterBtnSpan').innerHTML = '<a id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" class="btn btn-default" href="javascript:getBookChapterList('+"'"+bookId+"'"+');" >'+chapterId+'</a>'
+	$('a[data-toggle=tooltip]').tooltip();
+
 }
 
 function setChapterCookie(chapter){
@@ -885,6 +890,68 @@ $('.check-diff').on('switchChange.bootstrapSwitch', function (event, state) {
 		$(".verse-diff-on a").removeAttr( "disabled").removeClass("disable_a_href");
 		$(".ref-drop-down").removeAttr("disabled", "true");
 	}
+});
+
+function autoSave(){
+	
+}
+
+// call after stopped typing
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+
+// This will apply the debounce effect on the keyup event
+// And it only fires 3000ms after the user stopped typing
+$('#input-verses').on('keyup', debounce(function () {
+		db = new PouchDB('./db/targetDB');
+		var verses = currentBook.chapters[parseInt(chapter,10)-1].verses;
+		verses.forEach(function (verse, index) {
+			var vId = 'v'+(index+1);
+			verse.verse = document.getElementById(vId).textContent;
+		});
+		currentBook.chapters[parseInt(chapter,10)-1].verses = verses;
+		db.get(currentBook._id).then(function(book){
+			currentBook._rev = book._rev;
+			db.put(currentBook).then(function(response){
+				$("#saved-time").html("Last saved target at: "+ new Date().toLocaleString());
+				db.close();
+				clearInterval(intervalId);
+			}).catch(function(err){
+				db.put(currentBook).then(function(response){
+					$("#saved-time").html("Last saved target at: "+ new Date().toLocaleString());
+				}).catch(function(err){
+					clearInterval(intervalId);
+					db.close();
+				})
+				clearInterval(intervalId);
+				db.close();
+			})
+		})
+}, 3000));
+
+$(".font-button").bind("click", function () {
+    var size = parseInt($('.col-ref').css("font-size"));
+    if ($(this).hasClass("plus")) {
+        size = size + 2;
+    } else {
+        size = size - 2;
+        if (size <= 14) {
+            size = 14;
+        }
+    }
+    $('.col-ref').css("font-size", size);
 });
 
 
