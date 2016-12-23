@@ -1,7 +1,7 @@
 module.exports = {
     /*
       All keys of options are required!
-      e.g: options = {lang: 'en', version: 'udb', usfmFile: /home/test-data/L66_1 Corinthians_I.SFM}
+      e.g: options = {lang: 'en', version: 'udb', usfmFile: '/home/test-data/L66_1 Corinthians_I.SFM'}
     */
     
     toJson: function(options) {
@@ -51,7 +51,7 @@ module.exports = {
 	});
 
 	lineReader.on('close', function(line) {
-/*	    console.log(book);
+	    console.log(book);
 	    require('fs').writeFileSync('./output.json', JSON.stringify(book), {
 		encoding: 'utf8',
 		flag: 'a'
@@ -59,9 +59,9 @@ module.exports = {
 	    require('fs').writeFileSync('./output.json', ',\n', {
 		encoding: 'utf8',
 		flag: 'a'
-	    });*/
+	    });
 	    
-	    const PouchDB = require('pouchdb');
+/*	    const PouchDB = require('pouchdb');
 	    var db;
 	    if(options.targetDb === 'refs') {
 		db = new PouchDB('./db/referenceDB');
@@ -112,7 +112,7 @@ module.exports = {
 			console.log('Error: While trying to save to DB. ' + err);
 		    });
 		});
-	    }
+	    }*/
 	});
     }
 };
