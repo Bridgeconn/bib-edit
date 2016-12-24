@@ -590,7 +590,7 @@ function setChapter(chapter){
 		refDb = new PouchDB('./db/referenceDB');
 		db.get(book).then(function (doc) {
 			refDb.get('refChunks').then(function (chunkDoc) {
-				console.log(doc.chapters[parseInt(chapter,10)-1].verses.length);
+				//console.log(doc.chapters[parseInt(chapter,10)-1].verses.length);
 				currentBook = doc;
 				chapter = chapter;
 				createRefSelections();
