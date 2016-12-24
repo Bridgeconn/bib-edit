@@ -31,10 +31,17 @@ module.exports = {
 		c++;
 		v = 0;
 	    } else if(splitLine[0] == '\\v') {
-	    	checkContent = line.indexOf(' ', 3)+1
+	    	var verseContent = line.indexOf(' ', 3)+1;
+		var verseStr = (verseContent == 0 ) ? "" : line.substring(verseContent);
+		verseStr = verseStr.replace(/\\[\S]*? \+ /g, '');
+		verseStr = verseStr.replace(/\\[\S]*?$/g, '');
+		verseStr = verseStr.replace(/\\[\S]*? /g, '');
+//		replacedStr = verseStr.replace(/[\b\f\j\k\n\r\t\z][\S]*? \+ /g, '');
+//		replacedStr = replacedStr.replace(/[\b\f\j\k\n\r\t\z][\S]*?$/g, '');
+//		replacedStr = replacedStr.replace(/[\b\f\j\k\n\r\t\z][\S]*? /g, '');		
 		book.chapters[c-1].verses.push({
 		    "verse_number": parseInt(splitLine[1], 10),
-		    "verse": (checkContent == 0 ) ? "" : line.substring(checkContent)
+		    "verse": verseStr
 		});
 		v++;
 	    } else if(splitLine[0] == '\\s') {
