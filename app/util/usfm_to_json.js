@@ -36,9 +36,7 @@ module.exports = {
 		verseStr = verseStr.replace(/\\[\S]*? \+ /g, '');
 		verseStr = verseStr.replace(/\\[\S]*?$/g, '');
 		verseStr = verseStr.replace(/\\[\S]*? /g, '');
-//		replacedStr = verseStr.replace(/[\b\f\j\k\n\r\t\z][\S]*? \+ /g, '');
-//		replacedStr = replacedStr.replace(/[\b\f\j\k\n\r\t\z][\S]*?$/g, '');
-//		replacedStr = replacedStr.replace(/[\b\f\j\k\n\r\t\z][\S]*? /g, '');		
+
 		book.chapters[c-1].verses.push({
 		    "verse_number": parseInt(splitLine[1], 10),
 		    "verse": verseStr
@@ -59,7 +57,7 @@ module.exports = {
 
 	lineReader.on('close', function(line) {
 	    console.log(book);
-	    require('fs').writeFileSync('./output.json', JSON.stringify(book), {
+/*	    require('fs').writeFileSync('./output.json', JSON.stringify(book), {
 		encoding: 'utf8',
 		flag: 'a'
 	    });
@@ -67,11 +65,11 @@ module.exports = {
 		encoding: 'utf8',
 		flag: 'a'
 	    });
-	    
-/*	    const PouchDB = require('pouchdb');
+	    */
+	    const PouchDB = require('pouchdb');
 	    var db;
 	    if(options.targetDb === 'refs') {
-		db = new PouchDB('./db/referenceDB');
+		db = new PouchDB('../../db/referenceDB');
 		db.get(book._id).then(function (doc) {
 		    book._rev = doc._rev;
 		    db.put(book).then(function (doc) {
@@ -87,7 +85,7 @@ module.exports = {
 		    });
 		});
 	    } else if(options.targetDb === 'target') {
-		db = new PouchDB('./db/targetDB');
+		db = new PouchDB('../../db/targetDB');
 		const booksCodes = require('./constants.js').bookCodeList;
 		var bookId = book._id.split('_');
 		bookId = bookId[bookId.length-1].toUpperCase();
@@ -119,7 +117,7 @@ module.exports = {
 			console.log('Error: While trying to save to DB. ' + err);
 		    });
 		});
-	    }*/
+	    }
 	});
     }
 };
