@@ -1,10 +1,11 @@
-module.exports = {
+var toJsonConverter = {
     /*
       All keys of options are required!
       e.g: options = {lang: 'en', version: 'udb', usfmFile: '/home/test-data/L66_1 Corinthians_I.SFM'}
     */
     
     toJson: function(options) {
+	var console.log(this);
 	var lineReader = require('readline').createInterface({
 	    input: require('fs').createReadStream(options.usfmFile)
 	});
@@ -33,9 +34,8 @@ module.exports = {
 	    } else if(splitLine[0] == '\\v') {
 	    	var verseContent = line.indexOf(' ', 3)+1;
 		var verseStr = (verseContent == 0 ) ? "" : line.substring(verseContent);
-		verseStr = verseStr.replace(/\\[\S]*? \+ /g, '');
-		verseStr = verseStr.replace(/\\[\S]*?$/g, '');
-		verseStr = verseStr.replace(/\\[\S]*? /g, '');
+
+		verseStr = this.replaceMarkers(verseStr);
 //		replacedStr = verseStr.replace(/[\b\f\j\k\n\r\t\z][\S]*? \+ /g, '');
 //		replacedStr = replacedStr.replace(/[\b\f\j\k\n\r\t\z][\S]*?$/g, '');
 //		replacedStr = replacedStr.replace(/[\b\f\j\k\n\r\t\z][\S]*? /g, '');		
@@ -59,11 +59,11 @@ module.exports = {
 
 	lineReader.on('close', function(line) {
 	    console.log(book);
-	    require('fs').writeFileSync('./output.json', JSON.stringify(book), {
+	    require('fs').writeFileSync('/home/joel/output.json', JSON.stringify(book), {
 		encoding: 'utf8',
-		flag: 'a'
+		flag: 'w'
 	    });
-	    require('fs').writeFileSync('./output.json', ',\n', {
+	    require('fs').writeFileSync('/home/joel/output.json', ',\n', {
 		encoding: 'utf8',
 		flag: 'a'
 	    });
@@ -121,6 +121,18 @@ module.exports = {
 		});
 	    }*/
 	});
+    },
+
+    replaceMarkers: function(str) {
+	console.log('in replace markers');
+	str = str.replace(/\\[\S]*? \+ /g, '');
+	str = str.replace(/\\[\S]*?$/g, '');
+	str = str.replace(/\\[\S]*? /g, '');
+	return str;
+    },
+
+    escapeRegExp: function(str) {
+	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
     }
 };
 
