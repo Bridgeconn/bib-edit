@@ -4,16 +4,47 @@
 # Expected format is:
 # >pattern
 # replacement<
-# with no spaces, unless intended and both the pattern and replacement values in newlines. Every line starting with > should be followed by a line containing at least a single <.
+# with no spaces, unless intended. Both the pattern and replacement values need to be in new lines. Every line starting with > should be followed by a line containing < at the end else output maybe unpredictable.
 
-# Pattern 1
->\\[\S]*? 
+# Matches \f..\f* and \x..\x* markers.
+>\\[fx] [+-?]? ?.*?\\[fx]\* ?($)?
 <
 
- Pattern 2
->\\[\S]*?$
-)<
+# Matches \ef..\ef* and \ex..\ex* markers.
+>\\e[fx] [+-?]? ?.*?\\e[fx]\* ?($)?
+<
 
-# Pattern 3
-#>\\[\S]*?
-#<
+# Matches \r..\r*
+>\\rq.*?\\rq\*
+<
+
+# Matches all markers starting with \r
+>\\r.*
+<
+
+# Matches \va..\va* and \vp..\vp* and their alternate pairs too (unintended but good enough).
+>\\v[ap].*?\\v[ap]\*
+<
+
+# Matches all introduction tags starting with \i..\i*
+>\\i[belmopqs].*
+
+# Matches \lit
+>\\lit.*
+<
+
+# Matches \fig..\fig*
+>\\[+]?fig (.*?)\\[+]?fig\*
+<
+
+# Matches \add..\add* or \+add..\+add*
+>\\[+]?add (.*?)\\[+]?add\*
+($1)<
+
+# Matches all other markers.
+>\\.+? 
+<
+
+# Matches all marker ends at end-of-line.
+>\\.+?$
+<

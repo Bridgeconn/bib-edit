@@ -6,7 +6,6 @@ var toJsonConverter = {
     
     toJson: function(options) {
 	this.patterns = require('fs').readFileSync('../lib/patterns.prop', 'utf8');
-	console.log(this.patterns);
 	var lineReader = require('readline').createInterface({
 	    input: require('fs').createReadStream(options.usfmFile)
 	});
@@ -33,27 +32,24 @@ var toJsonConverter = {
 		c++;
 		v = 0;
 	    } else if(splitLine[0] == '\\v') {
-		var verseStr = (splitLine.length <= 2)? "" : splitLine.splice(2, splitLine.length-1).join(' ');
+		var verseStr = (splitLine.length <= 2)? '' : splitLine.splice(2, splitLine.length-1).join(' ');
 		verseStr = toJsonConverter.replaceMarkers(verseStr);
-//		verseStr = verseStr.replace(/\\[\S]*? \+ /g, '');
-//		verseStr = verseStr.replace(/\\[\S]*?$/g, '');
-//		verseStr = verseStr.replace(/\\[\S]*? /g, '');
-
 		book.chapters[c-1].verses.push({
 		    "verse_number": parseInt(splitLine[1], 10),
 		    "verse": verseStr
 		});
 		v++;
-	    } else if(splitLine[0] == '\\s') {
+	    } else if(splitLine[0].startsWith('\\s')) {
 		//Do nothing for section headers now.
 	    } else if(splitLine.length == 1) {
 		// Do nothing for now here.
+	    } else if(splitLine[0].startsWith('\\m')) {
+		// Do nothing for now here.
+	    } else if(splitLine[0].startsWith('\\r')) {
+		// Do nothing for now here.
 	    } else if(c > 0 && v > 0) {
-		if(line.startsWith('\\')) {
-		    book.chapters[c-1].verses[v-1].verse += (' ' + line.substring(line.indexOf(' ')+1));
-		} else {
-		    book.chapters[c-1].verses[v-1].verse += (' ' + line);
-		}
+		var cleanedStr = toJsonConverter.replaceMarkers(line);
+		book.chapters[c-1].verses[v-1].verse += ((cleanedStr.length === 0? '' : ' ') + cleanedStr);
 	    }
 	});
 
@@ -130,6 +126,8 @@ var toJsonConverter = {
 	    replacement = '',
 	    pairFoundFlag = -1;
 	for(var i=0; i<patternsLine.length; i++) {
+	    if(str.length === 0)
+		break
 	    if(patternsLine[i] === '' || patternsLine[i].startsWith('#'))
 		continue;
 
@@ -142,14 +140,10 @@ var toJsonConverter = {
 	    }
 
 	    if(pairFoundFlag === 1) {
-		str = str.replace(new RegExp(pattern, 'g'), replacement);
+		str = str.replace(new RegExp(pattern, 'gu'), replacement);
 		pairFoundFlag = -1;
 	    }
 	}
-
-//	str = str.replace(/\\[\S]*? \+ /g, '');
-//	str = str.replace(/\\[\S]*?$/g, '');
-//	str = str.replace(/\\[\S]*? /g, '');
 	return str;
     },
 
