@@ -34,11 +34,11 @@ var toJsonConverter = {
 	    } else if(splitLine[0] == '\\v') {
 	    	var verseContent = line.indexOf(' ', 3)+1;
 		var verseStr = (verseContent == 0 ) ? "" : line.substring(verseContent);
-
 		verseStr = this.replaceMarkers(verseStr);
-//		replacedStr = verseStr.replace(/[\b\f\j\k\n\r\t\z][\S]*? \+ /g, '');
-//		replacedStr = replacedStr.replace(/[\b\f\j\k\n\r\t\z][\S]*?$/g, '');
-//		replacedStr = replacedStr.replace(/[\b\f\j\k\n\r\t\z][\S]*? /g, '');		
+//		verseStr = verseStr.replace(/\\[\S]*? \+ /g, '');
+//		verseStr = verseStr.replace(/\\[\S]*?$/g, '');
+//		verseStr = verseStr.replace(/\\[\S]*? /g, '');
+
 		book.chapters[c-1].verses.push({
 		    "verse_number": parseInt(splitLine[1], 10),
 		    "verse": verseStr
@@ -69,9 +69,10 @@ var toJsonConverter = {
 	    });
 	    
 /*	    const PouchDB = require('pouchdb');
+	    const PouchDB = require('pouchdb');
 	    var db;
 	    if(options.targetDb === 'refs') {
-		db = new PouchDB('./db/referenceDB');
+		db = new PouchDB('../../db/referenceDB');
 		db.get(book._id).then(function (doc) {
 		    book._rev = doc._rev;
 		    db.put(book).then(function (doc) {
@@ -87,7 +88,7 @@ var toJsonConverter = {
 		    });
 		});
 	    } else if(options.targetDb === 'target') {
-		db = new PouchDB('./db/targetDB');
+		db = new PouchDB('../../db/targetDB');
 		const booksCodes = require('./constants.js').bookCodeList;
 		var bookId = book._id.split('_');
 		bookId = bookId[bookId.length-1].toUpperCase();
