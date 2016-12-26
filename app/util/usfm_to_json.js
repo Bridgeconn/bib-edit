@@ -5,7 +5,8 @@ var toJsonConverter = {
     */
     
     toJson: function(options) {
-	var console.log(this);
+	this.patterns = require('fs').readFileSync('../lib/patterns.prop', 'utf8');
+	console.log(this.patterns);
 	var lineReader = require('readline').createInterface({
 	    input: require('fs').createReadStream(options.usfmFile)
 	});
@@ -17,7 +18,7 @@ var toJsonConverter = {
 
 	lineReader.on('line', function (line) {
 	    var line = line.trim();
-	    var splitLine = line.split(' ');
+	    var splitLine = line.split(/ +/);
 	    if(!line) {
 		//Do nothing for empty lines.
 	    } else if(splitLine[0] == '\\id') {
@@ -32,9 +33,8 @@ var toJsonConverter = {
 		c++;
 		v = 0;
 	    } else if(splitLine[0] == '\\v') {
-	    	var verseContent = line.indexOf(' ', 3)+1;
-		var verseStr = (verseContent == 0 ) ? "" : line.substring(verseContent);
-		verseStr = this.replaceMarkers(verseStr);
+		var verseStr = (splitLine.length <= 2)? "" : splitLine.splice(2, splitLine.length-1).join(' ');
+		verseStr = toJsonConverter.replaceMarkers(verseStr);
 //		verseStr = verseStr.replace(/\\[\S]*? \+ /g, '');
 //		verseStr = verseStr.replace(/\\[\S]*?$/g, '');
 //		verseStr = verseStr.replace(/\\[\S]*? /g, '');
@@ -125,15 +125,35 @@ var toJsonConverter = {
     },
 
     replaceMarkers: function(str) {
-	console.log('in replace markers');
-	str = str.replace(/\\[\S]*? \+ /g, '');
-	str = str.replace(/\\[\S]*?$/g, '');
-	str = str.replace(/\\[\S]*? /g, '');
+	patternsLine = this.patterns.split('\n');
+	var pattern = '',
+	    replacement = '',
+	    pairFoundFlag = -1;
+	for(var i=0; i<patternsLine.length; i++) {
+	    if(patternsLine[i] === '' || patternsLine[i].startsWith('#'))
+		continue;
+
+	    if(patternsLine[i].startsWith('>') && pairFoundFlag <= 0) {
+		pattern = patternsLine[i].substr(1);
+		pairFoundFlag = 0;
+	    } else if(patternsLine[i].endsWith('<') && pairFoundFlag === 0) {
+		replacement = patternsLine[i].length === 1? '' : patternsLine[i].substr(0, patternsLine[i].length-1);
+		pairFoundFlag = 1;
+	    }
+
+	    if(pairFoundFlag === 1) {
+		str = str.replace(new RegExp(pattern, 'g'), replacement);
+		pairFoundFlag = -1;
+	    }
+	}
+
+//	str = str.replace(/\\[\S]*? \+ /g, '');
+//	str = str.replace(/\\[\S]*?$/g, '');
+//	str = str.replace(/\\[\S]*? /g, '');
 	return str;
     },
 
-    escapeRegExp: function(str) {
-	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-    }
+    patterns: ""
 };
 
+module.exports = toJsonConverter;

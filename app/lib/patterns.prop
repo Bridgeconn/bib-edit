@@ -1,0 +1,19 @@
+# '#' mean a comment line and blank lines are ignored.
+# Regex search and replace is done in the order specified below. Remember order is important!
+
+# Expected format is:
+# >pattern
+# replacement<
+# with no spaces, unless intended and both the pattern and replacement values in newlines. Every line starting with > should be followed by a line containing at least a single <.
+
+# Pattern 1
+>\\[\S]*? 
+<
+
+ Pattern 2
+>\\[\S]*?$
+)<
+
+# Pattern 3
+#>\\[\S]*?
+#<
