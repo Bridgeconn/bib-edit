@@ -56,8 +56,8 @@ module.exports = {
 	});
 
 	lineReader.on('close', function(line) {
-	    console.log(book);
-/*	    require('fs').writeFileSync('./output.json', JSON.stringify(book), {
+/*	    console.log(book);
+	    require('fs').writeFileSync('./output.json', JSON.stringify(book), {
 		encoding: 'utf8',
 		flag: 'a'
 	    });
