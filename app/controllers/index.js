@@ -78,6 +78,7 @@ function createVerseInputs(verses, chunks, chapter) {
 		divContainer.appendChild(spanVerseNum);
 		divContainer.appendChild(spanVerse);
 		document.getElementById('input-verses').appendChild(divContainer);
+		$(".diff-count-target").html("");
 	}
 	highlightRef();
 }
@@ -110,6 +111,8 @@ session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, 
 
 function getDiffText(refId1, refId2, position, callback) {
 	refDb = new PouchDB('./db/referenceDB');
+	var t_ins = 0;
+	var t_del = 0;
 	var id1 = refId1 + '_' + bookCodeList[parseInt(book,10)-1],
 	id2 = refId2 + '_' + bookCodeList[parseInt(book,10)-1],
 	i,
@@ -139,15 +142,50 @@ function getDiffText(refId1, refId2, position, callback) {
 			var refString = "";
 			for (var i=1; i<=ref1.length; i++) {
 				var d = dmp_diff.diff_main(ref1[i-1].verse, ref2[i-1].verse);
+				var verse_diff = d;
+				var diff_count = getDifferenceCount(d);
+				t_ins+= diff_count["ins"]
+				t_del+= diff_count["del"]
 				var ds = dmp_diff.diff_prettyHtml(d);
 				refString+= '<div data-verse="r' + (i) +'"><span class="verse-num">' + (i) + '</span><span>' + ds + '</span></div>';
 			}
-			callback(null, refString, position);
+			callback(null, refString, position, t_ins, t_del);
+
 		})
 	}).catch(function (err) {
 		callback(err, null, null);
 	});
 }
+/* ===============================================
+//  insertion and deletion count in difference text by passing verse
+==================================================*/
+
+function getDifferenceCount(verse_diff){
+  var insertions = 0;
+  var deletions = 0;
+	for (var x = 0; x < verse_diff.length; x++) {
+    var op = verse_diff[x][0];
+    var data = verse_diff[x][1];
+    switch (op) {
+      case DiffMatchPatch.DIFF_INSERT:
+        insertions += data.length;
+        break;
+      case DiffMatchPatch.DIFF_DELETE:
+        deletions += data.length;
+        break;
+      case DiffMatchPatch.DIFF_EQUAL:
+        insertions = 0;
+        deletions = 0;
+        break;
+    }
+	}
+	return {ins: insertions, del: deletions}
+}
+
+/* ===============================================
+//  End insertion and deletion count in difference text
+==================================================*/
+
 
 function setDiffReferenceText() {
 	/*	==================================================
@@ -166,7 +204,7 @@ function setDiffReferenceText() {
 	}).catch(function (err) {
 		console.log(err);
 	});
-	/*	==================================================
+	/*==================================================
 		========== save document after edit ==============
 		==================================================
 	*/
@@ -174,11 +212,14 @@ function setDiffReferenceText() {
 	for(j=0; j<$('.ref-drop-down :selected').length; j++){ 
 		$("#section-"+j).find('div[type="ref"]').children().removeAttr("style");
 		if(j+1 < $('.ref-drop-down :selected').length){
-			getDiffText($($('.ref-drop-down :selected')[j]).val(), $($('.ref-drop-down :selected')[j+1]).val(), j+1, function(err, refContent, pos){
+			getDiffText($($('.ref-drop-down :selected')[j]).val(), $($('.ref-drop-down :selected')[j+1]).val(), j+1, function(err, refContent, pos, t_ins, t_del){
 				if(err){
 					console.log(err);
 				}else {
-					$("#section-"+pos).find('div[type="ref"]').html(refContent);	
+					$("#section-"+pos).find('div[type="ref"]').html(refContent);
+					$("#section-"+pos).find('.diff-count').html("<span>(+): "+t_ins+"</span><span> (-): "+t_del+"</span></span>");
+					t_ins =  0;
+					t_del = 0;
 				}
 			});	
 		}
@@ -233,6 +274,7 @@ function setReferenceTextBack(){
 					console.log(err);
 				}else {
 					$("#section-"+i).find('div[type="ref"]').html(refContent);
+					$("#section-"+i).find('.diff-count').html("");
 				}
 			});
 	});
@@ -260,6 +302,8 @@ function setReferenceTextBack(){
 }
 
 function createVerseDiffInputs(verses, chunks, chapter, book_original_verses){
+	var t_ins = 0;
+	var t_del = 0;
 	document.getElementById('input-verses').innerHTML = "";
 	var i, chunkIndex = 0, chunkVerseStart, chunkVerseEnd;
 	for(i=0; i<chunks.length; i++) {
@@ -287,11 +331,12 @@ function createVerseDiffInputs(verses, chunks, chapter, book_original_verses){
 
 		var chunk = chunkVerseStart + '-' + chunkVerseEnd;
 		spanVerse = "<span chunk-group="+chunk+" id=v"+i+">";
-		//$(spanVerse).attr("chunk-group", chunk);
-		//spanVerse.contentEditable = true;
-		//spanVerse.id = "v"+i;
 		var d = dmp_diff.diff_main(book_original_verses[i-1].verse, verses[i-1].verse);
+		var verse_diff = d;
 		var ds = dmp_diff.diff_prettyHtml(d);
+		var diff_count = getDifferenceCount(d);
+		t_ins+= diff_count["ins"]
+		t_del+= diff_count["del"]
 		spanVerse+= ds;
 		spanVerse+='</span>'
 		spanVerseNum += '<span class="verse-num">'+i+'</span>'//appendChild(document.createTextNode(i));
@@ -299,7 +344,9 @@ function createVerseDiffInputs(verses, chunks, chapter, book_original_verses){
 		divContainer += spanVerse;
 		divContainer += '</div>'
 		$("#input-verses").append(divContainer);
+		
 	}
+	$(".diff-count-target").html("<span>(+): "+t_ins+"</span><span> (-): "+t_del+"</span></span>");
 	highlightRef();
 }
 
@@ -347,6 +394,7 @@ function createRefSelections() {
 							return;
 						}
 						$('div[type="ref"]').html(refContent);
+
 					});
 				}
 				/*==================== old drop down commented =============================*/
@@ -891,10 +939,6 @@ $('.check-diff').on('switchChange.bootstrapSwitch', function (event, state) {
 		$(".ref-drop-down").removeAttr("disabled", "true");
 	}
 });
-
-function autoSave(){
-	
-}
 
 // call after stopped typing
 function debounce(func, wait, immediate) {
