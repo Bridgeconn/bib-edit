@@ -41,9 +41,9 @@
 >\\[+]?add (.*?)\\[+]?add\*
 ($1)<
 
-# Matches all other markers.
->\\.+? 
-<
+# Matches all other pair markers.
+>\\.+? (.*?)\\.+?\*
+$1<
 
 # Matches all marker ends at end-of-line.
 >\\.+?$
