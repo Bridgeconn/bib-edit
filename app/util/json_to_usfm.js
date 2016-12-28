@@ -1,6 +1,8 @@
 module.exports = {
     toUsfm: function (book, stage, targetLangDoc) {
-	const PouchDB = require('pouchdb');
+	const PouchDB = require('pouchdb-core')
+	      .plugin(require('pouchdb-adapter-leveldb'));
+//	const PouchDB = require('pouchdb');
 	var db = new PouchDB(`${__dirname}/../../db/targetDB`),
 	    fs = require("fs"),
 	    path = require("path"),

@@ -77,8 +77,10 @@ module.exports = {
 	      encoding: 'utf8',
 	      flag: 'a'
 	      });*/
-	    
-	    const PouchDB = require('pouchdb');
+
+	    const PouchDB = require('pouchdb-core')
+		  .plugin(require('pouchdb-adapter-leveldb'));
+//	    const PouchDB = require('pouchdb');
 	    var db;
 	    if(options.targetDb === 'refs') {
 		db = new PouchDB(`${__dirname}/../../db/referenceDB`);
