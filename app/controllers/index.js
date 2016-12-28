@@ -142,7 +142,6 @@ function getDiffText(refId1, refId2, position, callback) {
 			var refString = "";
 			for (var i=1; i<=ref1.length; i++) {
 				var d = dmp_diff.diff_main(ref1[i-1].verse, ref2[i-1].verse);
-				var verse_diff = d;
 				var diff_count = getDifferenceCount(d);
 				t_ins+= diff_count["ins"]
 				t_del+= diff_count["del"]
