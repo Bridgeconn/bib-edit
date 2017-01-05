@@ -1,4 +1,3 @@
-
 const {dialog} = require('electron').remote;
 var bibUtil = require("../util/usfm_to_json.js"),
     fs = require("fs"),
@@ -60,12 +59,12 @@ document.getElementById('save-btn').addEventListener('click', function (e) {
 });
 
 document.getElementById('ref-import-btn').addEventListener('click', function (e) {
-	if (reference_setting() == false )
-		return;
+    if (reference_setting() == false )
+	return;
     //var refDb = new PouchDB(`${__dirname}/../../db/referenceDB`),
-	ref_id_value = document.getElementById('langCode').value.toLowerCase() + '_' + document.getElementById('ref-version').value.toLowerCase(),
-	ref_entry = {},
-    	files = fs.readdirSync(document.getElementById('ref-path').value);
+    ref_id_value = document.getElementById('langCode').value.toLowerCase() + '_' + document.getElementById('ref-version').value.toLowerCase(),
+    ref_entry = {},
+    files = fs.readdirSync(document.getElementById('ref-path').value);
     ref_entry.ref_id = ref_id_value;
     ref_entry.ref_name =  document.getElementById('ref-name').value;
     ref_entry.isDefault = false;
@@ -164,28 +163,28 @@ document.getElementById('ref-path').addEventListener('click', function (e) {
 
 // Validation check for reference settings
 function reference_setting(){
-  var name     = $("#ref-name").val(),
-  	 langCode = $("#langCode").val(),
-  	 version  = $("#ref-version").val(),
-  	 path     = $("#ref-path").val(),
-  	 isValid = true;
-  if(name == ""){
-    alert_message(".alert-danger", "Reference Bible name must not be blank");
-    isValid = false;
-  }else if(langCode === null || langCode === "") {
-    alert_message(".alert-danger", "Reference Bible language code must not be blank");
-     isValid = false;
-  }else if(version === null || version === ""){
-    alert_message(".alert-danger", "Reference Bible version must not be blank");
-    isValid = false;
-  }else if(path === null || path === ""){
-    alert_message(".alert-danger", "Reference Bible path must not be blank");
-    isValid = false;
-  }else{
-    isValid = true;
-    
-  }
-  return isValid;
+    var name     = $("#ref-name").val(),
+  	langCode = $("#langCode").val(),
+  	version  = $("#ref-version").val(),
+  	path     = $("#ref-path").val(),
+  	isValid = true;
+    if(name == ""){
+	alert_message(".alert-danger", "Reference Bible name must not be blank");
+	isValid = false;
+    }else if(langCode === null || langCode === "") {
+	alert_message(".alert-danger", "Reference Bible language code must not be blank");
+	isValid = false;
+    }else if(version === null || version === ""){
+	alert_message(".alert-danger", "Reference Bible version must not be blank");
+	isValid = false;
+    }else if(path === null || path === ""){
+	alert_message(".alert-danger", "Reference Bible path must not be blank");
+	isValid = false;
+    }else{
+	isValid = true;
+	
+    }
+    return isValid;
 } //validation reference settings
 
 // Validation check for target language settings
@@ -229,29 +228,29 @@ function alert_message(type,message){
 }
 
 function setReferenceSetting(){
-	//db = new PouchDB(`${__dirname/../../db/targetDB`);
-	db.get('targetBible').then(function (doc) {
-		$("#target-lang").val(doc.targetLang);
-  	 	$("#target-version").val(doc.targetVersion);
-  	 	$("#export-path").val(doc.targetPath);
-	}).catch(function (err) {
-		$("#target-lang").val("");
-  	 	$("#target-version").val("");
-  	 	$("#export-path").val("");
-	});	
+    //db = new PouchDB(`${__dirname/../../db/targetDB`);
+    db.get('targetBible').then(function (doc) {
+	$("#target-lang").val(doc.targetLang);
+  	$("#target-version").val(doc.targetVersion);
+  	$("#export-path").val(doc.targetPath);
+    }).catch(function (err) {
+	$("#target-lang").val("");
+  	$("#target-version").val("");
+  	$("#export-path").val("");
+    });	
 }
 //get reference setting
 $(function(){
-	setReferenceSetting();
-	buildIndex();
+    setReferenceSetting();
+    //	buildIndex();
 });
-function buildIndex(){
-	//referenceDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
-  refDb.search({
-		  fields: ['_id', 'names'],
-		  build: true
-		})
-}
+/*function buildIndex(){
+//referenceDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+refDb.search({
+fields: ['_id', 'names'],
+build: true
+})
+}*/
 function alertModal(heading, formContent) {
     $("#heading").html(heading);
     $("#content").html(formContent);
@@ -260,71 +259,74 @@ function alertModal(heading, formContent) {
 }
 
 function matchCode(input) {
-	var matches = []
-	//referenceDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
-   return refDb.search({
-		  query: input,
-		  limit:10,
-		  fields: ['_id', 'names'],
-		  include_docs: true,
-		  stale: 'ok'
-		}).then(function(response){
-			var data = ""
-			if(response!=undefined && response.rows.length > 0){
-				$.each(response.rows, function(index, value){
-					doc = value.doc
-					if(doc){
-						matches.push({name: doc.names+" "+"("+(doc._id)+")", id: doc._id});
-					}
-				})
-				return matches;
-			}
-			else{
-				return [];
-			}
-		}).catch(function(err){
-			console.log(err)
-		})
-}
-function changeInput(val) {
-	var autoCompleteResult = matchCode(val)
-	autoCompleteResult.then(function(res){
-		var parent_ul = "<ul>";
-	  if(res){
-			$.each(res, function (index, value) {
-				// CREATE AND ADD SUB LIST ITEMS.
-				parent_ul += "<li><span class='code-name'>"+value['name']+"</span><input type='hidden' value="+"'"+value['id']+"'"+"class='code-id'/> </li>"
-	    });
-			parent_ul+="</ul>"
-			$("#divResult").html(parent_ul).show();
-			$("#divResult li").on("click",function(e){
-				var $clicked = $(this);
-				codeName = $clicked.children().select(".code-name").text();
-				codeId = 	$clicked.find(".code-id");
-				$('#ref-lang-code').val(codeName);
-				$("#langCode").val(codeId.val());
-			});
-	  }
-	});
-	$(document).on("click", function(e) {
-		var $clicked = $(e.target);
-		if (! $clicked.hasClass("search")){
-			$("#divResult").fadeOut();
+    var matches = []
+    console.log(refDb);
+    //referenceDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+    return refDb.search({
+	query: input,
+	limit:10,
+	fields: ['_id', 'names'],
+	include_docs: true,
+	stale: 'ok'
+    }).then(function(response){
+	var data = ""
+	if(response!=undefined && response.rows.length > 0){
+	    $.each(response.rows, function(index, value){
+		doc = value.doc
+		if(doc){
+		    matches.push({name: doc.names+" "+"("+(doc._id)+")", id: doc._id});
 		}
-	});
-	$('#inputSearch').click(function(){
-		$("#divResult").fadeIn();
-	});
+	    })
+		return matches;
+	}
+	else{
+	    return [];
+	}
+    }).catch(function(err){
+	console.log(err)
+    })
+	}
+function changeInput(val) {
+    console.log('in here');
+    console.log(refDb);
+    var autoCompleteResult = matchCode(val)
+    autoCompleteResult.then(function(res){
+	var parent_ul = "<ul>";
+	if(res){
+	    $.each(res, function (index, value) {
+		// CREATE AND ADD SUB LIST ITEMS.
+		parent_ul += "<li><span class='code-name'>"+value['name']+"</span><input type='hidden' value="+"'"+value['id']+"'"+"class='code-id'/> </li>"
+	    });
+	    parent_ul+="</ul>"
+	    $("#divResult").html(parent_ul).show();
+	    $("#divResult li").on("click",function(e){
+		var $clicked = $(this);
+		codeName = $clicked.children().select(".code-name").text();
+		codeId = 	$clicked.find(".code-id");
+		$('#ref-lang-code').val(codeName);
+		$("#langCode").val(codeId.val());
+	    });
+	}
+    });
+    $(document).on("click", function(e) {
+	var $clicked = $(e.target);
+	if (! $clicked.hasClass("search")){
+	    $("#divResult").fadeOut();
+	}
+    });
+    $('#inputSearch').click(function(){
+	$("#divResult").fadeIn();
+    });
 }
 $("#ref-lang-code").keyup(function(){
-	changeInput($(this).val())
+    changeInput($(this).val())
 });
 
 $('#ref-lang-code').on('blur', function () {
-		if ($(this).val().length === 2 || $(this).val().length === 1) {  //check for no. of characters entered
-			$(this).val('');	// clear the textbox
+    if ($(this).val().length === 2 || $(this).val().length === 1) {  //check for no. of characters entered
+	$(this).val('');	// clear the textbox
     }
     if ($("#divResult").text()==="") {
-			$("#ref-lang-code").val("");
+	$("#ref-lang-code").val("");
     }
 });
