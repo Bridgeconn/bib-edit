@@ -759,12 +759,13 @@ function exportUsfm(){
   	if(doc){
   		session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, cookie) => {
   			book = {};
-  			var db = new PouchDB(`${__dirname}/../../db/targetDB`);
+  			//var db = new PouchDB(`${__dirname}/../../db/targetDB`);
   			db.get('targetBible').then(function (doc) {
   				book.bookNumber = cookie[0].value;
   				book.bookName = constants.booksList[parseInt(book.bookNumber, 10)-1];
   				book.bookCode = constants.bookCodeList[parseInt(book.bookNumber, 10)-1];
   				book.outputPath = doc.targetPath;
+  				db.close();
   				filepath = bibUtil.toUsfm(book, $("#stageText").val(), doc);
   				return filepath;
   			}).then(function(filepath){
