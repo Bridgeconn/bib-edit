@@ -239,18 +239,20 @@ function setReferenceSetting(){
   	$("#export-path").val("");
     });	
 }
+
 //get reference setting
 $(function(){
     setReferenceSetting();
-    //	buildIndex();
+    buildIndex();
 });
-/*function buildIndex(){
-//referenceDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
-refDb.search({
-fields: ['_id', 'names'],
-build: true
-})
-}*/
+function buildIndex() {
+    //referenceDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+    refDb.search({
+	fields: ['_id', 'names'],
+	build: true
+    })
+}
+
 function alertModal(heading, formContent) {
     $("#heading").html(heading);
     $("#content").html(formContent);
@@ -260,7 +262,6 @@ function alertModal(heading, formContent) {
 
 function matchCode(input) {
     var matches = []
-    console.log(refDb);
     //referenceDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
     return refDb.search({
 	query: input,
@@ -287,27 +288,25 @@ function matchCode(input) {
     })
 	}
 function changeInput(val) {
-    console.log('in here');
-    console.log(refDb);
-    var autoCompleteResult = matchCode(val)
-    autoCompleteResult.then(function(res){
-	var parent_ul = "<ul>";
-	if(res){
-	    $.each(res, function (index, value) {
-		// CREATE AND ADD SUB LIST ITEMS.
-		parent_ul += "<li><span class='code-name'>"+value['name']+"</span><input type='hidden' value="+"'"+value['id']+"'"+"class='code-id'/> </li>"
-	    });
-	    parent_ul+="</ul>"
-	    $("#divResult").html(parent_ul).show();
-	    $("#divResult li").on("click",function(e){
-		var $clicked = $(this);
-		codeName = $clicked.children().select(".code-name").text();
-		codeId = 	$clicked.find(".code-id");
-		$('#ref-lang-code').val(codeName);
-		$("#langCode").val(codeId.val());
-	    });
-	}
-    });
+    var autoCompleteResult = matchCode(val);
+	autoCompleteResult.then(function(res) {
+	    var parent_ul = "<ul>";
+	    if(res){
+		$.each(res, function (index, value) {
+		    // CREATE AND ADD SUB LIST ITEMS.
+		    parent_ul += "<li><span class='code-name'>"+value['name']+"</span><input type='hidden' value="+"'"+value['id']+"'"+"class='code-id'/> </li>"
+		});
+		parent_ul+="</ul>"
+		$("#divResult").html(parent_ul).show();
+		$("#divResult li").on("click",function(e){
+		    var $clicked = $(this);
+		    codeName = $clicked.children().select(".code-name").text();
+		    codeId = 	$clicked.find(".code-id");
+		    $('#ref-lang-code').val(codeName);
+		    $("#langCode").val(codeId.val());
+		});
+	    }
+	});
     $(document).on("click", function(e) {
 	var $clicked = $(e.target);
 	if (! $clicked.hasClass("search")){
@@ -319,7 +318,7 @@ function changeInput(val) {
     });
 }
 $("#ref-lang-code").keyup(function(){
-    changeInput($(this).val())
+    changeInput($(this).val());
 });
 
 $('#ref-lang-code').on('blur', function () {
