@@ -6,8 +6,8 @@ var bibUtil = require("../util/json_to_usfm.js"),
 DiffMatchPatch = require('diff-match-patch'),
 dmp_diff = new DiffMatchPatch();
 
-var db = new PouchDB(`${__dirname}/../../db/targetDB`),
-refDb = new PouchDB(`${__dirname}/../../db/referenceDB`),
+var db = require(`${__dirname}/../util/data-provider`).targetDb(),
+refDb = require(`${__dirname}/../util/data-provider`).referenceDb(),
 book,
 chapter,
 currentBook,
@@ -24,7 +24,7 @@ allBookStart = 1,
 allBookEnd = 66;
 
 document.getElementById("save-btn").addEventListener("click", function (e) {
-	db = new PouchDB(`${__dirname}/../../db/targetDB`);
+	//db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	var verses = currentBook.chapters[parseInt(chapter,10)-1].verses;
 	verses.forEach(function (verse, index) {
 		var vId = 'v'+(index+1);
@@ -34,11 +34,11 @@ document.getElementById("save-btn").addEventListener("click", function (e) {
 	db.get(currentBook._id).then(function (doc) {
 		doc.chapters[parseInt(chapter,10)-1].verses = verses;
 		db.put(doc).then(function (response) {
-			db.close();
+			//db.close();
 			alertModal("Save Message!!", "Edited Content saved successfully!!");
 		}).catch(function (err) {
 			console.log(err);
-			db.close();
+			//db.close();
 		});
 	}).catch(function (err) {
 		console.log('Error: While retrieving document. ' + err);
@@ -112,7 +112,7 @@ session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, 
 });
 
 function getDiffText(refId1, refId2, position, callback) {
-	refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+	//refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
 	var t_ins = 0;
 	var t_del = 0;
 	var id1 = refId1 + '_' + bookCodeList[parseInt(book,10)-1],
@@ -193,8 +193,8 @@ function setDiffReferenceText() {
 		========== save document after edit ==============
 		==================================================
 	*/
-	refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
-	db = new PouchDB(`${__dirname}/../../db/targetDB`);
+	//refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+	//db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	var verses = currentBook.chapters[parseInt(chapter,10)-1].verses;
 	verses.forEach(function (verse, index) {
 		var vId = 'v'+(index+1);
@@ -266,8 +266,8 @@ function setDiffReferenceText() {
 }
 
 function setReferenceTextBack(){
-	refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
-	db = new PouchDB(`${__dirname}/../../db/targetDB`);
+	//refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+	//db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	var j=0;
 	$('.ref-drop-down :selected').each(function(i, selected){
 			getReferenceText($(selected).val(), function(err, refContent){
@@ -355,7 +355,7 @@ function createVerseDiffInputs(verses, chunks, chapter, book_original_verses){
 var bookCodeList = constants.bookCodeList;
 
 function getReferenceText(refId, callback) {
-	refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+	//refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
 	refId = (refId === 0 ? document.getElementById('refs-select').value : refId);
 	var id = refId + '_' + bookCodeList[parseInt(book,10)-1],
 	i;
@@ -600,7 +600,7 @@ function createChaptersList(chaptersLimit) {
 
 function setBookName(bookId){
 	chapter = '1';
-	var db = new PouchDB(`${__dirname}/../../db/targetDB`);
+	//var db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	db.get(bookId.substring(1).toString()).then(function (doc) {
 		book = bookId.substring(1).toString();
   	// document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" href="javascript:getBookList();" id="book-chapter-btn">'+doc.book_name+'</a><span id="chapterBtnSpan"><a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList('+"'"+bookId.substring(1).toString()+"'"+')" >1</span></a>'
@@ -620,12 +620,12 @@ function setBookName(bookId){
 	// $("#chapterBtn").click();
 	//location.reload();
 	createChaptersList(doc.chapters.length);
-	db.close();
+	//db.close();
 	closeModal($("#books"));
 }).catch(function (err) {
 	closeModal($("#books"));
 	console.log('Error: While retrieving document. ' + err);
-	db.close();
+	//db.close();
 });
 
 }
@@ -637,8 +637,8 @@ function setChapter(chapter){
 		if(cookie.length > 0) {
 			book = cookie[0].value;
 		}
-		var db = new PouchDB(`${__dirname}/../../db/targetDB`);
-		refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+		//var db = new PouchDB(`${__dirname}/../../db/targetDB`);
+		//refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
 		db.get(book).then(function (doc) {
 			refDb.get('refChunks').then(function (chunkDoc) {
 				//console.log(doc.chapters[parseInt(chapter,10)-1].verses.length);
@@ -653,11 +653,11 @@ function setChapter(chapter){
 			setChapterCookie(chapter);
 			closeModal($("#chapters"));
 	//location.reload();
-	db.close();
+	//db.close();
 }).catch(function (err) {
 	closeModal($("#chapters"));
 	console.log('Error: While retrieving document. ' + err);
-	db.close();
+	//db.close();
 });
 
 });
@@ -687,17 +687,17 @@ function onBookSelect(bookId) {
  	if (error)
  		console.error(error);
  });
- var db = new PouchDB(`${__dirname}/../../db/targetDB`);
+ //var db = new PouchDB(`${__dirname}/../../db/targetDB`);
  db.get(bookId.substring(1).toString()).then(function (doc) {
  	chaptersPane = document.getElementById("chapters-pane");
  	while (chaptersPane.lastChild) {
  		chaptersPane.removeChild(chaptersPane.lastChild);
  	}
  	createChaptersList(doc.chapters.length);
- 	db.close();
+ 	//db.close();
  }).catch(function (err) {
  	console.log('Error: While retrieving document. ' + err);
- 	db.close();
+ 	//db.close();
  });
 }
 function getBookList(){
@@ -707,14 +707,14 @@ function getBookList(){
 
 /************ get book chapter list in popup*************/
 function getBookChapterList(bookId){
-	var db = new PouchDB(`${__dirname}/../../db/targetDB`);
+	//var db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	db.get(bookId).then(function (doc) {
 		createChaptersList(doc.chapters.length)
   	//document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" href="javascript:getBookList();" id="book-chapter-btn">'+doc.book_name+'</a><a class="btn btn-default" href="#" >1</a>'
-  	db.close();
+  	//db.close();
   }).catch(function (err) {
   	console.log('Error: While retrieving document. ' + err);
-  	db.close();
+  	//db.close();
   });
 
 }/************** end book chapter list **************************************/
@@ -725,10 +725,10 @@ function closeModal(modal){
 
 //validation for export
 document.getElementById('export-usfm').addEventListener('click', function (e) {
-	targetDB = new PouchDB(`${__dirname}/../../db/targetDB`);
-	referenceDB = new PouchDB(`${__dirname}/../../db/referenceDB`);
-	targetDB.get('targetBible').then(function(doc){
-		referenceDB.get('refs').then(function(doc){
+	//targetDB = new PouchDB(`${__dirname}/../../db/targetDB`);
+	//referenceDB = new PouchDB(`${__dirname}/../../db/referenceDB`);
+	db.get('targetBible').then(function(doc){
+		refDb.get('refs').then(function(doc){
 			exportChoice();
 		}).catch(function (err) {
   	    // handle any errors
@@ -753,19 +753,24 @@ function exportChoice(){
 
 function exportUsfm(){
 
-	db = new PouchDB(`${__dirname}/../../db/targetDB`);
+	//db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	// Reading the database object
 	db.get('targetBible').then(function (doc) {
   	if(doc){
+  		console.log(db);
+  		console.log(doc);
   		session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, cookie) => {
   			book = {};
+  			console.log(db);
   			//var db = new PouchDB(`${__dirname}/../../db/targetDB`);
   			db.get('targetBible').then(function (doc) {
+  				console.log('in here');
+  				console.log(doc);
   				book.bookNumber = cookie[0].value;
   				book.bookName = constants.booksList[parseInt(book.bookNumber, 10)-1];
   				book.bookCode = constants.bookCodeList[parseInt(book.bookNumber, 10)-1];
   				book.outputPath = doc.targetPath;
-  				db.close();
+  				//db.close();
   				filepath = bibUtil.toUsfm(book, $("#stageText").val(), doc);
   				return filepath;
   			}).then(function(filepath){
@@ -825,30 +830,30 @@ function getBooksByLimit(start, booksLength){
 }
 
 function saveReferenceLayout(layout){
-	var refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+	//var refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
 	refDb.get('targetReferenceLayout').then(function (doc) {
 		refDb.put({
 			_id: 'targetReferenceLayout',
 			layout: layout,
 			_rev: doc._rev
 		}).then(function (e) {
-			refDb.close();
+			//refDb.close();
 		});
 	}).catch(function (err) {
 		refDb.put({
 			_id: 'targetReferenceLayout',
 			layout: layout
 		}).then(function (e) {
-			refDb.close();
+			//refDb.close();
 		}).catch(function (err) {
-			refDb.close();
+			//refDb.close();
 		});
 	});
 }
 
 $(function(){
 	$('[type="checkbox"]').bootstrapSwitch();
-	refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+	//refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
 	refDb.get('targetReferenceLayout').then(function (doc) {
 		setMultiwindowReference(doc.layout);
 	}).catch(function (err) {
@@ -893,7 +898,7 @@ $(function(){
 
 function isSameLanguage(){
 	var verseLangCode = ""
-	var db = new PouchDB(`${__dirname}/../../db/targetDB`);
+	//var db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	var check_value = false;
 	return db.get('targetBible').then(function (doc) {
 		verseLangCode = doc.targetLang;
@@ -962,7 +967,7 @@ function debounce(func, wait, immediate) {
 // This will apply the debounce effect on the keyup event
 // And it only fires 3000ms after the user stopped typing
 $('#input-verses').on('keyup', debounce(function () {
-		db = new PouchDB(`${__dirname}/../../db/targetDB`);
+		//db = new PouchDB(`${__dirname}/../../db/targetDB`);
 		var verses = currentBook.chapters[parseInt(chapter,10)-1].verses;
 		verses.forEach(function (verse, index) {
 			var vId = 'v'+(index+1);
@@ -975,7 +980,7 @@ $('#input-verses').on('keyup', debounce(function () {
 				var dateTime = new Date().toLocaleString();
 				$("#saved-time").html("Last saved target at: "+ dateTime);
 				setAutoSaveTime(dateTime)
-				db.close();
+				//db.close();
 				clearInterval(intervalId);
 			}).catch(function(err){
 				db.put(currentBook).then(function(response){
@@ -984,10 +989,10 @@ $('#input-verses').on('keyup', debounce(function () {
 					setAutoSaveTime(dateTime);
 				}).catch(function(err){
 					clearInterval(intervalId);
-					db.close();
+					//db.close();
 				})
 				clearInterval(intervalId);
-				db.close();
+				//db.close();
 			})
 		})
 }, 3000));

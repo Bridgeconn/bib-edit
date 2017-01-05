@@ -81,25 +81,29 @@ module.exports = {
 	    const PouchDB = require('pouchdb-core')
 		  .plugin(require('pouchdb-adapter-leveldb'));
 //	    const PouchDB = require('pouchdb');
-	    var db;
+	    //var db;
 	    if(options.targetDb === 'refs') {
-		db = new PouchDB(`${__dirname}/../../db/referenceDB`);
-		db.get(book._id).then(function (doc) {
+	    	if(typeof refDb === undefined) {
+				var refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+			}
+		refDb.get(book._id).then(function (doc) {
 		    book._rev = doc._rev;
-		    db.put(book).then(function (doc) {
+		    refDb.put(book).then(function (doc) {
 			console.log("Successfully loaded and updated refs.");
 		    }).catch(function (err) {
 			console.log("Error: While updating refs. " + err);
 		    });
 		}).catch(function (err) {
-		    db.put(book).then(function (doc) {
+		    refDb.put(book).then(function (doc) {
 			console.log("Successfully loaded new refs.");
 		    }).catch(function (err) {
 			console.log("Error: While loading new refs. " + err);
 		    });
 		});
 	    } else if(options.targetDb === 'target') {
-		db = new PouchDB(`${__dirname}/../../db/targetDB`);
+	    	if(typeof db === undefined) {
+	    		var db = new PouchDB(`${__dirname}/../../db/targetDB`);
+	    	}
 		const booksCodes = require(`${__dirname}/constants.js`).bookCodeList;
 		var bookId = book._id.split('_');
 		bookId = bookId[bookId.length-1].toUpperCase();
