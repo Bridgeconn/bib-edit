@@ -30,7 +30,6 @@ document.getElementById('target-import-path').addEventListener('click', function
 document.getElementById('save-btn').addEventListener('click', function (e) {
     if (target_setting() == false)
 	return;
-    //    db = new PouchDB('./db/targetDB');
     db.get('targetBible').then(function (doc) {
 	db.put({
 	    _id: 'targetBible',
@@ -39,7 +38,6 @@ document.getElementById('save-btn').addEventListener('click', function (e) {
 	    targetVersion: document.getElementById('target-version').value,
 	    targetPath: document.getElementById('export-path').value
 	}).then(function (e) {
-	    //db.close();
 	    alertModal("Language Setting", "Language setting saved successfully!!");
 	});
     }).catch(function (err) {
@@ -49,10 +47,8 @@ document.getElementById('save-btn').addEventListener('click', function (e) {
 	    targetVersion: document.getElementById('target-version').value,
 	    targetPath: document.getElementById('export-path').value
 	}).then(function (e) {
-	    //db.close();
 	    alertModal("Language Setting", "Language setting saved successfully!!");
 	}).catch(function (err) {
-	    //db.close();
 	    alert_message(".alert-danger", "Something went wrong!! Please try again");
 	});
     });
@@ -228,7 +224,6 @@ function alert_message(type,message){
 }
 
 function setReferenceSetting(){
-    //db = new PouchDB(`${__dirname/../../db/targetDB`);
     db.get('targetBible').then(function (doc) {
 	$("#target-lang").val(doc.targetLang);
   	$("#target-version").val(doc.targetVersion);
@@ -246,7 +241,6 @@ $(function(){
     buildIndex();
 });
 function buildIndex() {
-    //referenceDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
     refDb.search({
 	fields: ['_id', 'names'],
 	build: true
@@ -262,7 +256,6 @@ function alertModal(heading, formContent) {
 
 function matchCode(input) {
     var matches = []
-    //referenceDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
     return refDb.search({
 	query: input,
 	limit:10,
