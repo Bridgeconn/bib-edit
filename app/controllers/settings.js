@@ -245,8 +245,15 @@ function setReferenceSetting(){
 //get reference setting
 $(function(){
 	setReferenceSetting();
+	buildIndex();
 });
-
+function buildIndex(){
+	referenceDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+  referenceDb.search({
+		  fields: ['_id', 'names'],
+		  build: true
+		})
+}
 function alertModal(heading, formContent) {
   $("#heading").html(heading);
   $("#content").html(formContent);
@@ -261,7 +268,8 @@ function matchCode(input) {
 		  query: input,
 		  limit:10,
 		  fields: ['_id', 'names'],
-		  include_docs: true
+		  include_docs: true,
+		  stale: 'ok'
 		}).then(function(response){
 			var data = ""
 			if(response!=undefined && response.rows.length > 0){
