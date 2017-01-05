@@ -57,7 +57,6 @@ document.getElementById('save-btn').addEventListener('click', function (e) {
 document.getElementById('ref-import-btn').addEventListener('click', function (e) {
     if (reference_setting() == false )
 	return;
-    //var refDb = new PouchDB(`${__dirname}/../../db/referenceDB`),
     ref_id_value = document.getElementById('langCode').value.toLowerCase() + '_' + document.getElementById('ref-version').value.toLowerCase(),
     ref_entry = {},
     files = fs.readdirSync(document.getElementById('ref-path').value);
@@ -133,7 +132,7 @@ function saveJsonToDB(files) {
 	    //console.log(filePath + ' ' + fs.statSync(filePath).isFile());
 	    if(fs.statSync(filePath).isFile()) {
 		var options = {
-		    lang: document.getElementById('ref-lang-code').value.toLowerCase(),
+		    lang: document.getElementById('langCode').value.toLowerCase(),
 		    version: document.getElementById('ref-version').value.toLowerCase(),
 		    usfmFile: filePath,
 		    targetDb: 'refs'

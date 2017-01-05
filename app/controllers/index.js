@@ -351,6 +351,7 @@ function getReferenceText(refId, callback) {
 	    chapter = cookie[0].value;
 	}
     });
+    console.log(id);
     refDb.get(id).then(function (doc) {
 	for(i=0; i<doc.chapters.length; i++) {
 	    if(doc.chapters[i].chapter == parseInt(chapter, 10)) {
@@ -406,7 +407,7 @@ function createRefSelections() {
 		if(err) {
 		    $(".ref-drop-down").val($(".ref-drop-down option:first").val());
 		    getReferenceText($(".ref-drop-down option:first").val(), function(err, refContent){
-			if(err){
+			if(err) {
 			    console.log("The selected language on book for current chapter is not available!!");
 			}
 			$('div[type="ref"]').html(refContent);
@@ -428,9 +429,11 @@ function createRefSelections() {
 
 $('.ref-drop-down').change(function(event) {
     var selectedRefElement = $(this);
+    console.log($(this).val());
     getReferenceText($(this).val(), function(err, refContent) {
  	if(err) {
  	    selectedRefElement.val(selectedRefElement.next().val());
+	    console.log(err);
  	    alertModal("Language!!", "The selected language on book for current chapter is not available!!");
  	    return;
  	}else{

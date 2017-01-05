@@ -6,13 +6,16 @@ module.exports = {
     
     toJson: function(options) {
 	try {
-	    patterns = require('fs').readFileSync(`${__dirname}/patterns.prop`, 'utf8');
 	    var lineReader = require('readline').createInterface({
 		input: require('fs').createReadStream(options.usfmFile)
 	    });
-	    var book = {}, verse = [];
-	    var c = 0, v = 0, usfmBibleBook = false, validLineCount = 0;
-	    var id_prefix = options.lang + '_' + options.version + '_';
+	    var patterns = require('fs').readFileSync(`${__dirname}/patterns.prop`, 'utf8'),
+		book = {}, verse = [],
+		db = require(`${__dirname}/../util/data-provider`).targetDb(),
+		refDb = require(`${__dirname}/../util/data-provider`).referenceDb(),
+		c = 0, v = 0, usfmBibleBook = false, validLineCount = 0,
+		id_prefix = options.lang + '_' + options.version + '_';
+	    
 	    book.chapters = [];
 	} catch(err) {
 	    throw new Error('usfm parser error');
@@ -78,14 +81,9 @@ module.exports = {
 	      flag: 'a'
 	      });*/
 
-	    const PouchDB = require('pouchdb-core')
-		  .plugin(require('pouchdb-adapter-leveldb'));
-//	    const PouchDB = require('pouchdb');
-	    //var db;
+//	    const PouchDB = require('pouchdb-core')
+//		  .plugin(require('pouchdb-adapter-leveldb'));
 	    if(options.targetDb === 'refs') {
-	    	if(typeof refDb === undefined) {
-				var refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
-			}
 		refDb.get(book._id).then(function (doc) {
 		    book._rev = doc._rev;
 		    refDb.put(book).then(function (doc) {
@@ -94,6 +92,7 @@ module.exports = {
 			console.log("Error: While updating refs. " + err);
 		    });
 		}).catch(function (err) {
+		    console.log(book);
 		    refDb.put(book).then(function (doc) {
 			console.log("Successfully loaded new refs.");
 		    }).catch(function (err) {
@@ -101,9 +100,6 @@ module.exports = {
 		    });
 		});
 	    } else if(options.targetDb === 'target') {
-	    	if(typeof db === undefined) {
-	    		var db = new PouchDB(`${__dirname}/../../db/targetDB`);
-	    	}
 		const booksCodes = require(`${__dirname}/constants.js`).bookCodeList;
 		var bookId = book._id.split('_');
 		bookId = bookId[bookId.length-1].toUpperCase();
