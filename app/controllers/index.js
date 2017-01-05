@@ -6,8 +6,8 @@ var bibUtil = require("../util/json_to_usfm.js"),
 DiffMatchPatch = require('diff-match-patch'),
 dmp_diff = new DiffMatchPatch();
 
-var db = new PouchDB('./db/targetDB'),
-refDb = new PouchDB('./db/referenceDB'),
+var db = new PouchDB(`${__dirname}/../../db/targetDB`),
+refDb = new PouchDB(`${__dirname}/../../db/referenceDB`),
 book,
 chapter,
 currentBook,
@@ -23,8 +23,19 @@ ntBookEnd = 66,
 allBookStart = 1,
 allBookEnd = 66;
 
+var stringReplace = require('../util/string_replace.js')
+		replaceCount = 0,
+		allChapterReplaceCount = [],
+		replacedChapter = {},
+		replacedVerse = {},
+		allChapters = {},
+		chapter_hash = {},
+		verses_arr = [],
+		chapter_arr = [];
+
+
 document.getElementById("save-btn").addEventListener("click", function (e) {
-	db = new PouchDB('./db/targetDB');
+	db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	var verses = currentBook.chapters[parseInt(chapter,10)-1].verses;
 	verses.forEach(function (verse, index) {
 		var vId = 'v'+(index+1);
@@ -112,7 +123,7 @@ session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, 
 });
 
 function getDiffText(refId1, refId2, position, callback) {
-	refDb = new PouchDB('./db/referenceDB');
+	refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
 	var t_ins = 0;
 	var t_del = 0;
 	var id1 = refId1 + '_' + bookCodeList[parseInt(book,10)-1],
@@ -193,8 +204,8 @@ function setDiffReferenceText() {
 		========== save document after edit ==============
 		==================================================
 	*/
-	refDb = new PouchDB('./db/referenceDB');
-	db = new PouchDB('./db/targetDB');
+	refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+	db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	var verses = currentBook.chapters[parseInt(chapter,10)-1].verses;
 	verses.forEach(function (verse, index) {
 		var vId = 'v'+(index+1);
@@ -266,8 +277,8 @@ function setDiffReferenceText() {
 }
 
 function setReferenceTextBack(){
-	refDb = new PouchDB('./db/referenceDB');
-	db = new PouchDB('./db/targetDB');
+	refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+	db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	var j=0;
 	$('.ref-drop-down :selected').each(function(i, selected){
 			getReferenceText($(selected).val(), function(err, refContent){
@@ -333,7 +344,6 @@ function createVerseDiffInputs(verses, chunks, chapter, book_original_verses){
 		var chunk = chunkVerseStart + '-' + chunkVerseEnd;
 		spanVerse = "<span chunk-group="+chunk+" id=v"+i+">";
 		var d = dmp_diff.diff_main(book_original_verses[i-1].verse, verses[i-1].verse);
-		var verse_diff = d;
 		var ds = dmp_diff.diff_prettyHtml(d);
 		var diff_count = getDifferenceCount(d);
 		t_ins+= diff_count["ins"]
@@ -355,7 +365,7 @@ function createVerseDiffInputs(verses, chunks, chapter, book_original_verses){
 var bookCodeList = constants.bookCodeList;
 
 function getReferenceText(refId, callback) {
-	refDb = new PouchDB('./db/referenceDB');
+	refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
 	refId = (refId === 0 ? document.getElementById('refs-select').value : refId);
 	var id = refId + '_' + bookCodeList[parseInt(book,10)-1],
 	i;
@@ -600,7 +610,7 @@ function createChaptersList(chaptersLimit) {
 
 function setBookName(bookId){
 	chapter = '1';
-	var db = new PouchDB('./db/targetDB');
+	var db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	db.get(bookId.substring(1).toString()).then(function (doc) {
 		book = bookId.substring(1).toString();
   	// document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" href="javascript:getBookList();" id="book-chapter-btn">'+doc.book_name+'</a><span id="chapterBtnSpan"><a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList('+"'"+bookId.substring(1).toString()+"'"+')" >1</span></a>'
@@ -637,8 +647,8 @@ function setChapter(chapter){
 		if(cookie.length > 0) {
 			book = cookie[0].value;
 		}
-		var db = new PouchDB('./db/targetDB');
-		refDb = new PouchDB('./db/referenceDB');
+		var db = new PouchDB(`${__dirname}/../../db/targetDB`);
+		refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
 		db.get(book).then(function (doc) {
 			refDb.get('refChunks').then(function (chunkDoc) {
 				//console.log(doc.chapters[parseInt(chapter,10)-1].verses.length);
@@ -687,7 +697,7 @@ function onBookSelect(bookId) {
  	if (error)
  		console.error(error);
  });
- var db = new PouchDB('./db/targetDB');
+ var db = new PouchDB(`${__dirname}/../../db/targetDB`);
  db.get(bookId.substring(1).toString()).then(function (doc) {
  	chaptersPane = document.getElementById("chapters-pane");
  	while (chaptersPane.lastChild) {
@@ -707,7 +717,7 @@ function getBookList(){
 
 /************ get book chapter list in popup*************/
 function getBookChapterList(bookId){
-	var db = new PouchDB('./db/targetDB');
+	var db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	db.get(bookId).then(function (doc) {
 		createChaptersList(doc.chapters.length)
   	//document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" href="javascript:getBookList();" id="book-chapter-btn">'+doc.book_name+'</a><a class="btn btn-default" href="#" >1</a>'
@@ -725,8 +735,8 @@ function closeModal(modal){
 
 //validation for export
 document.getElementById('export-usfm').addEventListener('click', function (e) {
-	targetDB = new PouchDB('./db/targetDB');
-	referenceDB = new PouchDB('./db/referenceDB');
+	targetDB = new PouchDB(`${__dirname}/../../db/targetDB`);
+	referenceDB = new PouchDB(`${__dirname}/../../db/referenceDB`);
 	targetDB.get('targetBible').then(function(doc){
 		referenceDB.get('refs').then(function(doc){
 			exportChoice();
@@ -753,13 +763,13 @@ function exportChoice(){
 
 function exportUsfm(){
 
-	db = new PouchDB('./db/targetDB');
+	db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	// Reading the database object
 	db.get('targetBible').then(function (doc) {
   	if(doc){
   		session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, cookie) => {
   			book = {};
-  			var db = new PouchDB('./db/targetDB');
+  			var db = new PouchDB(`${__dirname}/../../db/targetDB`);
   			db.get('targetBible').then(function (doc) {
   				book.bookNumber = cookie[0].value;
   				book.bookName = constants.booksList[parseInt(book.bookNumber, 10)-1];
@@ -824,7 +834,7 @@ function getBooksByLimit(start, booksLength){
 }
 
 function saveReferenceLayout(layout){
-	var refDb = new PouchDB('./db/referenceDB');
+	var refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
 	refDb.get('targetReferenceLayout').then(function (doc) {
 		refDb.put({
 			_id: 'targetReferenceLayout',
@@ -847,7 +857,7 @@ function saveReferenceLayout(layout){
 
 $(function(){
 	$('[type="checkbox"]').bootstrapSwitch();
-	refDb = new PouchDB('./db/referenceDB');
+	refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
 	refDb.get('targetReferenceLayout').then(function (doc) {
 		setMultiwindowReference(doc.layout);
 	}).catch(function (err) {
@@ -892,8 +902,9 @@ $(function(){
 
 function isSameLanguage(){
 	var verseLangCode = ""
-	var db = new PouchDB('./db/targetDB');
+	var db = new PouchDB(`${__dirname}/../../db/targetDB`);
 	var check_value = false;
+
 	return db.get('targetBible').then(function (doc) {
 		verseLangCode = doc.targetLang;
 		languagedropDown = $(".ref-drop-down").length
@@ -916,7 +927,7 @@ function isSameLanguage(){
 	}).then(function(response){
 		return response;
 	}).catch(function (err){
-		console.log(err);
+		return false;
 	});	
 }
 
@@ -961,7 +972,7 @@ function debounce(func, wait, immediate) {
 // This will apply the debounce effect on the keyup event
 // And it only fires 3000ms after the user stopped typing
 $('#input-verses').on('keyup', debounce(function () {
-		db = new PouchDB('./db/targetDB');
+		db = new PouchDB(`${__dirname}/../../db/targetDB`);
 		var verses = currentBook.chapters[parseInt(chapter,10)-1].verses;
 		verses.forEach(function (verse, index) {
 			var vId = 'v'+(index+1);
@@ -991,6 +1002,8 @@ $('#input-verses').on('keyup', debounce(function () {
 		})
 }, 3000));
 
+//======call above function after stopped typing in the target pane end here ==============
+
 $(".font-button").bind("click", function () {
     var size = parseInt($('.col-ref').css("font-size"));
     if ($(this).hasClass("plus")) {
@@ -1016,6 +1029,197 @@ session.defaultSession.cookies.get({url: 'http://autosave.autographa.com'}, (err
 		$("#saved-time").html("Last saved target at: "+ cookie[0].value);
 	}
 });
+
+/*=============================================================
+	================= find and replace call here ================
+	=============================================================
+*/
+function findAndReplaceText(searchVal, replaceVal, option) {
+	refDb = new PouchDB(`${__dirname}/../../db/referenceDB`);
+	db = new PouchDB(`${__dirname}/../../db/targetDB`);
+	session.defaultSession.cookies.get({url: 'http://book.autographa.com'}, (error, cookie) => {
+		book = '1';
+		if(cookie.length > 0) {
+			book = cookie[0].value;
+		}
+	});
+	session.defaultSession.cookies.get({url: 'http://chapter.autographa.com'}, (error, cookie) => {
+		if(cookie.length > 0) {
+			chapter = cookie[0].value;
+		}
+	});
+	db.get(book).then(function (doc) {
+		refDb.get('refChunks').then(function (chunkDoc) {
+			currentBook = doc;
+			if(option == "current"){
+				var totalReplacedWord = findReplaceSearchInputs(doc.chapters[parseInt(chapter,10)-1].verses, chunkDoc.chunks[parseInt(book,10)-1], chapter-1, searchVal, replaceVal, option);
+				allChapterReplaceCount.push(totalReplacedWord);
+				var replacedCount = allChapterReplaceCount.reduce(function (a, b) {return a + b;}, 0);
+				$("#searchTextModal").modal('toggle');
+				$("#replace-message").html("Book:"+currentBook.book_name+"<br>"+"Total word(s) replaced: "+replacedCount);
+				$("#replaced-text-change").modal('toggle');
+				replaceCount = 0;
+				allChapterReplaceCount = [];
+			}else{
+				for(var i=0; i < doc.chapters.length; i++) {
+					var totalReplacedWord = findReplaceSearchInputs(doc.chapters[parseInt(i+1,10)-1].verses, chunkDoc.chunks[parseInt(book,10)-1], i, searchVal, replaceVal, option);
+					allChapterReplaceCount.push(totalReplacedWord);
+					totalReplacedWord = 0;
+					replaceCount = 0;
+				}
+				$("#searchTextModal").modal('toggle');
+				var replacedCount = allChapterReplaceCount.reduce(function (a, b) {return a + b;}, 0);
+				$("#replace-message").html("Book:"+currentBook.book_name+"<br>"+"Total word(s) replaced: "+replacedCount);
+				$("#replaced-text-change").modal('toggle');
+				allChapterReplaceCount = [];
+			}
+		})
+	}).catch(function (err) {
+		console.log('Error: While retrieving document. ' + err);
+	});
+}
+// ================== find and replace call end here ============
+
+/*==========================================================
+================ update replaced content ===================
+============================================================ */
+function findReplaceSearchInputs(verses, chunks, chapter, searchVal, replaceVal, option){
+	replacedVerse = {}
+	var i;
+	for (i=1; i<=verses.length; i++) {
+		if(option == "current"){
+			var originalVerse = verses[i-1].verse
+			replacedVerse[i] = i;
+			if(originalVerse.search(new RegExp(searchVal, 'g')) >= 0){
+				modifiedVerse = originalVerse.replaceAll(searchVal, replaceVal);
+				replacedVerse[i] = modifiedVerse
+				chapter_hash["verse"] = modifiedVerse
+				chapter_hash["verse_number"] = i + 1
+				verses_arr.push(chapter_hash)
+				chapter_hash = {}
+				replaceCount += originalVerse.match(new RegExp(searchVal, 'g')).length
+			}else {
+				replacedVerse[i] = originalVerse
+				chapter_hash["verse"] = originalVerse
+		 		chapter_hash["verse_number"] = i + 1
+		    verses_arr.push(chapter_hash)
+		    chapter_hash = {}
+			}
+		}else {
+			var originalVerse = verses[i-1].verse
+			replacedVerse[i] = i;
+			if(originalVerse.search(new RegExp(searchVal, 'g')) >= 0){
+				modifiedVerse = originalVerse.replaceAll(searchVal, replaceVal);
+				chapter_hash["verse"] = modifiedVerse
+				chapter_hash["verse_number"] = i + 1
+		    verses_arr.push(chapter_hash)
+		    chapter_hash = {}
+				replaceCount += originalVerse.match(new RegExp(searchVal, 'g')).length
+			}else {
+				chapter_hash["verse"] = originalVerse
+		 		chapter_hash["verse_number"] = i + 1
+		    verses_arr.push(chapter_hash)
+		    chapter_hash = {}
+			}
+		}
+	}
+	replacedChapter[chapter] = replacedVerse;
+	allChapters["chapter"] = chapter + 1
+	allChapters["verses"] = verses_arr
+	chapter_arr.push(allChapters)
+	verses_arr = []
+	allChapters = {}
+	highlightRef();
+	return replaceCount;
+}
+//==================== update replace content end here ======================
+
+//=========== save text after replace ====================
+//=========== by clicking on the save changes button =====
+function saveReplacedText(){
+	var option = $("#chapter-option").val();
+	db.get(currentBook._id).then(function (doc) {
+	if(option == "current"){
+		for(var c in replacedChapter){
+			var verses = currentBook.chapters[parseInt(c,10)].verses;
+			verses.forEach(function (verse, index) {
+				verse.verse = replacedChapter[c][index+1];
+			});
+			doc.chapters[parseInt(c,10)].verses = verses;
+			db.put(doc, function(err, response){
+				console.log(doc)
+				if(err) {
+					$("#replaced-text-change").modal('toggle');
+					alertModal("Error Message!!", "Something went wrong please try later!!");
+				}else{
+					db.close();
+					window.location.reload();
+				}
+			});
+		}
+		replacedChapter = {}
+		replacedVerse = {}
+	}else{
+			doc.chapters = chapter_arr
+			db.put(doc, function(err, res){
+				if(err){
+					chapter_arr = []
+					$("#replaced-text-change").modal('toggle');
+					alertModal("Error Message!!", "Something went wrong please try later!!");
+				}else{
+					chapter_arr = [];
+					db.close();
+					replacedChapter = {}
+					replacedVerse = {}
+					window.location.reload();
+				}
+			})
+		}
+	})
+}
+//=========== replace change end ====================
+
+//========== find and replace popup call =============
+$("#btnfindReplace").click(function(){
+	$(".error").html("");
+	findVal = $("#searchTextBox").val();
+	replaceVal = $("#replaceTextBox").val();
+	option = $(".form-check-input:checked").val();
+	$("#chapter-option").val(option);
+	if(findVal == "" && findVal.length == 0){
+		$("#findError").html("Please enter value to search");
+		return
+	}
+	if(replaceVal == "" && replaceVal.length == 0){
+		$("#replaceError").html("Please enter value to replace");
+		return
+	}
+	findAndReplaceText(findVal, replaceVal, option);
+});
+$("#btnfind").click(function(){
+	findVal = $("#searchTextBox").val();
+	if(findVal == "" && findVal.length == 0){
+		$("#searchTextModal").modal('toggle');
+		alertModal("Find message!!", "Please enter find value to search.");
+		return
+	}
+	findAndReplaceText(findVal, "highlight");
+	$("#searchTextModal").modal('toggle');
+});
+$("#searchText").click(function(){
+	$("#searchTextModal").modal('toggle');
+	$(".error").html("");
+	$("#searchTextBox").val('');
+	$("#replaceTextBox").val('');
+});
+
+//============ replace cancel ============
+$("#replace-cancel").click(function(){
+	replacedChapter = {}
+	replacedVerse = {}
+	chapter_arr = []
+})
+
 
 
 
