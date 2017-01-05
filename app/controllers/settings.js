@@ -1,11 +1,9 @@
-const {dialog} = require('electron').remote,
-      PouchDB = require('pouchdb-core')
-      .plugin(require('pouchdb-adapter-leveldb'));
-//      PouchDB = require('pouchdb');
-
+const {dialog} = require('electron').remote;
 var bibUtil = require("../util/usfm_to_json.js"),
     fs = require("fs"),
-    path = require("path");
+    path = require("path"),
+    db = require(`${__dirname}/../util/data-provider`).targetDb(),
+    refDb = require(`${__dirname}/../util/data-provider`).referenceDb();
 
 document.getElementById('export-path').addEventListener('click', function (e) {
     dialog.showOpenDialog({properties: ['openDirectory'],
@@ -30,9 +28,9 @@ document.getElementById('target-import-path').addEventListener('click', function
 });
 
 document.getElementById('save-btn').addEventListener('click', function (e) {
-	if (target_setting() == false)
-		return;
-    db = new PouchDB('./db/targetDB');
+    if (target_setting() == false)
+	return;
+    //    db = new PouchDB('./db/targetDB');
     db.get('targetBible').then(function (doc) {
 	db.put({
 	    _id: 'targetBible',
@@ -41,7 +39,7 @@ document.getElementById('save-btn').addEventListener('click', function (e) {
 	    targetVersion: document.getElementById('target-version').value,
 	    targetPath: document.getElementById('export-path').value
 	}).then(function (e) {
-	    db.close();
+	    //db.close();
 	    alertModal("Language Setting", "Language setting saved successfully!!");
 	});
     }).catch(function (err) {
@@ -51,20 +49,20 @@ document.getElementById('save-btn').addEventListener('click', function (e) {
 	    targetVersion: document.getElementById('target-version').value,
 	    targetPath: document.getElementById('export-path').value
 	}).then(function (e) {
-	    db.close();
+	    //db.close();
 	    alertModal("Language Setting", "Language setting saved successfully!!");
 	}).catch(function (err) {
-	    db.close();
+	    //db.close();
 	    alert_message(".alert-danger", "Something went wrong!! Please try again");
 	});
     });
 });
 
 document.getElementById('ref-import-btn').addEventListener('click', function (e) {
-	if (reference_setting() == false )
-		return;
-    var refDb = new PouchDB('./db/referenceDB'),
-	ref_id_value = document.getElementById('ref-lang-code').value.toLowerCase() + '_' + document.getElementById('ref-version').value.toLowerCase(),
+    if (reference_setting() == false )
+	return;
+    //var refDb = new PouchDB('./db/referenceDB'),
+    var ref_id_value = document.getElementById('ref-lang-code').value.toLowerCase() + '_' + document.getElementById('ref-version').value.toLowerCase(),
 	ref_entry = {},
     	files = fs.readdirSync(document.getElementById('ref-path').value);
     ref_entry.ref_id = ref_id_value;
@@ -110,23 +108,23 @@ document.getElementById('ref-import-btn').addEventListener('click', function (e)
 });
 
 document.getElementById('target-import-btn').addEventListener('click', function (e) {
-	if (import_sync_setting() == false)
-		return;
+    if (import_sync_setting() == false)
+	return;
 
     var inputPath = document.getElementById('target-import-path').value;
     var files = fs.readdirSync(inputPath);
     files.forEach(function (file) {
-			var filePath = path.join(inputPath, file);
-			if(fs.statSync(filePath).isFile() && !file.startsWith('.')) {
-			    //console.log(filePath);
-			    var options = {
-						lang: 'hi',
-						version: 'ulb',
-						usfmFile: filePath,
-						targetDb: 'target'
-			    }
-			    bibUtil.toJson(options);
-			}
+	var filePath = path.join(inputPath, file);
+	if(fs.statSync(filePath).isFile() && !file.startsWith('.')) {
+	    //console.log(filePath);
+	    var options = {
+		lang: 'hi',
+		version: 'ulb',
+		usfmFile: filePath,
+		targetDb: 'target'
+	    }
+	    bibUtil.toJson(options);
+	}
     });
     alertModal("Import and Sync", "Import and Sync Setting saved successfully!!");
 });
@@ -165,90 +163,90 @@ document.getElementById('ref-path').addEventListener('click', function (e) {
 
 // Validation check for reference settings
 function reference_setting(){
-  var name     = $("#ref-name").val(),
-  	 langCode = $("#ref-lang-code").val(),
-  	 version  = $("#ref-version").val(),
-  	 path     = $("#ref-path").val(),
-  	 isValid = true;
-  if(name == ""){
-    alert_message(".alert-danger", "Reference Bible name must not be blank");
-    isValid = false;
-  }else if(langCode === null || langCode === "") {
-    alert_message(".alert-danger", "Reference Bible language code must not be blank");
-     isValid = false;
-  }else if(version === null || version === ""){
-    alert_message(".alert-danger", "Reference Bible version must not be blank");
-    isValid = false;
-  }else if(path === null || path === ""){
-    alert_message(".alert-danger", "Reference Bible path must not be blank");
-    isValid = false;
-  }else{
-    isValid = true;
-    
-  }
-  return isValid;
+    var name     = $("#ref-name").val(),
+  	langCode = $("#ref-lang-code").val(),
+  	version  = $("#ref-version").val(),
+  	path     = $("#ref-path").val(),
+  	isValid = true;
+    if(name == ""){
+	alert_message(".alert-danger", "Reference Bible name must not be blank");
+	isValid = false;
+    }else if(langCode === null || langCode === "") {
+	alert_message(".alert-danger", "Reference Bible language code must not be blank");
+	isValid = false;
+    }else if(version === null || version === ""){
+	alert_message(".alert-danger", "Reference Bible version must not be blank");
+	isValid = false;
+    }else if(path === null || path === ""){
+	alert_message(".alert-danger", "Reference Bible path must not be blank");
+	isValid = false;
+    }else{
+	isValid = true;
+	
+    }
+    return isValid;
 } //validation reference settings
 
 // Validation check for target language settings
 function target_setting(){
-  var langCode  = $("#target-lang").val(),
-  	 version   = $("#target-version").val(),
-  	 path     = $("#export-path").val(),
-     isValid = true;
+    var langCode  = $("#target-lang").val(),
+  	version   = $("#target-version").val(),
+  	path     = $("#export-path").val(),
+	isValid = true;
 
-  if(langCode === null || langCode === ""){
-    alert_message(".alert-danger", "Target Bible language code must not be blank");
-    isValid = false;
-  }else if(version === null || version === ""){
-    alert_message(".alert-danger", "Target Bible version must not be blank");
-    isValid = false;
-  }else if(path === null || path === ""){
-    alert_message(".alert-danger", "Target Bible path must not be blank");
-    isValid = false;
-  }else{
-    isValid = true;
-  }
-  return isValid;
+    if(langCode === null || langCode === ""){
+	alert_message(".alert-danger", "Target Bible language code must not be blank");
+	isValid = false;
+    }else if(version === null || version === ""){
+	alert_message(".alert-danger", "Target Bible version must not be blank");
+	isValid = false;
+    }else if(path === null || path === ""){
+	alert_message(".alert-danger", "Target Bible path must not be blank");
+	isValid = false;
+    }else{
+	isValid = true;
+    }
+    return isValid;
 } //validation target setting
 
 function import_sync_setting(){
-	var targetImportPath = $("#target-import-path").val();
-	isValid = true;
-	if ( targetImportPath === null || targetImportPath === "") {
-		alert_message(".alert-danger", "Import and Sync target must not be blank.");
+    var targetImportPath = $("#target-import-path").val();
+    isValid = true;
+    if ( targetImportPath === null || targetImportPath === "") {
+	alert_message(".alert-danger", "Import and Sync target must not be blank.");
     	isValid = false;
-	}
-	return isValid;
+    }
+    return isValid;
 }
 
 function alert_message(type,message){
-  $(type).css("display", "block");
+    $(type).css("display", "block");
     $(type).fadeTo(2000, 1000).slideUp(1000, function(){
-       $(type).css("display", "none");
+	$(type).css("display", "none");
     });
-  $(type+" "+"span").html(message);
+    $(type+" "+"span").html(message);
 }
 
 function setReferenceSetting(){
-	db = new PouchDB('./db/targetDB');
-	db.get('targetBible').then(function (doc) {
-		$("#target-lang").val(doc.targetLang);
-  	 	$("#target-version").val(doc.targetVersion);
-  	 	$("#export-path").val(doc.targetPath);
-	}).catch(function (err) {
-		$("#target-lang").val("");
-  	 	$("#target-version").val("");
-  	 	$("#export-path").val("");
-	});	
+    //db = new PouchDB('./db/targetDB');
+    db.get('targetBible').then(function (doc) {
+	$("#target-lang").val(doc.targetLang);
+  	$("#target-version").val(doc.targetVersion);
+  	$("#export-path").val(doc.targetPath);
+    }).catch(function (err) {
+	$("#target-lang").val("");
+  	$("#target-version").val("");
+  	$("#export-path").val("");
+    });	
 }
 //get reference setting
 $(function(){
-	setReferenceSetting();
+    setReferenceSetting();
 });
 
 function alertModal(heading, formContent) {
-  $("#heading").html(heading);
-  $("#content").html(formContent);
-  $("#dynamicModal").modal();
-  $("#dynamicModal").toggle();
+    $("#heading").html(heading);
+    $("#content").html(formContent);
+    $("#dynamicModal").modal();
+    $("#dynamicModal").toggle();
 }

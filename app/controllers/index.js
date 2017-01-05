@@ -1,27 +1,24 @@
-const session = require('electron').remote.session,
-//      PouchDB = require('pouchdb');
-      PouchDB = require('pouchdb-core')
-      .plugin(require('pouchdb-adapter-leveldb'));
+const session = require('electron').remote.session;
 var bibUtil = require("../util/json_to_usfm.js"),
-DiffMatchPatch = require('diff-match-patch'),
-dmp_diff = new DiffMatchPatch();
+      DiffMatchPatch = require('diff-match-patch'),
+      dmp_diff = new DiffMatchPatch();
 
 var db = require(`${__dirname}/../util/data-provider`).targetDb(),
-refDb = require(`${__dirname}/../util/data-provider`).referenceDb(),
-book,
-chapter,
-currentBook,
-intervalId;
+    refDb = require(`${__dirname}/../util/data-provider`).referenceDb(),
+    book,
+    chapter,
+    currentBook,
+    intervalId;
 
 
-var constants = require('../util/constants.js');
-booksList = constants.booksList,
-otBookStart = 1,
-otBookEnd = 39,
-ntBookStart = 40,
-ntBookEnd = 66,
-allBookStart = 1,
-allBookEnd = 66;
+var constants = require('../util/constants.js'),
+    booksList = constants.booksList,
+    otBookStart = 1,
+    otBookEnd = 39,
+    ntBookStart = 40,
+    ntBookEnd = 66,
+    allBookStart = 1,
+    allBookEnd = 66;
 
 document.getElementById("save-btn").addEventListener("click", function (e) {
 	//db = new PouchDB(`${__dirname}/../../db/targetDB`);
