@@ -14,7 +14,7 @@ deleteOutputFolder()
 
 function getInstallerConfig () {
   const rootPath = path.join(__dirname, '..')
-  const outPath = path.join(rootPath, 'out')
+  const outPath = path.join(rootPath, 'dist')
   console.log(outPath)
   return Promise.resolve({
     appDirectory: path.join(outPath, 'Autographa-win32-x64'),
@@ -22,7 +22,7 @@ function getInstallerConfig () {
     // loadingGif: path.join(rootPath, 'assets', 'img', 'loading.gif'),
     noMsi: true,
     outputDirectory: path.join(outPath, 'windows-installer'),
-    setupExe: 'AutographaLite.exe',
+    exe: "Autographa.exe"
     // setupIcon: path.join(rootPath, 'app', 'assets', 'images', 'icon.ico'),
     // skipUpdateIcon: true
   })

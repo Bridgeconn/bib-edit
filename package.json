@@ -7,10 +7,10 @@
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pack-win": "electron-packager . Autographa  --overwrite --platform=win32 --arch=x64 --icon=app/assets/images/icon.ico --out=dist  --win32metadata.CompanyName='OA' --win32metadata.ProductName ='Autographa Lite'",
+    "pack-win": "electron-packager . Autographa  --overwrite --platform=win32 --arch=x64 --icon=app/assets/images/icon.ico --out=dist  --win32metadata.CompanyName='OA' --win32metadata.ProductName='Autographa Lite'",
     "postinstall": "cd node_modules/leveldown && HOME=~/.electron-gyp node-gyp rebuild --target=1.4.12 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
     "postinstall_windows": "cd node_modules/pouchdb/node_modules/leveldown; node-gyp rebuild --target=1.4.12 --dist-url=https://atom.io/download/atom-shell",
-     "installer": "node ./script/installer.js"
+    "installer": "node ./script/installer.js"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
   "homepage": "https://github.com/Bridgeconn/bib-edit#readme",
   "dependencies": {
     "diff-match-patch": "^1.0.0",
+    "electron-squirrel-startup": "^1.0.0",
     "pouchdb-adapter-leveldb": "^6.1.0",
     "pouchdb-core": "^6.1.0",
     "pouchdb-quick-search": "^1.2.0"

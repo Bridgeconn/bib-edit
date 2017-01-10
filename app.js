@@ -1,5 +1,6 @@
 const electron = require('electron');
 const session = require('electron').session;
+if(require('electron-squirrel-startup')) return;
 
 // Module to control application life.
 const {app} = electron
