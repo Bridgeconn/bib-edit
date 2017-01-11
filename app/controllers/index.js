@@ -850,20 +850,20 @@ $('.check-diff').on('switchChange.bootstrapSwitch', function (event, state) {
     if(state === true) {
 	promise = isSameLanguage();
 	promise.then(function(response){
-	    if(response == false){
+	    if(response != false){
 		alertModal("Language!!", "Differences are not meaningful between different languages."
 			   +"Kindly select the same language across all panes to continue.");
 		$('.check-diff').bootstrapSwitch('state', false);
 		return false;
 	    }else{
 		setDiffReferenceText();
-		$(".verse-diff-on a").attr( "disabled" , "true" ).addClass("disable_a_href");
+		$(".verse-diff-on a").attr( "disabled" , "true" ).addClass("disable_a_href").css({ 'pointer-events': 'none' });
 		$(".ref-drop-down").attr("disabled", "true");
 	    }
 	});
     }else{
 	setReferenceTextBack();
-	$(".verse-diff-on a").removeAttr( "disabled").removeClass("disable_a_href");
+	$(".verse-diff-on a").removeAttr( "disabled").removeClass("disable_a_href").css({ 'pointer-events': '' });;
 	$(".ref-drop-down").removeAttr("disabled", "true");
     }
 });

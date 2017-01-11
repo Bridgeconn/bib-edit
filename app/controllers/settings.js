@@ -239,11 +239,12 @@ function setReferenceSetting(){
 $(function(){
     setReferenceSetting();
     buildIndex();
+    buildReferenceList();
 });
 function buildIndex(){
     refDb.search({
 	fields: ['_id', 'names'],
-	build: true
+		build: true
     })
 }
 function alertModal(heading, formContent) {
@@ -322,4 +323,84 @@ $('#ref-lang-code').on('blur', function () {
     if ($("#divResult").text()==="") {
 	$("#ref-lang-code").val("");
     }
+});
+function buildReferenceList(){
+	refDb.get('refs').then(function (doc) {
+		tr = '';
+	    doc.ref_ids.forEach(function (ref_doc) {
+				tr += "<tr><td>";
+				tr += ref_doc.ref_name;
+				tr += "</td>";
+				tr += "<td><a data-id="+ref_doc.ref_id+" href=javaScript:void(0); class='edit-ref'>Rename</a> | <a data-id="+ref_doc.ref_id+" href=javaScript:void(0) class='remove-ref'>Remove</a></td>";
+				tr += "</tr>"
+		})
+		$("#reference-list").html(tr);
+	})
+}
+$(document).on('click', '.edit-ref', function(){
+	var tdElement = $(this).parent().prev();
+	var temp_text = tdElement.text();
+	var docId = $(this).data('id');
+	tdElement.html('<input type="text"  class="ref-text" value="' + tdElement.text() + '" />&nbsp;<a data-docid=' +docId+ ' class="save-ref-text" href="javaScript:void(0)">Save</a> | <a data-temp = '+temp_text+' class="cancel-ref" href="javaScript:void(0)">Cancel</a>');
+});
+$(document).on('click', '.cancel-ref', function(){
+	var tdElement = $(this).parent();
+	tdElement.html($(this).data('temp'));
+});
+$(document).on('click', '.remove-ref', function(){
+	if (!confirm("Are you sure to delete reference?")) {
+         return false;
+    }
+	var element = $(this)
+	var ref_ids = [];
+	var check_default = false;
+	refDb.get('refs').then(function(doc){
+		doc.ref_ids.forEach(function (ref_doc) {
+			if(ref_doc.ref_id != element.data('id')){
+				ref_ids.push({ref_id: ref_doc.ref_id, ref_name: ref_doc.ref_name, isDefault: ref_doc.isDefault});
+			}else{
+				if(ref_doc.isDefault == true){
+					check_default = true;
+				}
+			}
+		})
+		if(check_default == true){
+			objRef = ref_ids[0]
+			if(objRef){
+				ref_ids[0]= {ref_id: objRef.ref_id, ref_name: objRef.ref_name, isDefault: true};
+			}
+		}
+		doc.ref_ids = ref_ids;
+		return refDb.put(doc);
+	}).then(function(res){
+		element.closest( 'tr').remove();
+	}).catch(function(err){
+		console.log(err)
+		alertModal("Remove Info", "Unable to delete.please try later!!");
+	})
+});
+$(document).on('click', '.save-ref-text', function(){
+	var textElement = $(this).prev();
+	var docId = $(this).data('docid');
+	var tdElement = $(this).parent();
+	if(textElement.val() === ''){
+		alertModal("Alert", "Please enter reference name!!");
+		return;
+	}
+	var ref_ids = [];
+	refDb.get('refs').then(function(doc){
+		doc.ref_ids.forEach(function (ref_doc) {
+			if(ref_doc.ref_id != docId){
+				ref_ids.push({ref_id: ref_doc.ref_id, ref_name: ref_doc.ref_name, isDefault: ref_doc.isDefault});
+			}else{
+				ref_ids.push({ref_id: ref_doc.ref_id, ref_name: textElement.val() , isDefault: ref_doc.isDefault})
+			}
+		})
+		doc.ref_ids = ref_ids;
+		return refDb.put(doc);
+	}).then(function(res){
+		tdElement.html(textElement.val());
+	}).catch(function(err){
+		alertModal("Update Info", "Unable to rename.please try later!!");
+	})
 });
