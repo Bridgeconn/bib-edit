@@ -36,7 +36,7 @@ document.getElementById('save-btn').addEventListener('click', function (e) {
 	db.put({
 	    _id: 'targetBible',
 	    _rev: doc._rev,
-	    targetLang: document.getElementById('target-lang').value,
+	    targetLang: document.getElementById('target-lang-code').value,
 	    targetVersion: document.getElementById('target-version').value,
 	    targetPath: document.getElementById('export-path').value
 	}).then(function (e) {
@@ -45,7 +45,7 @@ document.getElementById('save-btn').addEventListener('click', function (e) {
     }).catch(function (err) {
 	db.put({
 	    _id: 'targetBible',
-	    targetLang: document.getElementById('target-lang').value,
+	    targetLang: document.getElementById('target-lang-code').value,
 	    targetVersion: document.getElementById('target-version').value,
 	    targetPath: document.getElementById('export-path').value
 	}).then(function (e) {
@@ -166,19 +166,19 @@ function reference_setting(){
   	path     = $("#ref-path").val(),
   	isValid = true;
     if(name == ""){
-	alert_message(".alert-danger", "Reference Bible name must not be blank");
-	isValid = false;
+		alert_message(".alert-danger", "Reference Bible name must not be blank");
+		isValid = false;
     }else if(langCode === null || langCode === "") {
-	alert_message(".alert-danger", "Reference Bible language code must not be blank");
-	isValid = false;
+		alert_message(".alert-danger", "Reference Bible language code must not be blank");
+		isValid = false;
     }else if(version === null || version === ""){
-	alert_message(".alert-danger", "Reference Bible version must not be blank");
-	isValid = false;
+		alert_message(".alert-danger", "Reference Bible version must not be blank");
+		isValid = false;
     }else if(path === null || path === ""){
-	alert_message(".alert-danger", "Reference Bible path must not be blank");
-	isValid = false;
+		alert_message(".alert-danger", "Reference Bible path must not be blank");
+		isValid = false;
     }else{
-	isValid = true;
+		isValid = true;
 	
     }
     return isValid;
@@ -186,22 +186,22 @@ function reference_setting(){
 
 // Validation check for target language settings
 function target_setting(){
-    var langCode  = $("#target-lang").val(),
+    var langCode  = $("#target-lang-code").val(),
   	version   = $("#target-version").val(),
   	path     = $("#export-path").val(),
 	isValid = true;
 
     if(langCode === null || langCode === ""){
-	alert_message(".alert-danger", "Target Bible language code must not be blank");
-	isValid = false;
+		alert_message(".alert-danger", "Target Bible language code must not be blank");
+		isValid = false;
     }else if(version === null || version === ""){
-	alert_message(".alert-danger", "Target Bible version must not be blank");
-	isValid = false;
+		alert_message(".alert-danger", "Target Bible version must not be blank");
+		isValid = false;
     }else if(path === null || path === ""){
-	alert_message(".alert-danger", "Target Bible path must not be blank");
-	isValid = false;
+		alert_message(".alert-danger", "Target Bible path must not be blank");
+		isValid = false;
     }else{
-	isValid = true;
+		isValid = true;
     }
     return isValid;
 } //validation target setting
@@ -219,20 +219,20 @@ function import_sync_setting(){
 function alert_message(type,message){
     $(type).css("display", "block");
     $(type).fadeTo(2000, 1000).slideUp(1000, function(){
-	$(type).css("display", "none");
+		$(type).css("display", "none");
     });
     $(type+" "+"span").html(message);
 }
 
 function setReferenceSetting(){
     db.get('targetBible').then(function (doc) {
-	$("#target-lang").val(doc.targetLang);
-  	$("#target-version").val(doc.targetVersion);
-  	$("#export-path").val(doc.targetPath);
+		$("#target-lang").val(doc.targetLang);
+  		$("#target-version").val(doc.targetVersion);
+  		$("#export-path").val(doc.targetPath);
     }).catch(function (err) {
-	$("#target-lang").val("");
-  	$("#target-version").val("");
-  	$("#export-path").val("");
+		$("#target-lang").val("");
+  		$("#target-version").val("");
+  		$("#export-path").val("");
     });	
 }
 //get reference setting
@@ -263,65 +263,73 @@ function matchCode(input) {
 	include_docs: true,
 	stale: 'ok'
     }).then(function(response){
-	var data = ""
-	if(response!=undefined && response.rows.length > 0){
-	    $.each(response.rows, function(index, value){
-		doc = value.doc
-		if(doc){
-		    matches.push({name: doc.names+" "+"("+(doc._id)+")", id: doc._id});
+		var data = ""
+		if(response!=undefined && response.rows.length > 0){
+		    $.each(response.rows, function(index, value){
+				doc = value.doc
+				if(doc){
+			    	matches.push({name: doc.names+" "+"("+(doc._id)+")", id: doc._id});
+				}
+		    })
+			return matches;
 		}
-	    })
-		return matches;
-	}
-	else{
-	    return [];
-	}
+		else{
+		    return [];
+		}
     }).catch(function(err){
-	console.log(err);
+		console.log(err);
     })
-	}
-function changeInput(val) {
+}
+function changeInput(val, inputId, fieldValue, listId) {
     codeClicked = false; // flag to check language code clicked on list or not
     var autoCompleteResult = matchCode(val)
     autoCompleteResult.then(function(res){
 	var parent_ul = "<ul>";
 	if(res){
 	    $.each(res, function (index, value) {
-		// CREATE AND ADD SUB LIST ITEMS.
-		parent_ul += "<li><span class='code-name'>"+value['name']+"</span><input type='hidden' value="+"'"+value['id']+"'"+"class='code-id'/> </li>"
+			// CREATE AND ADD SUB LIST ITEMS.
+			parent_ul += "<li><span class='code-name'>"+value['name']+"</span><input type='hidden' value="+"'"+value['id']+"'"+"class='code-id'/> </li>"
 	    });
 	    parent_ul+="</ul>"
-	    $("#divResult").html(parent_ul).show();
-	    $("#divResult li").on("click",function(e){
-		var $clicked = $(this);
-		codeName = $clicked.children().select(".code-name").text();
-		codeId = 	$clicked.find(".code-id");
-		$('#ref-lang-code').val(codeName);
-		$("#langCode").val(codeId.val());
-		codeClicked = true;
+	    $(listId).html(parent_ul).show();
+	    $(listId+" li").on("click",function(e){
+			var $clicked = $(this);
+			codeName = $clicked.children().select(".code-name").text();
+			codeId = 	$clicked.find(".code-id");
+			$(inputId).val(codeName);
+			$(fieldValue).val(codeId.val());
+			codeClicked = true;
 	    });
 	}
     });
     $(document).on("click", function(e) {
 	var $clicked = $(e.target);
 	if (! $clicked.hasClass("search")){
-	    $("#divResult").fadeOut();
+	    $(".lang-code").fadeOut();
 	}
     });
     $('#inputSearch').click(function(){
-	$("#divResult").fadeIn();
+		$(".lang-code").fadeIn();
     });
 }
 $("#ref-lang-code").keyup(function(){
-    changeInput($(this).val())
+	$("#langCode").val('');
+    changeInput($(this).val(), "#ref-lang-code", "#langCode", "#reference-lang-result");
+});
+
+$("#target-lang").keyup(function(){
+	$("#target-lang-code").val('');
+    changeInput($(this).val(), "#target-lang", "#target-lang-code", "#target-lang-result");
 });
 
 $('#ref-lang-code').on('blur', function () {	
     if(!codeClicked){
-	$(this).val('')// clear language code textbox
+		$(this).val('')// clear language code textbox
     }
-    if ($("#divResult").text()==="") {
-	$("#ref-lang-code").val("");
+});
+$('#target-lang').on('blur', function () {	
+    if(!codeClicked){
+		$(this).val('')// clear language code textbox
     }
 });
 function buildReferenceList(){

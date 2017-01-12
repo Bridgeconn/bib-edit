@@ -17,7 +17,7 @@
     script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
     -->
     <style type="text/css">
-        #divResult
+        .lang-code
         {
           position:absolute;
           width:294px;
@@ -71,7 +71,7 @@
               <div class="form-group">
                 <label>Reference Bible Language Code</label>
                 <input class="form-control" id="ref-lang-code" placeholder="hi">
-                <div id="divResult"></div>
+                <div id="reference-lang-result" class="lang-code"></div>
                 <input type="hidden" id="langCode" />
               </div>
               <div class="form-group">
@@ -89,6 +89,8 @@
               <div class="form-group">
                 <label>Target Language Code</label>
                 <input class="form-control" id="target-lang" placeholder="hi">
+                <div id="target-lang-result" class="lang-code"></div>
+                <input type="hidden" id="target-lang-code" />
               </div>
               <div class="form-group">
                 <label>Target Version</label>
@@ -120,7 +122,7 @@
           </div>
         </div>
       </div>
-      <div style="margin-top: 10px;">Modify Reference</div>
+      <div style="margin-top: 10px;"><h3>Modify Reference</h3></div>
       <div>
         <table class="table table-bordered table-hover table-striped">
           <th>Reference Name</th>
