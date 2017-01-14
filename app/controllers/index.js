@@ -190,13 +190,13 @@ function getDifferenceCount(verse_diff){
 function setDiffReferenceText() {
     var verses = currentBook.chapters[parseInt(chapter,10)-1].verses;
     verses.forEach(function (verse, index) {
-	var vId = 'v'+(index+1);
-	verse.verse = document.getElementById(vId).textContent;
+		var vId = 'v'+(index+1);
+		verse.verse = document.getElementById(vId).textContent;
     });
     currentBook.chapters[parseInt(chapter,10)-1].verses = verses;
     db.put(currentBook).then(function (response) {
     }).catch(function (err) {
-	console.log(err);
+		console.log(err);
     });
     // save document after edit
     var j=0;
@@ -819,30 +819,29 @@ $(function() {
 function isSameLanguage() {
     var verseLangCode = "",
 	check_value = false;
-
     return db.get('targetBible').then(function (doc) {
-	verseLangCode = doc.targetLang;
-	languagedropDown = $(".ref-drop-down").length
-	for(var i = 0; i < languagedropDown-1; i++){
-	    v1 = $($('.ref-drop-down :selected')[i]).val().split("_")[0]
-	    v2=""
-	    if($($('.ref-drop-down :selected')[i+1]).length){
-		v2 = $($('.ref-drop-down :selected')[i+1]).val().split("_")[0]
-	    }
-	    if((verseLangCode != v1) || (verseLangCode != v2 )){
-		return false;
-	    }
-	}
-	if(languagedropDown == 1){
-	    if((verseLangCode != $($('.ref-drop-down :selected')[0]).val().split("_")[0]) ){
-		return false;
-	    }
-	}
-	return true;
+		verseLangCode = doc.targetLang;
+		languagedropDown = $(".ref-drop-down").length
+		for(var i = 0; i < languagedropDown-1; i++){
+		    v1 = $($('.ref-drop-down :selected')[i]).val().split("_")[0]
+		    v2=""
+		    if($($('.ref-drop-down :selected')[i+1]).length){
+				v2 = $($('.ref-drop-down :selected')[i+1]).val().split("_")[0]
+		    }
+		    if((verseLangCode != v1) || (verseLangCode != v2 )){
+				return false;
+		    }
+		}
+		if(languagedropDown == 1){
+		    if((verseLangCode != $($('.ref-drop-down :selected')[0]).val().split("_")[0]) ){
+				return false;
+		    }
+		}
+		return true;
     }).then(function(response){
-	return response;
+		return response;
     }).catch(function (err){
-	return false;
+		return true;
     });	
 }
 
@@ -851,14 +850,14 @@ $('.check-diff').on('switchChange.bootstrapSwitch', function (event, state) {
 	promise = isSameLanguage();
 	promise.then(function(response){
 	    if(response != false){
-		alertModal("Language!!", "Differences are not meaningful between different languages."
+			alertModal("Language!!", "Differences are not meaningful between different languages."
 			   +"Kindly select the same language across all panes to continue.");
-		$('.check-diff').bootstrapSwitch('state', false);
-		return false;
+			$('.check-diff').bootstrapSwitch('state', false);
+			return false;
 	    }else{
-		setDiffReferenceText();
-		$(".verse-diff-on a").attr( "disabled" , "true" ).addClass("disable_a_href").css({ 'pointer-events': 'none' });
-		$(".ref-drop-down").attr("disabled", "true");
+			setDiffReferenceText();
+			$(".verse-diff-on a").attr( "disabled" , "true" ).addClass("disable_a_href").css({ 'pointer-events': 'none' });
+			$(".ref-drop-down").attr("disabled", "true");
 	    }
 	});
     }else{

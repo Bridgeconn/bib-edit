@@ -5,7 +5,8 @@ var bibUtil = require(`${__dirname}/../util/usfm_to_json`),
     refDb = require(`${__dirname}/../util/data-provider`).referenceDb(),
     fs = require("fs"),
     path = require("path"),
-    codeClicked = false;
+    codeClicked = false,
+	constants = require(`${__dirname}/../util/constants.js`);
 
 document.getElementById('export-path').addEventListener('click', function (e) {
     dialog.showOpenDialog({properties: ['openDirectory'],
@@ -13,7 +14,7 @@ document.getElementById('export-path').addEventListener('click', function (e) {
 			   title: "Select export destination folder"
 			  }, function (selectedDir) {
 			      if(selectedDir != null) {
-				  e.target.value = selectedDir;
+					e.target.value = selectedDir;
 			      }
 			  });
 });
@@ -24,7 +25,7 @@ document.getElementById('target-import-path').addEventListener('click', function
 			   title: "Select import folder for target"
 			  }, function (selectedDir) {
 			      if(selectedDir != null) {
-				  e.target.value = selectedDir;
+					e.target.value = selectedDir;
 			      }
 			  });
 });
@@ -139,7 +140,7 @@ function saveJsonToDB(files) {
 		    usfmFile: filePath,
 		    targetDb: 'refs'
 		}
-		bibUtil.toJson(options);
+			bibUtil.toJson(options);
 	    }
 	}
     });
@@ -335,12 +336,17 @@ $('#target-lang').on('blur', function () {
 function buildReferenceList(){
 	refDb.get('refs').then(function (doc) {
 		tr = '';
+		var remove_link = '';
 	    doc.ref_ids.forEach(function (ref_doc) {
-				tr += "<tr><td>";
-				tr += ref_doc.ref_name;
-				tr += "</td>";
+			tr += "<tr><td>";
+			tr += ref_doc.ref_name;
+			tr += "</td>";
+			if(constants.defaultReference.indexOf(ref_doc.ref_id)>=0){
+				tr+= "<td></td>";
+			}else{
 				tr += "<td><a data-id="+ref_doc.ref_id+" href=javaScript:void(0); class='edit-ref'>Rename</a> | <a data-id="+ref_doc.ref_id+" href=javaScript:void(0) class='remove-ref'>Remove</a></td>";
-				tr += "</tr>"
+			}
+			tr += "</tr>";
 		})
 		$("#reference-list").html(tr);
 	})
@@ -349,48 +355,45 @@ $(document).on('click', '.edit-ref', function(){
 	var tdElement = $(this).parent().prev();
 	var temp_text = tdElement.text();
 	var docId = $(this).data('id');
-	tdElement.html('<input type="text"  class="ref-text" value="' + tdElement.text() + '" />&nbsp;<a data-docid=' +docId+ ' class="save-ref-text" href="javaScript:void(0)">Save</a> | <a data-temp = '+temp_text+' class="cancel-ref" href="javaScript:void(0)">Cancel</a>');
+	tdElement.html('<input type="text"  class="ref-text" value="' + tdElement.text() + '" maxlength="25" />&nbsp;<a data-docid=' +docId+ ' class="save-ref-text" href="javaScript:void(0)">Save</a> | <a data-temp = '+temp_text+' class="cancel-ref" href="javaScript:void(0)">Cancel</a>');
 });
 $(document).on('click', '.cancel-ref', function(){
 	var tdElement = $(this).parent();
 	tdElement.html($(this).data('temp'));
 });
 $(document).on('click', '.remove-ref', function(){
-	if (!confirm("Are you sure to delete reference?")) {
-         return false;
-    }
-	var element = $(this)
+	var element = $(this);
+	var modal = $("#confirmModal");
+	modal.modal("show");
+	$("#confirmMessage").html("Are you sure to delete reference?");
+});
+$("#confirmOk").click(function(){
+	removeRef($(".remove-ref"));
+});
+function removeRef(element){
 	var ref_ids = [];
-	var check_default = false;
 	refDb.get('refs').then(function(doc){
 		doc.ref_ids.forEach(function (ref_doc) {
 			if(ref_doc.ref_id != element.data('id')){
 				ref_ids.push({ref_id: ref_doc.ref_id, ref_name: ref_doc.ref_name, isDefault: ref_doc.isDefault});
-			}else{
-				if(ref_doc.isDefault == true){
-					check_default = true;
-				}
 			}
 		})
-		if(check_default == true){
-			objRef = ref_ids[0]
-			if(objRef){
-				ref_ids[0]= {ref_id: objRef.ref_id, ref_name: objRef.ref_name, isDefault: true};
-			}
-		}
 		doc.ref_ids = ref_ids;
 		return refDb.put(doc);
 	}).then(function(res){
 		element.closest( 'tr').remove();
+		$("#confirmModal").modal("hide");
 	}).catch(function(err){
 		console.log(err)
+		$("#confirmModal").modal("hide");
 		alertModal("Remove Info", "Unable to delete.please try later!!");
 	})
-});
+}
 $(document).on('click', '.save-ref-text', function(){
 	var textElement = $(this).prev();
 	var docId = $(this).data('docid');
 	var tdElement = $(this).parent();
+	var result = false;
 	if(textElement.val() === ''){
 		alertModal("Alert", "Please enter reference name!!");
 		return;
@@ -398,16 +401,29 @@ $(document).on('click', '.save-ref-text', function(){
 	var ref_ids = [];
 	refDb.get('refs').then(function(doc){
 		doc.ref_ids.forEach(function (ref_doc) {
+			if(ref_doc.ref_name.toLowerCase() === textElement.val().toLowerCase()){
+				result = true;
+				return
+			}
 			if(ref_doc.ref_id != docId){
 				ref_ids.push({ref_id: ref_doc.ref_id, ref_name: ref_doc.ref_name, isDefault: ref_doc.isDefault});
 			}else{
 				ref_ids.push({ref_id: ref_doc.ref_id, ref_name: textElement.val() , isDefault: ref_doc.isDefault})
 			}
 		})
-		doc.ref_ids = ref_ids;
-		return refDb.put(doc);
+		if(result == true){
+			return true;
+		}else{
+			doc.ref_ids = ref_ids;
+			return refDb.put(doc);
+		}
 	}).then(function(res){
-		tdElement.html(textElement.val());
+		console.log(res)
+		if(res == true){
+			alertModal("Update Info", "Name is already taken.Please enter different name!!");
+		}else{
+			tdElement.html(textElement.val());
+		}
 	}).catch(function(err){
 		alertModal("Update Info", "Unable to rename.please try later!!");
 	})

@@ -149,6 +149,23 @@
       </div>
       <!-- /.modal-dialog-->
     </div>
+    <div class="modal fade"  tabindex="-1" role="dialog" id="confirmModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="heading"></h4>
+          </div>
+          <div class="modal-body" id="confirmMessage"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="confirmOk">Ok</button>
+            <span class="btn btn-primary" id="btnDelete" data-dismiss="modal" id="confirmCancel">Close</span>
+          </div>
+        </div>
+        <!-- /.modal-content-->
+      </div>
+      <!-- /.modal-dialog-->
+    </div>
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script src="../assets/javascript/vendor/jquery.min.js"></script>
     <script src="../assets/javascript/vendor/bootstrap.min.js"></script>
