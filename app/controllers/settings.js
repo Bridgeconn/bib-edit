@@ -6,7 +6,8 @@ var bibUtil = require(`${__dirname}/../util/usfm_to_json`),
     fs = require("fs"),
     path = require("path"),
     codeClicked = false,
-	constants = require(`${__dirname}/../util/constants.js`);
+	constants = require(`${__dirname}/../util/constants.js`),
+	removeReferenceLink = '';
 
 document.getElementById('export-path').addEventListener('click', function (e) {
     dialog.showOpenDialog({properties: ['openDirectory'],
@@ -355,20 +356,23 @@ $(document).on('click', '.edit-ref', function(){
 	var tdElement = $(this).parent().prev();
 	var temp_text = tdElement.text();
 	var docId = $(this).data('id');
+	$(this).css('pointer-events', 'none');
 	tdElement.html('<input type="text"  class="ref-text" value="' + tdElement.text() + '" maxlength="25" />&nbsp;<a data-docid=' +docId+ ' class="save-ref-text" href="javaScript:void(0)">Save</a> | <a data-temp = '+temp_text+' class="cancel-ref" href="javaScript:void(0)">Cancel</a>');
 });
 $(document).on('click', '.cancel-ref', function(){
 	var tdElement = $(this).parent();
 	tdElement.html($(this).data('temp'));
+	tdElement.next().find('.edit-ref').css('pointer-events', '');
 });
 $(document).on('click', '.remove-ref', function(){
 	var element = $(this);
+	removeReferenceLink = element;
 	var modal = $("#confirmModal");
 	modal.modal("show");
 	$("#confirmMessage").html("Are you sure to delete reference?");
 });
 $("#confirmOk").click(function(){
-	removeRef($(".remove-ref"));
+	removeRef(removeReferenceLink);
 });
 function removeRef(element){
 	var ref_ids = [];
@@ -384,7 +388,6 @@ function removeRef(element){
 		element.closest( 'tr').remove();
 		$("#confirmModal").modal("hide");
 	}).catch(function(err){
-		console.log(err)
 		$("#confirmModal").modal("hide");
 		alertModal("Remove Info", "Unable to delete.please try later!!");
 	})
@@ -401,7 +404,7 @@ $(document).on('click', '.save-ref-text', function(){
 	var ref_ids = [];
 	refDb.get('refs').then(function(doc){
 		doc.ref_ids.forEach(function (ref_doc) {
-			if(ref_doc.ref_name.toLowerCase() === textElement.val().toLowerCase()){
+			if((ref_doc.ref_id != docId) && (ref_doc.ref_name.toLowerCase() === textElement.val().toLowerCase())){
 				result = true;
 				return
 			}
@@ -418,11 +421,11 @@ $(document).on('click', '.save-ref-text', function(){
 			return refDb.put(doc);
 		}
 	}).then(function(res){
-		console.log(res)
 		if(res == true){
 			alertModal("Update Info", "Name is already taken.Please enter different name!!");
 		}else{
 			tdElement.html(textElement.val());
+			tdElement.next().find('.edit-ref').css('pointer-events', '');
 		}
 	}).catch(function(err){
 		alertModal("Update Info", "Unable to rename.please try later!!");
