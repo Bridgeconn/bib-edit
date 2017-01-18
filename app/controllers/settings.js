@@ -342,7 +342,7 @@ function buildReferenceList(){
 			tr += "<tr><td>";
 			tr += ref_doc.ref_name;
 			tr += "</td>";
-			if(constants.defaultReference.indexOf(ref_doc.ref_id)>=0){
+			if(constants.defaultReferences.indexOf(ref_doc.ref_id)>=0){
 				tr+= "<td></td>";
 			}else{
 				tr += "<td><a data-id="+ref_doc.ref_id+" href=javaScript:void(0); class='edit-ref'>Rename</a> | <a data-id="+ref_doc.ref_id+" href=javaScript:void(0) class='remove-ref'>Remove</a></td>";
