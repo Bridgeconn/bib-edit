@@ -29,8 +29,8 @@ var stringReplace = require('../util/string_replace.js'),
     chapter_hash = {},
     verses_arr = [],
     chapter_arr = [],
-    check_diff_click = false,
-    targetEditedCheck = false;
+    diffModeFlag = false,
+    targetDirtyFlag = false;
 
 
 document.getElementById("save-btn").addEventListener("click", function(e) {
@@ -839,7 +839,7 @@ function isSameLanguage() {
 
 $('.check-diff').on('switchChange.bootstrapSwitch', function(event, state) {
     if (state === true) {
-        check_diff_click = true;
+        diffModeFlag = true;
         promise = isSameLanguage();
         promise.then(function(response) {
             if (response == false) {
@@ -853,7 +853,7 @@ $('.check-diff').on('switchChange.bootstrapSwitch', function(event, state) {
             }
         });
     } else {
-        check_diff_click = false;
+        diffModeFlag = false;
         setReferenceTextBack();
         $(".verse-diff-on a").removeAttr("disabled").removeClass("disable_a_href").css({ 'pointer-events': '' });;
         $(".ref-drop-down").removeAttr("disabled", "true");
@@ -862,7 +862,7 @@ $('.check-diff').on('switchChange.bootstrapSwitch', function(event, state) {
 
 // call after stopped typing
 function debounce(targetCheck, func, wait, immediate) {
-    targetEditedCheck = targetCheck;
+    targetDirtyFlag = targetCheck;
     var timeout;
     return function() {
         var context = this,
@@ -881,7 +881,7 @@ function debounce(targetCheck, func, wait, immediate) {
 // This will apply the debounce effect on the keyup event
 // And it only fires 3000ms after the user stopped typing
 $('#input-verses').on('keyup', debounce(true, function() {
-    if (check_diff_click == false) {
+    if (diffModeFlag == false) {
         saveTarget();
     }
 }, 3000));
@@ -1099,10 +1099,10 @@ $("#replace-cancel").click(function() {
     chapter_arr = [];
 });
 $(".navigation-btn").click(function() {
-    if (targetEditedCheck == true) {
+    if (targetDirtyFlag == true) {
         saveTarget();
     }
-})
+});
 
 function saveTarget() {
     var verses = currentBook.chapters[parseInt(chapter, 10) - 1].verses;
@@ -1116,7 +1116,6 @@ function saveTarget() {
         db.put(currentBook).then(function(response) {
             var dateTime = new Date().toLocaleString();
             $("#saved-time").html("Last saved target at: " + dateTime);
-            targetEditedCheck = false;
             setAutoSaveTime(dateTime);
             clearInterval(intervalId);
         }).catch(function(err) {
