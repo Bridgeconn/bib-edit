@@ -488,7 +488,7 @@ function highlightRef() {
             });
             $('div[data-verse^="r"]').css({ "background-color": "", "padding-left": "10px", "padding-right": "10px"});
             for (j = limits[0]; j <= limits[1]; j++) {
-                $('div[data-verse="r' + (j + 1) + '"]').css({ "background-color": "#b3ffa8", "padding-left": "10px", "padding-right": "10px"});
+                $('div[data-verse="r' + (j + 1) + '"]').css({ "background-color": "#b3ffa8", "padding-left": "10px", "padding-right": "10px", "margin-right": "10px"});
             }
             $('div[data-verse="r' + (limits[0] + 1) + '"]').css({"border-radius": "10px 10px 0px 0px"});
             $('div[data-verse="r' + (limits[1] + 1) + '"]').css({"border-radius": "0px 0px 10px 10px"});
