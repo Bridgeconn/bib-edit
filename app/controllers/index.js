@@ -135,8 +135,8 @@ function lastVisitFromDB(success) {
 
 
 function initializeTextInUI(book, chapter) {
-    document.getElementById('book-chapter-btn').innerHTML = booksList[parseInt(book, 10) - 1];
-    document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ');" >' + chapter + '</a>'
+    // document.getElementById('book-chapter-btn').innerHTML = booksList[parseInt(book, 10) - 1];
+    // document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ');" >' + chapter + '</a>'
     $('a[data-toggle=tooltip]').tooltip();
     db.get(book).then(function(doc) {
         refDb.get('refChunks').then(function(chunkDoc) {

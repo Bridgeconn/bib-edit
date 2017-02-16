@@ -14,6 +14,112 @@
 </head>
 
 <body>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+
+                </button>
+                 <h4 class="modal-title" id="myModalLabel">Books & Chapters</h4>
+            </div>
+            
+            <div class="modal-body">
+
+                <div role="tabpanel">
+                    <div>
+                    <label><input type="radio" name="all">ALL</label>
+                    <label><input type="radio" name="ot">OT</label>
+                    <label><input type="radio" name="nt">NT</label>
+                </div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#myBooks" aria-controls="myBooks" role="tab" data-toggle="tab">Books</a>
+
+                        </li>
+                        <li role="presentation"><a href="#myChapters" aria-controls="myChapters" role="tab" data-toggle="tab">Chapters</a>
+
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="myBooks">
+                            <div class="row">
+                            <div class="col-xs-4">
+                                <ul>
+                                    <li><a href="#">Genesis</a></li>
+                                    <li><a href="#">Exodus</a></li>
+                                    <li><a href="#">Leviticus</a></li>
+                                    <li><a href="#">Numbers</a></li>
+                                    <li><a href="#">Deuteronomy</a></li>
+                                    <li><a href="#">Joshua</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-4">
+                                <ul>
+                                    <li><a href="#">Judges</a></li>
+                                    <li><a href="#">Ruth</a></li>
+                                    <li><a href="#">1 Samuel</a></li>
+                                    <li><a href="#">2 Samuel</a></li>
+                                    <li><a href="#">1 Kings</a></li>
+                                    <li><a href="#">2 Kings</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-4">
+                                <ul>
+                                    <li><a href="#">1 Chronicles</a></li>
+                                    <li><a href="#">2 Chronicles</a></li>
+                                    <li><a href="#">Ezra</a></li>
+                                    <li><a href="#">Nehemiah</a></li>
+                                    <li><a href="#">Esther</a></li>
+                                    <li><a href="#">Jobs</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                        <div role="tabpanel" class="tab-pane" id="myChapters">
+                            <div class="row 1">
+                            <div class="col-xs-4">
+                                <ul>
+                                    <li><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#">6</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-4">
+                                <ul>
+                                    <li><a href="#">7</a></li>
+                                    <li><a href="#">8</a></li>
+                                    <li><a href="#">9</a></li>
+                                    <li><a href="#">10</a></li>
+                                    <li><a href="#">11</a></li>
+                                    <li><a href="#">12</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-4">
+                                <ul>
+                                    <li><a href="#">13</a></li>
+                                    <li><a href="#">14</a></li>
+                                    <li><a href="#">15</a></li>
+                                    <li><a href="#">16</a></li>
+                                    <li><a href="#">17</a></li>
+                                    <li><a href="#">18</a></li>
+                                </ul>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -23,10 +129,14 @@
             <div class="navbar-collapse collapse" id="navbar">
                 <ul class="nav navbar-nav">
                     <li>
-                        <div class="btn-group navbar-btn strong verse-diff-on" role="group" aria-label="..." id="bookBtn">
+                      <!--   <div class="btn-group navbar-btn strong verse-diff-on" role="group" aria-label="..." id="bookBtn">
                             <a class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Select Book" href="javascript:getBookList();" id="book-chapter-btn">Genesis</a><span id="chapterBtnSpan"><a class="btn btn-default" id="chapterBtn" href="javascript:getBookChapterList('1');" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" >1</a></span>
+                        </div> -->
+                         <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Books</button>
+                        <div class="btn-group navbar-btn verse-diff-on" role="group" aria-label="...">
+                            <a class="btn btn-default font-button minus" data-toggle="tooltip" data-placement="bottom" title="Decrease Font" href="JavaScript:void(0)">A-</a>
+                            <a class="btn btn-default font-button plus" data-toggle="tooltip" data-placement="bottom" title="Increase Font" href="JavaScript:void(0);">A+</a>
                         </div>
-                        <div class="btn-group navbar-btn verse-diff-on" role="group" aria-label="..."><a class="btn btn-default font-button minus" data-toggle="tooltip" data-placement="bottom" title="Decrease Font" href="JavaScript:void(0)">A-</a><a class="btn btn-default font-button plus" data-toggle="tooltip" data-placement="bottom" title="Increase Font" href="JavaScript:void(0);">A+</a></div>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right nav-pills verse-diff-on">
