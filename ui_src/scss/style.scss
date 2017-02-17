@@ -149,7 +149,7 @@ body {
 }
 .col-editor {
   background: #FFF;
-  border-left: none;
+  // border-left: none;
 }
 
 html, body {
@@ -255,9 +255,10 @@ html, body {
 .nav-tabs {
   padding-left: 185px;
 }
-// .myStyle{
-//   overflow: hidden;
-// }
+
+.btn-primary {
+  padding-top: 10px;
+}
 
 /*
  * Responsive navbar 
@@ -268,4 +269,58 @@ html, body {
 //      ul.navbar-nav li {width: 100%  !important;}
 //      ul.navbar-pills {width: 100%  !important; float: none;}
 //      ul.navbar-pills li {width: 100%;}
+// }
+#myChapters {
+  font-style: sans-serif;
+  font-size: 15px;
+  padding-top: 10px
+}
+
+#saved-time {
+  font-style: italic;
+  font-family: Georgia,Serif;
+  position: absolute;
+  right: 10px;
+  top: 14px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.radiobuttons{
+  padding-top: 10px;
+}
+
+.radiobuttons label {
+  font-weight: 100;
+}
+
+.chapdata {
+  padding-top: 22px;
+}
+
+// #tabdata {
+//   margin-right: 100px;
+// }
+table {
+  text-align: center;
+}
+
+#myModalLabel {
+  font-weight: bold;
+}
+// td:nth-child(even) {background-color: #f2f2f2}
+// tr:nth-child(1) > td:nth-child(n+1):nth-child(-n+2) {
+//   color: red;
+// }
+
+// table td {
+//     background-color: green;
+//     padding: 5px;
+//     border: 1px solid blue;
+// }
+
+// .red {
+//    background-color: red;
 // }
