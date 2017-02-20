@@ -270,11 +270,11 @@ html, body {
 //      ul.navbar-pills {width: 100%  !important; float: none;}
 //      ul.navbar-pills li {width: 100%;}
 // }
-#myChapters {
-  font-style: sans-serif;
-  font-size: 15px;
-  padding-top: 10px
-}
+// #myChapters {
+//   font-style: sans-serif;
+//   font-size: 15px;
+//   padding-top: 10px
+// }
 
 #saved-time {
   font-style: italic;
@@ -288,24 +288,25 @@ ul {
   list-style-type: none;
 }
 
-.radiobuttons{
+.dropdown{
   padding-top: 10px;
 }
 
-.radiobuttons label {
-  font-weight: 100;
-}
+// .radiobuttons label {
+//   font-weight: 100;
+// }
 
-.chapdata {
-  padding-top: 22px;
-}
+// .chapdata {
+//   padding-top: 22px;
+// }
 
 // #tabdata {
 //   margin-right: 100px;
 // }
-table {
-  text-align: center;
-}
+// table {
+//   text-align: center;
+//   margin-top: 185px;
+// }
 
 #myModalLabel {
   font-weight: bold;
@@ -324,3 +325,34 @@ table {
 // .red {
 //    background-color: red;
 // }
+.modal-header {
+  border-bottom: 0px;
+  padding-bottom: inherit;
+}
+
+// #chapters-panel {
+//   padding-bottom: 240px;
+// }
+
+//book chapters li on selected
+.selected li a:focus {font-weight: bold;}
+
+//table td on selected
+tbody tr td a:focus {font-weight: bold;}
+
+.modal-content {
+  width: 710px;
+}
+
+.books-li {
+  width: 25%;
+}
+
+.books-li ul {
+  padding: 0;
+}
+
+.chapter-no{width: 100%; min-height: 465px; padding-top: 100px;}
+.chapter-no ul {margin: 0; padding: 0; float: left; width: 100%}
+.chapter-no ul li {margin: 10px 0; padding: 0; float: left; text-align: center; width: 20%}
+.chapter-no ul li a:focus {font-weight: bold;}

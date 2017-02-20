@@ -11,44 +11,65 @@
     <title>Autographa Lite</title>
     <!-- Bootstrap core CSS-->
     <link href="../assets/stylesheets/style.css" rel="stylesheet">
+
+    <!-- material design files -->
+   <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.light_blue-indigo.min.css" />
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- material design files -->
 </head>
 
 <body>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
 
-                </button>
-                 <h4 class="modal-title" id="myModalLabel">Books and Chapter</h4>
-            </div>
+                        </button>
+                         <h4 class="modal-title" id="myModalLabel">Books and Chapter</h4>
+                    </div>
             
-            <div class="modal-body">
+                <div class="modal-body">
 
-                <div role="tabpanel">
-                    <!-- div>
+        <div role="tabpanel" class="selected">
                     
-                    </div> -->
                     <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#myBooks" aria-controls="myBooks" role="tab" data-toggle="tab">Books</a>
-
-                        </li>
-                        <li role="presentation"><a href="#myChapters" aria-controls="myChapters" role="tab" data-toggle="tab">Chapters</a>
-
-                        </li>
-                    </ul>
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="myBooks">
-                        <div class="radiobuttons">
-                            <label><input type="radio" name="all">ALL</label>&nbsp;
-                            <label><input type="radio" name="ot">OT</label>&nbsp;
-                            <label><input type="radio" name="nt">NT</label>
+                    <!-- <ul class="nav nav-tabs" role="tablist"> -->
+            <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+                        <div class="mdl-tabs__tab-bar">
+                         <a href="#books-panel" class="mdl-tabs__tab is-active">Books</a>
+                        <a href="#chapters-panel" class="mdl-tabs__tab">Chapters</a>
                         </div>
-                            <div class="row" id="bookdata">
-                            <div class="col-xs-3" style="margin: inherit;">
+                    <!-- </ul> -->
+                        <div class="mdl-tabs__panel is-active" id="books-panel">
+                        <!-- <div class="radiobuttons">
+                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                            <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
+                            <span class="mdl-radio__label">All</span>
+                            </label>&nbsp;
+                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                            <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">
+                            <span class="mdl-radio__label">OT</span>
+                            </label>&nbsp;
+                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
+                            <input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3">
+                            <span class="mdl-radio__label">NT</span>
+                            </label>
+                        </div> -->
+                            <div class="dropdown">
+                              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Testament
+                              <span class="caret"></span></button>
+                              <ul class="dropdown-menu">
+                                <li><a href="#">All</a></li>
+                                <li><a href="#">OT</a></li>
+                                <li><a href="#">NT</a></li>
+                              </ul>
+                            </div>
+                        <div class="row" id="bookdata">
+                            <div class="col-xs-3 books-li">
+                            <!-- <div class="col-xs-3" style="margin: inherit;"> -->
                                 <ul>
                                     <li><a href="#">Genesis</a></li>
                                     <li><a href="#">Exodus</a></li>
@@ -56,42 +77,118 @@
                                     <li><a href="#">Numbers</a></li>
                                     <li><a href="#">Deuteronomy</a></li>
                                     <li><a href="#">Joshua</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-xs-3">
-                                <ul>
                                     <li><a href="#">Judges</a></li>
                                     <li><a href="#">Ruth</a></li>
                                     <li><a href="#">1 Samuel</a></li>
                                     <li><a href="#">2 Samuel</a></li>
                                     <li><a href="#">1 Kings</a></li>
                                     <li><a href="#">2 Kings</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-xs-3">
-                                <ul>
                                     <li><a href="#">1 Chronicles</a></li>
                                     <li><a href="#">2 Chronicles</a></li>
                                     <li><a href="#">Ezra</a></li>
                                     <li><a href="#">Nehemiah</a></li>
                                     <li><a href="#">Esther</a></li>
-                                    <li><a href="#">Jobs</a></li>
+
+                                </ul>
+                            </div>
+                            <div class="col-xs-3 books-li">
+                                <ul>
+                                    <li><a href="#">Job</a></li>
+                                    <li><a href="#">Psalms</a></li>
+                                    <li><a href="#">Proverbs</a></li>
+                                    <li><a href="#">Ecclesiastes</a></li>
+                                    <li><a href="#">Song of Solomon</a></li>
+                                    <li><a href="#">Isaiah</a></li>
+                                    <li><a href="#">Jeremiah</a></li>
+                                    <li><a href="#">Lamentations</a></li></a></li>
+                                    <li><a href="#">Ezekiel</a></li>
+                                    <li><a href="#">Daniel</a></li>
+                                    <li><a href="#">Hosea</a></li>
+                                    <li><a href="#">Joel</a></li>
+                                    <li><a href="#">Amos</a></li>
+                                    <li><a href="#">Obadiah</a></li>
+                                    <li><a href="#">Jonah</a></li>
+                                    <li><a href="#">Micah</a></li>
+                                    <li><a href="#">Nahum</a></li>
+
+                                </ul>
+                            </div>
+                            <div class="col-xs-3 books-li">
+                                <ul>
+                                    <li><a href="#">Habakkuk</a></li>
+                                    <li><a href="#">Zephaniah</a></li>
+                                    <li><a href="#">Haggai</a></li>
+                                    <li><a href="#">Zechariah</a></li>
+                                    <li><a href="#">Malachi</a></li>
+                                    <li><a href="#">Matthew</a></li>
+                                    <li><a href="#">Mark</a></li>
+                                    <li><a href="#">Luke</a></li>
+                                    <li><a href="#">John</a></li>
+                                    <li><a href="#">Acts</a></li>
+                                    <li><a href="#">Romans</a></li>
+                                    <li><a href="#">1 Corinthians</a></li>
+                                    <li><a href="#">2 Corinthians</a></li>
+                                    <li><a href="#">Galatians</a></li>
+                                    <li><a href="#">Ephesians</a></li>
+                                    <li><a href="#">Philippians</a></li>
+                                    <li><a href="#">Colossians</a></li>
+
                                 </ul>
                             </div>
                               <div class="col-xs-3">
                                 <ul>
-                                    <li><a href="#">1 Chronicles</a></li>
-                                    <li><a href="#">2 Chronicles</a></li>
-                                    <li><a href="#">Ezra</a></li>
-                                    <li><a href="#">Nehemiah</a></li>
-                                    <li><a href="#">Esther</a></li>
-                                    <li><a href="#">Jobs</a></li>
+                                    <li><a href="#">1 Thessalonians</a></li>
+                                    <li><a href="#">2 Thessalonians</a></li>
+                                    <li><a href="#">1 Timothy</a></li>
+                                    <li><a href="#">2 Timothy</a></li>
+                                    <li><a href="#">Titus</a></li>
+                                    <li><a href="#">Philemon</a></li>
+                                    <li><a href="#">Hebrews</a></li>
+                                    <li><a href="#">James</a></li>
+                                    <li><a href="#">1 Peter</a></li>
+                                    <li><a href="#">2 Peter</a></li>
+                                    <li><a href="#">1 John</a></li>
+                                    <li><a href="#">2 John</a></li>
+                                    <li><a href="#">3 John</a></li>
+                                    <li><a href="#">Jude</a></li>
+                                    <li><a href="#">Revelation</a></li>
+                                    <li><a href="#">1 Thessalonians</a></li>
+                                    <li><a href="#">2 Thessalonians</a></li>
                                 </ul>
-                            </div>
+                              </div>
                         </div>
                     </div>
-                        <div role="tabpanel" class="tab-pane" id="myChapters">
-                            <table border=0 width=100%>
+                    <div class="mdl-tabs__panel" id="chapters-panel">
+                        <div class="chapter-no">
+                            <ul>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li><a href="#">6</a></li>
+                                <li><a href="#">7</a></li>
+                                <li><a href="#">8</a></li>
+                                <li><a href="#">9</a></li>
+                                <li><a href="#">10</a></li>
+                                <li><a href="#">11</a></li>
+                                <li><a href="#">12</a></li>
+                                <li><a href="#">13</a></li>
+                                <li><a href="#">14</a></li>
+                                <li><a href="#">15</a></li>
+                                <li><a href="#">16</a></li>
+                                <li><a href="#">17</a></li>
+                                <li><a href="#">18</a></li>
+                                <li><a href="#">19</a></li>
+                                <li><a href="#">20</a></li>
+                                <li><a href="#">21</a></li>
+                                <li><a href="#">22</a></li>
+                                <li><a href="#">23</a></li>
+                                <li><a href="#">24</a></li>
+                            </ul
+                        </div>
+                    </div>
+                           <!--  <table border=0 width=100%>
                                 <tr>
                                     <td><a href="#">1</a></td>
                                     <td><a href="#">2</a></td>
@@ -120,14 +217,12 @@
                                     <td><a href="#">23</a></td>
                                     <td><a href="#">24</a></td>
                                 </tr>
-                            </table>
-                        </div> 
+                            </table> -->
+                         
                     </div>
-                </div>
             </div>
-            <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div> -->
+    </div>
+</div>
         </div>
     </div>
 </div>
