@@ -336,9 +336,8 @@ ul {
 
 //book chapters li on selected
 .selected li a:focus {font-weight: bold;}
+.chapter-no li a:focus {color: #032459;}
 
-//table td on selected
-tbody tr td a:focus {font-weight: bold;}
 
 .modal-content {
   width: 710px;
@@ -352,7 +351,30 @@ tbody tr td a:focus {font-weight: bold;}
   padding: 0;
 }
 
-.chapter-no{width: 100%; min-height: 465px; padding-top: 100px;}
+.chapter-no{width: 100%; min-height: 485px; padding: 20px 0 0 10px;}
 .chapter-no ul {margin: 0; padding: 0; float: left; width: 100%}
-.chapter-no ul li {margin: 10px 0; padding: 0; float: left; text-align: center; width: 20%}
+.chapter-no ul li {margin: 5px 0; padding: 0; float: left; text-align: center; width: 8%}
 .chapter-no ul li a:focus {font-weight: bold;}
+
+// .chapter-no li a{
+//     border-radius: 50%;
+//     // behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+
+//     width: 36px;
+//     height: 36px;
+//     padding: 8px;
+//     background: #fff;
+//     border: 2px solid #536dfe;
+//     color: #536dfe;
+//     text-align: center;
+
+//     font: 12px Arial, sans-serif;
+// }
+.chapter-no li a {
+  font-size: inherit;
+  border-radius: 10px;
+}
+
+.mdl-tabs__tab-bar a {text-decoration: none;}
+.dropdown button {width: 200px;}
+#bookdata{padding-top: 20px;}
