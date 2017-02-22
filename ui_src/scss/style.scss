@@ -260,22 +260,6 @@ html, body {
   padding-top: 10px;
 }
 
-/*
- * Responsive navbar 
- */
-
-// @media (max-width: 768px) {
-
-//      ul.navbar-nav li {width: 100%  !important;}
-//      ul.navbar-pills {width: 100%  !important; float: none;}
-//      ul.navbar-pills li {width: 100%;}
-// }
-// #myChapters {
-//   font-style: sans-serif;
-//   font-size: 15px;
-//   padding-top: 10px
-// }
-
 #saved-time {
   font-style: italic;
   font-family: Georgia,Serif;
@@ -292,56 +276,37 @@ ul {
   padding-top: 10px;
 }
 
-// .radiobuttons label {
-//   font-weight: 100;
-// }
-
-// .chapdata {
-//   padding-top: 22px;
-// }
-
-// #tabdata {
-//   margin-right: 100px;
-// }
-// table {
-//   text-align: center;
-//   margin-top: 185px;
-// }
-
 #myModalLabel {
   font-weight: bold;
 }
-// td:nth-child(even) {background-color: #f2f2f2}
-// tr:nth-child(1) > td:nth-child(n+1):nth-child(-n+2) {
-//   color: red;
-// }
 
-// table td {
-//     background-color: green;
-//     padding: 5px;
-//     border: 1px solid blue;
-// }
-
-// .red {
-//    background-color: red;
-// }
 .modal-header {
   border-bottom: 0px;
   padding-bottom: inherit;
 }
 
-// #chapters-panel {
-//   padding-bottom: 240px;
-// }
-
 //book chapters li on selected
 .selected li a:focus {font-weight: bold;}
 // .chapter-no li a:focus {color: #032459;}
 
+// .modal-dialog {overflow-x: initial !important}
 
 .modal-content {
   width: 710px;
-}
+  }
+// .modal-content {
+//   width: 710px;
+//   max-width: 400px;
+//     /* max-height: 500px; */
+//     width: 100%;
+//     overflow-x: auto;
+//     /* overflow-y: auto; */
+// }
+
+// .modal-body {
+//   width: 100%;
+//   overflow-x: scroll;
+// }
 
 .books-li {
   width: 25%;
@@ -352,12 +317,66 @@ ul {
 }
 
 .chapter-no{width: 100%; min-height: 485px; padding: 20px 0 0 10px;}
-.chapter-no ul {margin: 0; padding: 0; float: left; width: 100%}
-.chapter-no ul li {margin: 5px 0; padding: 0; float: left; text-align: center; width: 8%}
+.chapter-no ul {margin: 0; padding: 0; float: left; width: 100%;}
+.chapter-no ul li {margin: 5px 0; padding: 0; float: left; text-align: center; width: 8%;}
 .chapter-no ul li a:focus {background-color: #ccc !important;}
-.chapter-no ul li a {color: #605f63 !important;}
-.chapter-no li a {font-size: inherit; width: 50px; display: inline-block; background-color: #f2f2f2 !important;}
+.chapter-no ul li a {color: #0b63bf !important;}
+.chapter-no li a {font-size: inherit; width: 50px; display: inline-block; background-color: #f5f5f5 !important;}
 
 .mdl-tabs__tab-bar a {text-decoration: none;}
 .dropdown button {width: 200px;}
 #bookdata{padding-top: 20px;}
+
+.books-li ul li a{color: #0b63bf !important;}
+
+// #scroll-wrap{
+//   width: 710px;
+  
+// }
+// slider css
+.slider.slider-horizontal {
+    width: 110px !important;
+    height: 20px !important;
+}
+
+
+//font button css
+.font-button:focus {
+  background-color: #f8f8f8;
+  color: #0b82ff;
+}
+
+.font-button:active {
+  background-color: #f8f8f8;
+}
+.font-button {
+    background-color: #f8f8f8;
+    border: none;
+    font-weight: bold;
+    color: #0b82ff;
+    font-size: 15px;
+    padding-bottom: 10px;
+}
+
+.font-button:hover {
+  background-color: #f8f8f8;
+  color: #0b82ff;
+}
+.plus {font-size: 23px;}
+
+//layout button 
+.navbar-fixed-bottom .navbar-btn {
+  margin-right: 70px;
+}
+
+#save-btn {
+    padding: 8px 30px 8px 30px;
+    color: #fff;
+    font-weight: 600;
+    background-color: #0b82ff;
+    border-color: #0b82ff;
+}
+
+.btn-success {
+  background-color: #0b82ff; 
+}
