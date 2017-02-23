@@ -383,3 +383,11 @@ ul {
 .btn-success {
   background-color: #0b82ff; 
 }
+
+button li {
+  list-style-type: none;
+  color: #0b82ff;
+  font-weight: bold;
+}
+button .caret { padding-bottom: 3px;
+}

@@ -352,13 +352,32 @@
                             <!--  <button role="ref-selector" class="btn btn-primary" type="button"></button>
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
                 <ul type="refs-list" class="dropdown-menu"></ul> -->
-                <select class="ref-drop-down" title="Select Reference Text"></select>
+                <!-- <select class="ref-drop-down" title="Select Reference Text"></select>
                 <input type="hidden" class="current-val">
-                <span class="diff-count"></span>
+                <span class="diff-count"></span> -->
+    <!-- <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Tutorials
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">English</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Hindi</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Urdu</a></li>
+    </ul> -->
+     <button id="demo-menu-top-left"
+            class="mdl-button mdl-js-ripple-effect">
+      <li class="drop">Language Select
+        <span class="caret"></span>
+  </li>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom mdl-js-menu mdl-js-ripple-effect"
+        data-mdl-for="demo-menu-top-left">
+      <li class="mdl-menu__item">Hindi</li>
+      <li class="mdl-menu__item">English</li>
+      <li class="mdl-menu__item">Urdu</li>
+      <!-- <li class="mdl-menu__item">Yet Another Action</li> -->
+    </ul>
             </div>
         </div>
     </div>
-    <br>
     <div class="row">
         <div type="ref" class="col-12 col-ref">
         </div>
@@ -614,6 +633,7 @@ if (typeof module === 'object') {
 <script src="../controllers/index.js"></script>
 <!-- Material design js -->
 <script src="../assets/javascript/vendor/material.min.js"></script>
+<!-- stider js -->
 <script src="../assets/javascript/vendor/bootstrap-slider.js"></script>
 
 <script>
