@@ -320,11 +320,14 @@ ul {
 .chapter-no ul {margin: 0; padding: 0; float: left; width: 100%;}
 .chapter-no ul li {margin: 5px 0; padding: 0; float: left; text-align: center; width: 8%;}
 .chapter-no ul li a:focus {background-color: #ccc !important;}
+.chapter-no ul li a:hover {text-decoration: none;}
 .chapter-no ul li a {color: #0b63bf !important;}
 .chapter-no li a {font-size: inherit; width: 50px; display: inline-block; background-color: #f5f5f5 !important;}
 
 .mdl-tabs__tab-bar a {text-decoration: none;}
-.dropdown button {width: 200px;}
+
+.dropdown button {width: 143px;}
+
 #bookdata{padding-top: 20px;}
 
 .books-li ul li a{color: #0b63bf !important;}
