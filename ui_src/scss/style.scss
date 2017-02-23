@@ -398,3 +398,28 @@ button li {
 }
 button .caret { padding-bottom: 3px;
 }
+
+#book-chapter-btn {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-style: solid;
+    border-color: #fff;
+    border-width: 2px;
+    font-weight: bold;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: #0b82ff;
+    color: #fff;
+}
+
+#chapterBtn {
+  color: #fff ;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #fff;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px ;
+  margin-left: -2px;
+  font-weight: bold;
+  background-color: #0b82ff;
+}
