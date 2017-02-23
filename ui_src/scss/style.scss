@@ -322,13 +322,15 @@ ul {
 .chapter-no ul li a:focus {background-color: #ccc !important;}
 .chapter-no ul li a:hover {text-decoration: none;}
 .chapter-no ul li a {color: #0b63bf !important;}
-.chapter-no li a {font-size: inherit; width: 50px; display: inline-block; background-color: #f5f5f5 !important;}
+.chapter-no li a {font-size: inherit; width: 42px; display: inline-block; background-color: #f5f5f5 !important;}
 
 .mdl-tabs__tab-bar a {text-decoration: none;}
 
 .dropdown button {width: 143px;}
 
 #bookdata{padding-top: 20px;}
+
+.translation {text-decoration: underline; font-weight: bold;}
 
 .books-li ul li a{color: #0b63bf !important;}
 
@@ -338,7 +340,7 @@ ul {
 // }
 // slider css
 .slider.slider-horizontal {
-    width: 110px !important;
+    width: 90px !important;
     height: 20px !important;
 }
 
@@ -361,15 +363,20 @@ ul {
     padding-bottom: 10px;
 }
 
+// language select dropdown
+.mdl-menu__item {
+  height: 30px !important;
+  line-height: 30px !important;
+}
 .font-button:hover {
   background-color: #f8f8f8;
   color: #0b82ff;
 }
-.plus {font-size: 23px;}
+.plus {font-size: 20px;}
 
 //layout button 
 .navbar-fixed-bottom .navbar-btn {
-  margin-right: 70px;
+  margin-right: 248px;
 }
 
 #save-btn {
