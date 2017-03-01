@@ -53,7 +53,7 @@ document.getElementById("save-btn").addEventListener("click", function(e) {
 });
 
 function createVerseInputs(verses, chunks, chapter) {
-    document.getElementById('input-verses').innerHTML = "";
+    // document.getElementById('input-verses').innerHTML = "";
     var i, chunkIndex = 0,
         chunkVerseStart, chunkVerseEnd;
     for (i = 0; i < chunks.length; i++) {
@@ -87,7 +87,7 @@ function createVerseInputs(verses, chunks, chapter) {
         spanVerseNum.appendChild(document.createTextNode(i));
         divContainer.appendChild(spanVerseNum);
         divContainer.appendChild(spanVerse);
-        document.getElementById('input-verses').appendChild(divContainer);
+        // document.getElementById('input-verses').appendChild(divContainer);
         $(".diff-count-target").html("");
     }
     highlightRef();

@@ -162,6 +162,7 @@ html, body {
 
 .col-ref {
   overflow-y: scroll;
+  height: 1000px;
   div {
     padding: 5px 0;
     span:first-child {
@@ -222,6 +223,12 @@ html, body {
     }
 
     
+}
+
+@media (max-width: 768px) {
+  .navbar-fixed-bottom .navbar-btn {
+    margin-right: 0px !important;
+    }
 }
 
 .main .page-header {
@@ -376,7 +383,7 @@ ul {
 
 //layout button 
 .navbar-fixed-bottom .navbar-btn {
-  margin-right: 248px;
+  margin-right: 299px;
 }
 
 #save-btn {
@@ -385,6 +392,8 @@ ul {
     font-weight: 600;
     background-color: #0b82ff;
     border-color: #0b82ff;
+    margin-left: 120px;
+    margin-right: 0px;
 }
 
 .btn-success {
@@ -402,24 +411,44 @@ button .caret { padding-bottom: 3px;
 #book-chapter-btn {
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    border-style: solid;
-    border-color: #fff;
-    border-width: 2px;
+    // border-style: solid;
+    // border-color: #fff;
+    // border-width: 2px;
+    // font-weight: bold;
+    // border-top-right-radius: 0px;
+    // border-bottom-right-radius: 0px; 
+    color: #0b82ff;
     font-weight: bold;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    background-color: #0b82ff;
-    color: #fff;
 }
 
 #chapterBtn {
-  color: #fff ;
-  border-width: 2px;
-  border-style: solid;
-  border-color: #fff;
+  color: #0b82ff;
+  // border-width: 2px;
+  // border-style: solid;
+  // border-color: #fff;
   border-bottom-left-radius: 0px;
   border-top-left-radius: 0px ;
-  margin-left: -2px;
   font-weight: bold;
-  background-color: #0b82ff;
+  margin-left: -2px;
+  // background-color: #0b82ff;
+}
+
+@media (max-width: 768px) {
+  .navbar-nav {
+    padding: 0 0 0 0 !important;
+} 
+}
+
+// scrollbar 
+body::-webkit-scrollbar {
+    width: 1em;
+}
+ 
+body::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+body::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
 }
