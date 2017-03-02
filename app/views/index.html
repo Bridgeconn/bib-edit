@@ -19,9 +19,201 @@
     <!-- Material Design icon font -->
     <link rel="stylesheet" href="../assets/stylesheets/icon.css">
     <!-- material design files -->
+    <style type="text/css">
+        /*.lang-code*/
+        /*{
+          position:absolute;
+          width:294px;
+          display:none;
+          margin-top:-1px;
+          border:solid 1px #dedede;
+          border-top:0px;
+          overflow:hidden;
+          border-bottom-right-radius: 6px;
+          border-bottom-left-radius: 6px;
+          -moz-border-bottom-right-radius: 6px;
+          -moz-border-bottom-left-radius: 6px;
+          box-shadow: 0px 0px 5px #999;
+          border-width: 3px 1px 1px;
+          border-style: solid;
+          background-color: white;*/
+        /*}*/
+    </style>
 </head>
 
 <body>
+    <div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true" id="bannerformmodal">
+        <div class="modal-dialog modal-sm" style="margin-right: 935px;">
+        <!-- <div class="modal-content"> -->
+          <div class="modal-content" style="width:1190px;">
+                <!-- <div class="modal-header"> -->
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Contact Form</h4> -->
+                <!-- </div> -->
+<div class="modal-body">
+    <div class="container">
+      <div class="row" style="margin-top: -102px;">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="alert alert-success" role="alert" style="display:none;"><strong>Well done!</strong> <span>You successfully read this important alert message.</span></div>
+            <div class="alert alert-danger" role="alert" style="display:none;position: relative;"><strong>Oh snap!</strong> <span>Change a few things up and try submitting again.</span></div>
+          </div>
+        </div><br/><br/><br/><br/>
+        <div class="col-md-12">
+          <div class="row">
+            <form></form>
+            <div class="col-md-4">
+              <h4 class="heading">Reference USFM settings</h4>
+              <div class="form-group" >
+                <!-- <label>Reference Bible Name</label> -->
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample1">
+                <label class="mdl-textfield__label" for="sample1">Reference Bible Name</label>
+              </div>
+
+                <!-- <input class="form-control" id="ref-name" placeholder="Hindi - UDB (BSI)"> -->
+              </div>
+              <div class="form-group">
+                <!-- <label>Reference Bible Language Code</label> -->
+                <!-- <input class="form-control" id="ref-lang-code" placeholder="hi"> -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample2">
+                <label class="mdl-textfield__label" for="sample2">Reference Bible Language Code</label>
+              </div>
+                <div id="reference-lang-result" class="lang-code"></div>
+                <input type="hidden" id="langCode" />
+              </div>
+              <div class="form-group">
+                <!-- <label>Reference Bible Version</label> -->
+                <!-- <input class="form-control" id="ref-version" placeholder="udb-s1"> -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample3">
+                <label class="mdl-textfield__label" for="sample3">Reference Bible Version</label>
+              </div>
+              </div>
+              <div class="form-group">
+                <!-- <label>Reference Bible Folder Location</label>
+                <input class="form-control" id="ref-path" placeholder="/path/to/reference-bible/folder" readonly=""> -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample4">
+                <label class="mdl-textfield__label" for="sample4">Reference Bible Folder Location</label>
+              </div>
+              </div>
+              <button class="btn btn-success" id="ref-import-btn">Import</button>
+            </div>
+            <div class="col-md-4">
+              <h4 class="heading"> Target Language Settings</h4>
+              <div class="form-group">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample5">
+                <label class="mdl-textfield__label" for="sample5">Target Language Code</label>
+              </div>
+                <!-- <label>Target Language Code</label>
+                <input class="form-control" id="target-lang" placeholder="hi">
+                <div id="target-lang-result" class="lang-code"></div>
+                <input type="hidden" id="target-lang-code" /> -->
+              </div>
+              <div class="form-group">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample6">
+                <label class="mdl-textfield__label" for="sample6">Target Version</label>
+              </div>
+                <!-- <label>Target Version</label>
+                <input class="form-control" id="target-version" placeholder="ulb"> -->
+              </div>
+              <div class="form-group">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample7">
+                <label class="mdl-textfield__label" for="sample7">Export Path</label>
+              </div>
+                <!-- <label>Export Path</label>
+                <input class="form-control" id="export-path" placeholder="/path/to/export/folder" readonly=""> -->
+              </div>
+              <button class="btn btn-success" id="save-settings">Save Settings</button>
+            </div>
+            <div class="col-md-4">
+              <h4 class="heading"> Import Target USFM File for Revision </h4>
+              <!-- <div class="form-group">
+                <label>User Name</label>
+                <input class="form-control" id="target-version" placeholder="User Name">
+              </div>
+              <div class="form-group">
+                <label>API Key</label>
+                <input class="form-control" id="export-path" placeholder="API KEY">
+              </div> -->
+                <div class="form-group">
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample8">
+                <label class="mdl-textfield__label" for="sample8">/path/to/import/target/from</label>
+              </div>
+                  <!-- <label>&nbsp;</label>
+                  <input id="target-import-path" class="form-control" placeholder="/path/to/import/target/from" readonly> -->
+                </div>
+                <button id="target-import-btn" class="btn btn-success">Import Target</button>
+
+            </div>
+          </div>
+          </div>
+          
+        </div><!--row div closed-->
+      <div style="margin-top: 10px;"><h4 class="heading">Modify Reference</h4></div>
+      <div>
+        <table class="table table-bordered table-hover table-striped">
+          <th>Reference Name</th>
+          <th>Action</th>
+          <tbody id="reference-list">
+            </tbody>
+        </table>
+      </div>
+    </div>              
+ 
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-blue">Submit</button>
+            </div> -->          
+        </div> <!--modal body-->
+        </div> <!--modal content-->
+      </div>
+    </div>
+    <div class="modal fade"  tabindex="-1" role="dialog" id="dynamicModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="heading"></h4>
+          </div>
+          <div class="modal-body" id="content"></div>
+          <div class="modal-footer">
+            <span class="btn btn-primary" data-dismiss="modal">Close</span>
+          </div>
+        </div>
+        <!-- /.modal-content-->
+      </div>
+      <!-- /.modal-dialog-->
+    </div>
+    <div class="modal fade"  tabindex="-1" role="dialog" id="confirmModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="heading"></h4>
+          </div>
+          <div class="modal-body" id="confirmMessage"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="confirmOk">Ok</button>
+            <span class="btn btn-primary" id="btnDelete" data-dismiss="modal" id="confirmCancel">Close</span>
+          </div>
+        </div>
+        <!-- /.modal-content-->
+      </div>
+      <!-- /.modal-dialog-->
+    </div>
+
+
+
+
+
+
+
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -336,7 +528,8 @@
                     </div>
                     <!-- <a href="javascript:void(0);" onClick="setDiffReferenceText('', '');" >Check Difference</a> -->
                 </li>
-                <li><a href="settings.html" data-toggle="tooltip" data-placement="bottom" title="Settings" class="navigation-btn"><i class="fa fa-cog fa-2x"></i></a></li>
+                <li><a href="#" data-target="#bannerformmodal"data-toggle="modal" data-placement="bottom" title="Settings" class="navigation-btn"><i class="fa fa-cog fa-2x"></i></a></li>
+                
                 <li><a href="about.html" data-toggle="tooltip" data-placement="bottom" title="About" class="navigation-btn"><i class="fa fa-info fa-2x"></i></a></li>
                 <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Export" id="export-usfm"><i class="fa fa-cloud-download fa-2x"></i></a>
                 </ul>
@@ -426,16 +619,16 @@
                         <div id="vi1"><span class="verse-num">1</span><span chunk-group="1-2" contenteditable="true" id="v1"></span></div>
                         <div id="vi2"><span class="verse-num">2</span><span chunk-group="1-2" contenteditable="true" id="v2"></span></div>
                         <div id="vi3"><span class="verse-num">3</span><span chunk-group="3-5" contenteditable="true" id="v3"></span></div>
-                        <div><span class="verse-num">4</span><span chunk-group="3-5" contenteditable="true" id="v4"></span></div>
-                        <div><span class="verse-num">5</span><span chunk-group="3-5" contenteditable="true" id="v5"></span></div>
-                        <div><span class="verse-num">6</span><span chunk-group="6-8" contenteditable="true" id="v6"></span></div>
-                        <div><span class="verse-num">7</span><span chunk-group="6-8" contenteditable="true" id="v7"></span></div>
-                        <div><span class="verse-num">8</span><span chunk-group="6-8" contenteditable="true" id="v8"></span></div>
-                        <div><span class="verse-num">9</span><span chunk-group="9-10" contenteditable="true" id="v9"></span></div>
-                        <div><span class="verse-num">10</span><span chunk-group="9-10" contenteditable="true" id="v10"></span></div>
-                        <div><span class="verse-num">11</span><span chunk-group="11-13" contenteditable="true" id="v11"></span></div>
-                        <div><span class="verse-num">12</span><span chunk-group="11-13" contenteditable="true" id="v12"></span></div>
-                        <div><span class="verse-num">13</span><span chunk-group="11-13" contenteditable="true" id="v13"></span></div>
+                        <div id="vi4"><span class="verse-num">4</span><span chunk-group="3-5" contenteditable="true" id="v4"></span></div>
+                        <div id="vi5"><span class="verse-num">5</span><span chunk-group="3-5" contenteditable="true" id="v5"></span></div>
+                        <div id="vi6"><span class="verse-num">6</span><span chunk-group="6-8" contenteditable="true" id="v6"></span></div>
+                        <div id="vi7"><span class="verse-num">7</span><span chunk-group="6-8" contenteditable="true" id="v7"></span></div>
+                        <div id="vi8"><span class="verse-num">8</span><span chunk-group="6-8" contenteditable="true" id="v8"></span></div>
+                        <div id="vi9"><span class="verse-num">9</span><span chunk-group="9-10" contenteditable="true" id="v9"></span></div>
+                        <div id="vi10"><span class="verse-num">10</span><span chunk-group="9-10" contenteditable="true" id="v10"></span></div>
+                        <div id="vi11"><span class="verse-num">11</span><span chunk-group="11-13" contenteditable="true" id="v11"></span></div>
+                        <div id="vi12"><span class="verse-num">12</span><span chunk-group="11-13" contenteditable="true" id="v12"></span></div>
+                        <div id="vi13"><span class="verse-num">13</span><span chunk-group="11-13" contenteditable="true" id="v13"></span></div>
                         <div id="vi14"><span class="verse-num">14</span><span chunk-group="14-15" contenteditable="true" id="v14"></span></div>
                         <div id="vi15"><span class="verse-num">15</span><span chunk-group="14-15" contenteditable="true" id="v15"></span></div>
                         <div id="vi16"><span class="verse-num">16</span><span chunk-group="16-19" contenteditable="true" id="v16"></span></div>
@@ -704,94 +897,152 @@ if (window.module) module = window.module;
 </script>
 
 <script>
+// $('#vi14').affix({
+//     offset: {
+//         top: $('#n14').offset().top
+//     }
+// });
+$("#vi1").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n1").offset().top -200 
+    }, 000); 
+});$("#vi2").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n2").offset().top -200 
+    }, 000); 
+});$("#vi3").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n3").offset().top -200 
+    }, 000); 
+});$("#vi4").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n4").offset().top -200 
+    }, 000); 
+});$("#vi5").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n5").offset().top -200 
+    }, 000); 
+});$("#vi6").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n6").offset().top -200 
+    }, 000); 
+});$("#vi7").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n7").offset().top -200 
+    }, 000); 
+});$("#vi8").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n8").offset().top -200 
+    }, 000); 
+});$("#vi9").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n9").offset().top -200 
+    }, 000); 
+});$("#vi10").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n10").offset().top -200 
+    }, 000); 
+});$("#vi11").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n11").offset().top -200 
+    }, 000); 
+});$("#vi12").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n12").offset().top -200 
+    }, 000); 
+});$("#vi13").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n13").offset().top -200 
+    }, 000); 
+});
 $("#vi14").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n14").offset().top 
+        scrollTop: $("#n14").offset().top -200 
     }, 000); 
 });
 $("#vi15").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n15").offset().top 
+        scrollTop: $("#n15").offset().top -200 
     }, 000); 
 });
 $("#vi16").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n16").offset().top 
+        scrollTop: $("#n16").offset().top -200 
     }, 000); 
 });
 $("#vi17").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n17").offset().top 
+        scrollTop: $("#n17").offset().top -200 
     }, 000); 
 });
 $("#vi18").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n18").offset().top 
+        scrollTop: $("#n18").offset().top -200 
     }, 000); 
 });
 $("#vi19").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n19").offset().top 
+        scrollTop: $("#n19").offset().top -200 
     }, 000); 
 });
 $("#vi20").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n20").offset().top 
+        scrollTop: $("#n20").offset().top -200 
     }, 000); 
 });
 $("#vi21").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n21").offset().top 
+        scrollTop: $("#n21").offset().top -200 
     }, 000); 
 });
 $("#vi22").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n22").offset().top 
+        scrollTop: $("#n22").offset().top -200 
     }, 0000); 
 });
 $("#vi23").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n23").offset().top 
+        scrollTop: $("#n23").offset().top -200 
     }, 000); 
 });
 $("#vi24").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n24").offset().top 
+        scrollTop: $("#n24").offset().top -200 
     }, 000); 
 });
 $("#vi25").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n25").offset().top 
+        scrollTop: $("#n25").offset().top -200 
     }, 000); 
 });
 $("#vi26").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n26").offset().top 
+        scrollTop: $("#n26").offset().top -200 
     }, 000); 
 });
 $("#vi27").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n27").offset().top 
+        scrollTop: $("#n27").offset().top -200 
     }, 000); 
 });
 $("#vi28").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n28").offset().top 
+        scrollTop: $("#n28").offset().top -200 
     }, 000); 
 });
 $("#vi29").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n29").offset().top 
+        scrollTop: $("#n29").offset().top -200 
     }, 000); 
 });
 $("#vi30").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n30").offset().top 
+        scrollTop: $("#n30").offset().top -200 
     }, 000);
   });  
 $("#vi31").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n31").offset().top 
+        scrollTop: $("#n31").offset().top -200 
     }, 000); 
 });
 </script>
