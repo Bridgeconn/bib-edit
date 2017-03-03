@@ -448,3 +448,34 @@ button .caret { padding-bottom: 3px;
     font-weight: bold;
   }
 
+.form-group {
+  margin-left: 10px;
+}
+
+.mdl-switch.is-upgraded {
+    padding-left: 46px !important;
+  }
+
+.mdl-switch__track {
+    background:#03a9f4 !important;
+    // background :#fafafa !important;
+
+}
+
+.mdl-switch.is-checked .mdl-switch__thumb {
+  background:#fafafa !important;
+}
+
+.mdl-switch__thumb {
+ background: #03a9f4 !important;
+}
+
+.mdl-switch.is-checked .mdl-switch__track {
+  // background: rgba(0, 0, 0, 0.26) !important;
+  // background: rgba(3,169,244,0.5);
+  background: #295482 !important;
+}
+
+.mdl-radio__label {
+  font-weight: 100;
+}

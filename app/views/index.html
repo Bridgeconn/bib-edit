@@ -42,23 +42,30 @@
 </head>
 
 <body>
+<!-- <label for="chkbox1" class="mdl-checkbox mdl-js-checkbox">
+  <input type="checkbox" id="chkbox1" class="mdl-checkbox__input">
+  <span class="mdl-checkbox__label">Enable AutoSave</span>
+</label> -->
     <div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true" id="bannerformmodal">
         <div class="modal-dialog modal-sm" style="margin-right: 935px;">
         <!-- <div class="modal-content"> -->
           <div class="modal-content" style="width:1190px;">
-                <!-- <div class="modal-header"> -->
-                <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Contact Form</h4> -->
-                <!-- </div> -->
+                <!-- <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">Contact Form</h4>
+                </div> -->
+
 <div class="modal-body">
     <div class="container">
-      <div class="row" style="margin-top: -102px;">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <div class="row">
         <div class="col-md-12">
           <div class="row">
             <div class="alert alert-success" role="alert" style="display:none;"><strong>Well done!</strong> <span>You successfully read this important alert message.</span></div>
             <div class="alert alert-danger" role="alert" style="display:none;position: relative;"><strong>Oh snap!</strong> <span>Change a few things up and try submitting again.</span></div>
           </div>
-        </div><br/><br/><br/><br/>
+        </div>
         <div class="col-md-12">
           <div class="row">
             <form></form>
@@ -520,14 +527,20 @@
             </ul>
             <ul class="nav navbar-nav navbar-right nav-pills verse-diff-on">
                 <li>
-                    <a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="search" id="searchText"><i class="fa fa-search fa-2x"></i></a></li>
+                    <a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="search" id="searchText"><i class="fa fa-search fa-2x"></i></a>
                 </li>
+                <li style="padding:17px 5px 0 0; color: #fff; font-weight: bold"><span>OFF</span></li>
                 <li>
-                    <div style="margin-top:10px;">
+                  <label style="margin-top:17px;"class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-2">
+                    <input type="checkbox" id="switch-2" class="mdl-switch__input">
+                    <span class="mdl-switch__label"></span>
+                  </label>
+                    <!-- <div style="margin-top:10px;">
                         <input type="checkbox" class="check-diff" />
-                    </div>
+                    </div> -->
                     <!-- <a href="javascript:void(0);" onClick="setDiffReferenceText('', '');" >Check Difference</a> -->
                 </li>
+                <li style="padding:17px 0 0 0; color: #fff; font-weight: bold"><span>ON</span></li>
                 <li><a href="#" data-target="#bannerformmodal"data-toggle="modal" data-placement="bottom" title="Settings" class="navigation-btn"><i class="fa fa-cog fa-2x"></i></a></li>
                 
                 <li><a href="about.html" data-toggle="tooltip" data-placement="bottom" title="About" class="navigation-btn"><i class="fa fa-info fa-2x"></i></a></li>
@@ -673,7 +686,7 @@
                     <a class="btn btn-primary btn-default" href="#" data-output="4x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="4 Column Layout">4x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
                 </div>
                 <a id="save-btn" data-toggle="tooltip" data-placement="top" title="Save To Target" class="btn btn-success btn-save navbar-btn navbar-right" href="#" role="button" style="float:none !important;">Save</a>
-                <span id="saved-time"></span>
+                <span style="margin: 7px 213px 0 0; color:rgba(45, 46, 47, 0.57);" id="saved-time"></span>
             </div>
         <!-- </div> -->
     </div>
@@ -878,7 +891,7 @@ if (typeof module === 'object') {
 </script>
 <script src="../assets/javascript/vendor/jquery.min.js"></script>
 <script src="../assets/javascript/vendor/bootstrap.min.js"></script>
-<script src="../assets/javascript/vendor/bootstrap-switch.js"></script>
+<!-- <script src="../assets/javascript/vendor/bootstrap-switch.js"></script> -->
 <script src="../controllers/index.js"></script>
 <!-- Material design js -->
 <script src="../assets/javascript/vendor/material.min.js"></script>
@@ -903,149 +916,118 @@ if (window.module) module = window.module;
 //     }
 // });
 $("#vi1").click(function() {
+    $('.row, .col-ref, div.first').animate({
+        scrollTop: $("#n1").offset().top -200}, 000); 
+});
+$("#vi2").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n1").offset().top -200 
-    }, 000); 
-});$("#vi2").click(function() {
-    $('.col-ref, div.first').animate({
-        scrollTop: $("#n2").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n2").offset().top -200}, 000); 
 });$("#vi3").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n3").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n3").offset().top -200}, 000); 
 });$("#vi4").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n4").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n4").offset().top -200}, 000); 
 });$("#vi5").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n5").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n5").offset().top -200}, 000); 
 });$("#vi6").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n6").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n6").offset().top -200}, 000); 
 });$("#vi7").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n7").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n7").offset().top -200}, 000); 
 });$("#vi8").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n8").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n8").offset().top -200}, 000); 
 });$("#vi9").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n9").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n9").offset().top -200}, 000); 
 });$("#vi10").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n10").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n10").offset().top -200}, 000); 
 });$("#vi11").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n11").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n11").offset().top -200}, 000); 
 });$("#vi12").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n12").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n12").offset().top -200}, 000); 
 });$("#vi13").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n13").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n13").offset().top -200}, 000); 
 });
 $("#vi14").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n14").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n14").offset().top -200}, 000); 
 });
 $("#vi15").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n15").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n15").offset().top -200}, 000); 
 });
 $("#vi16").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n16").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n16").offset().top -200}, 000); 
 });
 $("#vi17").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n17").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n17").offset().top -200}, 000); 
 });
 $("#vi18").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n18").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n18").offset().top -200}, 000); 
 });
 $("#vi19").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n19").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n19").offset().top -200}, 000); 
 });
 $("#vi20").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n20").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n20").offset().top -200}, 000); 
 });
 $("#vi21").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n21").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n21").offset().top -200}, 000); 
 });
 $("#vi22").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n22").offset().top -200 
-    }, 0000); 
+        scrollTop: $("#n22").offset().top -200}, 0000); 
 });
 $("#vi23").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n23").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n23").offset().top -200}, 000); 
 });
 $("#vi24").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n24").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n24").offset().top -200}, 000); 
 });
 $("#vi25").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n25").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n25").offset().top -200}, 000); 
 });
 $("#vi26").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n26").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n26").offset().top -200}, 000); 
 });
 $("#vi27").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n27").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n27").offset().top -200}, 000); 
 });
 $("#vi28").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n28").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n28").offset().top -200}, 000); 
 });
 $("#vi29").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n29").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n29").offset().top -200}, 000); 
 });
 $("#vi30").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n30").offset().top -200 
-    }, 000);
+        scrollTop: $("#n30").offset().top -200}, 000);
   });  
 $("#vi31").click(function() {
     $('.col-ref, div.first').animate({
-        scrollTop: $("#n31").offset().top -200 
-    }, 000); 
+        scrollTop: $("#n31").offset().top -200}, 000); 
 });
-</script>
 </script>
 </body>
 
