@@ -162,7 +162,7 @@ html, body {
 
 .col-ref {
   overflow-y: scroll;
-  height: 1000px;
+  max-height: 1000px;
   div {
     padding: 5px 0;
     span:first-child {
@@ -479,3 +479,7 @@ button .caret { padding-bottom: 3px;
 .mdl-radio__label {
   font-weight: 100;
 }
+
+// .col-12 {
+//   data-position-fixed:true;
+// }

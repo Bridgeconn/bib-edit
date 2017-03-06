@@ -42,6 +42,7 @@
 </head>
 
 <body>
+
 <!-- <label for="chkbox1" class="mdl-checkbox mdl-js-checkbox">
   <input type="checkbox" id="chkbox1" class="mdl-checkbox__input">
   <span class="mdl-checkbox__label">Enable AutoSave</span>
@@ -57,22 +58,22 @@
                 </div> -->
 
 <div class="modal-body">
-    <div class="container">
+  <div class="container" style="margin-left:0px">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="row">
-            <div class="alert alert-success" role="alert" style="display:none;"><strong>Well done!</strong> <span>You successfully read this important alert message.</span></div>
-            <div class="alert alert-danger" role="alert" style="display:none;position: relative;"><strong>Oh snap!</strong> <span>Change a few things up and try submitting again.</span></div>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="row">
-            <form></form>
-            <div class="col-md-4">
-              <h4 class="heading">Reference USFM settings</h4>
-              <div class="form-group" >
-                <!-- <label>Reference Bible Name</label> -->
+    <div role="tabpanel" class="selected">
+        <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+                <div class="mdl-tabs__tab-bar">
+                  <a href="#reference-panel" class="mdl-tabs__tab is-active">Reference USFM settings</a>
+                  <a href="#language-settings" class="mdl-tabs__tab">Target Language Settings</a>
+                  <a href="#import-target" class="mdl-tabs__tab">Import Target USFM File for Revision</a>
+                  <a href="#modify-reference" class="mdl-tabs__tab">Modify Reference</a>
+                </div>
+        <div class="mdl-tabs__panel is-active" id="reference-panel">
+            <div class="row">
+                <div class="alert alert-success" role="alert" style="display:none;"><strong>Well done!</strong> <span>You successfully read this important alert message.</span></div>
+                <div class="alert alert-danger" role="alert" style="display:none;position: relative;"><strong>Oh snap!</strong> <span>Change a few things up and try submitting again.</span></div>
+             </div>
+                <div class="form-group" >
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="sample1">
                 <label class="mdl-textfield__label" for="sample1">Reference Bible Name</label>
@@ -98,6 +99,7 @@
                 <label class="mdl-textfield__label" for="sample3">Reference Bible Version</label>
               </div>
               </div>
+
               <div class="form-group">
                 <!-- <label>Reference Bible Folder Location</label>
                 <input class="form-control" id="ref-path" placeholder="/path/to/reference-bible/folder" readonly=""> -->
@@ -107,18 +109,13 @@
               </div>
               </div>
               <button class="btn btn-success" id="ref-import-btn">Import</button>
-            </div>
-            <div class="col-md-4">
-              <h4 class="heading"> Target Language Settings</h4>
+          </div>
+         <div class="mdl-tabs__panel" id="language-settings">
               <div class="form-group">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="sample5">
                 <label class="mdl-textfield__label" for="sample5">Target Language Code</label>
               </div>
-                <!-- <label>Target Language Code</label>
-                <input class="form-control" id="target-lang" placeholder="hi">
-                <div id="target-lang-result" class="lang-code"></div>
-                <input type="hidden" id="target-lang-code" /> -->
               </div>
               <div class="form-group">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -137,18 +134,9 @@
                 <input class="form-control" id="export-path" placeholder="/path/to/export/folder" readonly=""> -->
               </div>
               <button class="btn btn-success" id="save-settings">Save Settings</button>
-            </div>
-            <div class="col-md-4">
-              <h4 class="heading"> Import Target USFM File for Revision </h4>
-              <!-- <div class="form-group">
-                <label>User Name</label>
-                <input class="form-control" id="target-version" placeholder="User Name">
-              </div>
-              <div class="form-group">
-                <label>API Key</label>
-                <input class="form-control" id="export-path" placeholder="API KEY">
-              </div> -->
-                <div class="form-group">
+        </div>
+           <div class="mdl-tabs__panel" id="import-target">
+               <div class="form-group">
                   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="sample8">
                 <label class="mdl-textfield__label" for="sample8">/path/to/import/target/from</label>
@@ -157,30 +145,24 @@
                   <input id="target-import-path" class="form-control" placeholder="/path/to/import/target/from" readonly> -->
                 </div>
                 <button id="target-import-btn" class="btn btn-success">Import Target</button>
-
+           </div>
+           <div class="mdl-tabs__panel" id="modify-reference">
+            <div>
+              <table class="table table-bordered table-hover table-striped">
+                <th>Reference Name</th>
+                <th>Action</th>
+                <tbody id="reference-list">
+                  </tbody>
+              </table>
             </div>
-          </div>
-          </div>
-          
-        </div><!--row div closed-->
-      <div style="margin-top: 10px;"><h4 class="heading">Modify Reference</h4></div>
-      <div>
-        <table class="table table-bordered table-hover table-striped">
-          <th>Reference Name</th>
-          <th>Action</th>
-          <tbody id="reference-list">
-            </tbody>
-        </table>
-      </div>
-    </div>              
- 
-            <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-blue">Submit</button>
-            </div> -->          
-        </div> <!--modal body-->
-        </div> <!--modal content-->
-      </div>
-    </div>
+           </div>
+        </div><!--ripple div closed-->
+    </div> <!--tab-panel div closed-->
+</div> <!--container div closed-->
+</div> <!--modal body-->                      
+</div> <!--modal content-->
+</div> <!--modal dialog-->
+</div> <!--modal end-->
     <div class="modal fade"  tabindex="-1" role="dialog" id="dynamicModal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -686,7 +668,7 @@
                     <a class="btn btn-primary btn-default" href="#" data-output="4x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="4 Column Layout">4x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
                 </div>
                 <a id="save-btn" data-toggle="tooltip" data-placement="top" title="Save To Target" class="btn btn-success btn-save navbar-btn navbar-right" href="#" role="button" style="float:none !important;">Save</a>
-                <span style="margin: 7px 213px 0 0; color:rgba(45, 46, 47, 0.57);" id="saved-time"></span>
+                <span style="margin-right: 213px; color:rgba(45, 46, 47, 0.57);" id="saved-time"></span>
             </div>
         <!-- </div> -->
     </div>
@@ -783,7 +765,33 @@
             <div class="modal-body" id="content">
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="input-group">
+                        <div class="i<div  class="col-sm-6">
+        <h3>Left Tabs</h3>
+        <hr/>
+        <div class="col-xs-3"> <!-- required for floating -->
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs tabs-left sideways">
+            <li class="active"><a href="#home-v" data-toggle="tab">Home</a></li>
+            <li><a href="#profile-v" data-toggle="tab">Profile</a></li>
+            <li><a href="#messages-v" data-toggle="tab">Messages</a></li>
+            <li><a href="#settings-v" data-toggle="tab">Settings</a></li>
+          </ul>
+        </div>
+
+        <div class="col-xs-9">
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane active" id="home-v">Home Tab.</div>
+            <div class="tab-pane" id="profile-v">Profile Tab.</div>
+            <div class="tab-pane" id="messages-v">Messages Tab.</div>
+            <div class="tab-pane" id="settings-v">Settings Tab.</div>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+      </div>
+nput-group">
                             <input type="text" class="form-control" aria-label="..." id="stageText">
                             <div class="input-group-btn">
                                 <button id="dropdownBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Choose Stage <span class="caret"></span></button>
@@ -816,27 +824,49 @@
             <div class="modal-body" id="content">
                 <div class="row">
                     <div class="col-lg-6">
-                        <label class="form-check-inline">
+                        <!-- <label class="form-check-inline">
                             <input type="radio" name="searchOption" checked class="form-check-input" value="current" /> Current Chapter
-                        </label>
-                        <label class="form-check-inline">
+                        </label> -->
+                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                        <input type="radio" id="option-1" class="mdl-radio__button" name="searchOption" value="current" checked>
+                        <span class="mdl-radio__label">Current Chapter</span>
+                      </label>
+                        <!-- <label class="form-check-inline">
                             <input type="radio" name="searchOption" class="form-check-input" value="all" /> All Chapters
+                        </label> -->
+                        <label style="margin-left: 10px;" class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                          <input type="radio" id="option-2" class="mdl-radio__button" name="searchOption" value="all">
+                          <span class="mdl-radio__label">All Chapters</span>
                         </label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label>Find:</label>
                             <input type="text" class="form-control" aria-label="..." id="searchTextBox">
                             <span class="error help-inline" id="findError"></span>
-                        </div>
+                        </div> -->
+                        <form action="#">
+                          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="text" id="searchTextBox">
+                            <span class="error help-inline" id="findError"></span>
+                            <label class="mdl-textfield__label" for="searchTextBox">Find</label>
+                          </div>
+                        </form>
                         <!-- /input-group -->
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label>Replace With:</label>
                             <input type="text" class="form-control" aria-label="..." id="replaceTextBox">
                             <span class="error help-inline" id="replaceError"></span>
-                        </div>
+                        </div> -->
+                        <form action="#">
+                          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="text" id="replaceTextBox">
+                            <span class="error help-inline" id="replaceError"></span>
+                            <label class="mdl-textfield__label" for="replaceTextBox">Replace With</label>
+                          </div>
+                        </form>
                         <!-- /input-group -->
                     </div>
                     <!-- /.col-lg-6 -->
