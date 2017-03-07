@@ -11,106 +11,467 @@
     <title>Autographa Lite</title>
     <!-- Bootstrap core CSS-->
     <link href="../assets/stylesheets/style.css" rel="stylesheet">
+    <!-- slider css -->
+    <link href="../assets/stylesheets/bootstrap-slider.css" rel="stylesheet">
+
+    <!-- material design files -->
+    <link rel="stylesheet" href="../assets/stylesheets/material.light_blue-indigo.min.css" />
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="../assets/stylesheets/icon.css">
+    <!-- material design files -->
+    <style type="text/css">
+        /*.lang-code*/
+        /*{
+          position:absolute;
+          width:294px;
+          display:none;
+          margin-top:-1px;
+          border:solid 1px #dedede;
+          border-top:0px;
+          overflow:hidden;
+          border-bottom-right-radius: 6px;
+          border-bottom-left-radius: 6px;
+          -moz-border-bottom-right-radius: 6px;
+          -moz-border-bottom-left-radius: 6px;
+          box-shadow: 0px 0px 5px #999;
+          border-width: 3px 1px 1px;
+          border-style: solid;
+          background-color: white;*/
+        /*}*/
+    </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                <a class="navbar-brand navigation-btn" href="index.html" data-toggle="tooltip" data-placement="bottom" title="Home"><img alt="Brand" src="../assets/images/logo.png"></a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <div class="btn-group navbar-btn strong verse-diff-on" role="group" aria-label="..." id="bookBtn">
-                            <a class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Select Book" href="javascript:getBookList();" id="book-chapter-btn">Genesis</a><span id="chapterBtnSpan"><a class="btn btn-default" id="chapterBtn" href="javascript:getBookChapterList('1');" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" >1</a></span>
-                        </div>
-                        <div class="btn-group navbar-btn verse-diff-on" role="group" aria-label="..."><a class="btn btn-default font-button minus" data-toggle="tooltip" data-placement="bottom" title="Decrease Font" href="JavaScript:void(0)">A-</a><a class="btn btn-default font-button plus" data-toggle="tooltip" data-placement="bottom" title="Increase Font" href="JavaScript:void(0);">A+</a></div>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right verse-diff-on">
-                    <li>
-                        <a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="search" id="searchText"><i class="fa fa-search fa-2x"></i></a></li>
-                    </li>
-                    <li>
-                        <div style="margin-top:10px;">
-                            <input type="checkbox" class="check-diff" />
-                        </div>
-                        <!-- <a href="javascript:void(0);" onClick="setDiffReferenceText('', '');" >Check Difference</a> -->
-                    </li>
-                    <li><a href="settings.html" data-toggle="tooltip" data-placement="bottom" title="Settings" class="navigation-btn"><i class="fa fa-cog fa-2x"></i></a></li>
-                    <li><a href="about.html" data-toggle="tooltip" data-placement="bottom" title="About" class="navigation-btn"><i class="fa fa-info fa-2x"></i></a></li>
-                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Export" id="export-usfm"><i class="fa fa-cloud-download fa-2x"></i></a>
-                </ul>
-            </div>
+
+<!-- <label for="chkbox1" class="mdl-checkbox mdl-js-checkbox">
+  <input type="checkbox" id="chkbox1" class="mdl-checkbox__input">
+  <span class="mdl-checkbox__label">Enable AutoSave</span>
+</label> -->
+    <div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true" id="bannerformmodal">
+        <div class="modal-dialog modal-sm" style="margin-right: 935px;">
+        <!-- <div class="modal-content"> -->
+          <div class="modal-content" style="width:1190px;">
+                <!-- <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">Contact Form</h4>
+                </div> -->
+
+<div class="modal-body">
+  <div class="container" style="margin-left:0px">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <div role="tabpanel" class="selected">
+        <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+                <div class="mdl-tabs__tab-bar">
+                  <a href="#reference-panel" class="mdl-tabs__tab is-active">Reference USFM settings</a>
+                  <a href="#language-settings" class="mdl-tabs__tab">Target Language Settings</a>
+                  <a href="#import-target" class="mdl-tabs__tab">Import Target USFM File for Revision</a>
+                  <a href="#modify-reference" class="mdl-tabs__tab">Modify Reference</a>
+                </div>
+        <div class="mdl-tabs__panel is-active" id="reference-panel">
+            <div class="row">
+                <div class="alert alert-success" role="alert" style="display:none;"><strong>Well done!</strong> <span>You successfully read this important alert message.</span></div>
+                <div class="alert alert-danger" role="alert" style="display:none;position: relative;"><strong>Oh snap!</strong> <span>Change a few things up and try submitting again.</span></div>
+             </div>
+                <div class="form-group" >
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample1">
+                <label class="mdl-textfield__label" for="sample1">Reference Bible Name</label>
+              </div>
+
+                <!-- <input class="form-control" id="ref-name" placeholder="Hindi - UDB (BSI)"> -->
+              </div>
+              <div class="form-group">
+                <!-- <label>Reference Bible Language Code</label> -->
+                <!-- <input class="form-control" id="ref-lang-code" placeholder="hi"> -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample2">
+                <label class="mdl-textfield__label" for="sample2">Reference Bible Language Code</label>
+              </div>
+                <div id="reference-lang-result" class="lang-code"></div>
+                <input type="hidden" id="langCode" />
+              </div>
+              <div class="form-group">
+                <!-- <label>Reference Bible Version</label> -->
+                <!-- <input class="form-control" id="ref-version" placeholder="udb-s1"> -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample3">
+                <label class="mdl-textfield__label" for="sample3">Reference Bible Version</label>
+              </div>
+              </div>
+
+              <div class="form-group">
+                <!-- <label>Reference Bible Folder Location</label>
+                <input class="form-control" id="ref-path" placeholder="/path/to/reference-bible/folder" readonly=""> -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample4">
+                <label class="mdl-textfield__label" for="sample4">Reference Bible Folder Location</label>
+              </div>
+              </div>
+              <button class="btn btn-success" id="ref-import-btn">Import</button>
+          </div>
+         <div class="mdl-tabs__panel" id="language-settings">
+              <div class="form-group">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample5">
+                <label class="mdl-textfield__label" for="sample5">Target Language Code</label>
+              </div>
+              </div>
+              <div class="form-group">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample6">
+                <label class="mdl-textfield__label" for="sample6">Target Version</label>
+              </div>
+                <!-- <label>Target Version</label>
+                <input class="form-control" id="target-version" placeholder="ulb"> -->
+              </div>
+              <div class="form-group">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample7">
+                <label class="mdl-textfield__label" for="sample7">Export Path</label>
+              </div>
+                <!-- <label>Export Path</label>
+                <input class="form-control" id="export-path" placeholder="/path/to/export/folder" readonly=""> -->
+              </div>
+              <button class="btn btn-success" id="save-settings">Save Settings</button>
         </div>
-    </nav>
-    <div class="container-fluid">
-        <div class="row row-col-fixed">
-            <div class="col-sm-6 col-fixed" id="section-0">
-                <div class="row">
-                    <div class="col-12 center-align">
-                        <div class="btn-group">
-                            <!--  <button role="ref-selector" class="btn btn-primary" type="button"></button>
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
-                <ul type="refs-list" class="dropdown-menu"></ul> -->
-                            <select class="ref-drop-down" title="Select Reference Text"></select>
-                            <input type="hidden" class="current-val">
-                            <span class="diff-count"></span>
-                        </div>
-                    </div>
+           <div class="mdl-tabs__panel" id="import-target">
+               <div class="form-group">
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample8">
+                <label class="mdl-textfield__label" for="sample8">/path/to/import/target/from</label>
+              </div>
+                  <!-- <label>&nbsp;</label>
+                  <input id="target-import-path" class="form-control" placeholder="/path/to/import/target/from" readonly> -->
                 </div>
-                <div class="row">
-                    <div type="ref" class="col-12 col-ref">
-                    </div>
-                </div>
+                <button id="target-import-btn" class="btn btn-success">Import Target</button>
+           </div>
+           <div class="mdl-tabs__panel" id="modify-reference">
+            <div>
+              <table class="table table-bordered table-hover table-striped">
+                <th>Reference Name</th>
+                <th>Action</th>
+                <tbody id="reference-list">
+                  </tbody>
+              </table>
             </div>
-            <div class="col-sm-6 col-fixed col-editor">
-                <div class="row">
-                    <div class="col-12 center-align">
-                        <div class="btn-group" role="group" aria-label="..."><a class="btn btn-success btn-default" href="#">Translation</a>
-                            <span class="diff-count-target"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div id="input-verses" class="col-12 col-ref">
-                    </div>
-                </div>
-            </div>
+           </div>
+        </div><!--ripple div closed-->
+    </div> <!--tab-panel div closed-->
+</div> <!--container div closed-->
+</div> <!--modal body-->                      
+</div> <!--modal content-->
+</div> <!--modal dialog-->
+</div> <!--modal end-->
+    <div class="modal fade"  tabindex="-1" role="dialog" id="dynamicModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="heading"></h4>
+          </div>
+          <div class="modal-body" id="content"></div>
+          <div class="modal-footer">
+            <span class="btn btn-primary" data-dismiss="modal">Close</span>
+          </div>
         </div>
+        <!-- /.modal-content-->
+      </div>
+      <!-- /.modal-dialog-->
     </div>
-    <nav class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse">
-                <div class="nav navbar-nav verse-diff-on">
-                    <div class="btn-group navbar-btn" role="group" aria-label="..."><a class="btn btn-primary btn-default" href="#" data-output="2x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="2 Column Layout">2x &nbsp;<i class="fa fa-columns fa-lg"></i></a><a class="btn btn-primary btn-default" href="#" data-output="3x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="3 Column Layout">3x &nbsp;<i class="fa fa-columns fa-lg"></i></a><a class="btn btn-primary btn-default" href="#" data-output="4x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="4 Column Layout">4x &nbsp;<i class="fa fa-columns fa-lg"></i></a></div>
-                    <a id="save-btn" data-toggle="tooltip" data-placement="top" title="Save To Target" class="btn btn-success btn-save navbar-btn navbar-right" href="#" role="button" style="float:none !important;">Save</a>
-                    <span id="saved-time" style="position: absolute;right: 0;top: 14px;"></span>
-                </div>
-            </div>
+    <div class="modal fade"  tabindex="-1" role="dialog" id="confirmModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="heading"></h4>
+          </div>
+          <div class="modal-body" id="confirmMessage"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="confirmOk">Ok</button>
+            <span class="btn btn-primary" id="btnDelete" data-dismiss="modal" id="confirmCancel">Close</span>
+          </div>
         </div>
-        </div>
-    </nav>
-    <div class="modal fade" id="books" tabindex="-1" role="dialog">
+        <!-- /.modal-content-->
+      </div>
+      <!-- /.modal-dialog-->
+    </div>
+
+
+
+
+
+
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Books</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Books and Chapter</h4>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="wrap-center">
-                                <div class="btn-group" role="group" aria-label="...">
-                                    <button class="btn btn-default" type="button" id="allBooksBtn">ALL</button>
-                                    <button class="btn btn-default" type="button" id="otBooksBtn">OT</button>
-                                    <button class="btn btn-default" type="button" id="ntBooksBtn">NT</button>
+
+                    <div class="modal-body">
+                            <div role="tabpanel" class="selected">
+
+                                <!-- Nav tabs -->
+                                <!-- <ul class="nav nav-tabs" role="tablist"> -->
+                                <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+                                    <div class="mdl-tabs__tab-bar">
+                                       <a href="#books-panel" class="mdl-tabs__tab is-active">Books</a>
+                                       <a href="#chapters-panel" class="mdl-tabs__tab">Chapters</a>
+                                   </div>
+                                   <div class="mdl-tabs__panel is-active" id="books-panel">
+                                <div class="dropdown">
+                                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Testament
+                                    <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">All</a></li>
+                                        <li><a href="#">OT</a></li>
+                                        <li><a href="#">NT</a></li>
+                                    </ul>
                                 </div>
-                                <ul class="books" id="books-pane">
-                                </ul>
+                                <div class="row" id="bookdata">
+                                    <div class="col-xs-3 books-li">
+                                        <!-- <div class="col-xs-3" style="margin: inherit;"> -->
+                                        <ul>
+                                            <li><a href="#">Genesis</a></li>
+                                            <li><a href="#">Exodus</a></li>
+                                            <li><a href="#">Leviticus</a></li>
+                                            <li><a href="#">Numbers</a></li>
+                                            <li><a href="#">Deuteronomy</a></li>
+                                            <li><a href="#">Joshua</a></li>
+                                            <li><a href="#">Judges</a></li>
+                                            <li><a href="#">Ruth</a></li>
+                                            <li><a href="#">1 Samuel</a></li>
+                                            <li><a href="#">2 Samuel</a></li>
+                                            <li><a href="#">1 Kings</a></li>
+                                            <li><a href="#">2 Kings</a></li>
+                                            <li><a href="#">1 Chronicles</a></li>
+                                            <li><a href="#">2 Chronicles</a></li>
+                                            <li><a href="#">Ezra</a></li>
+                                            <li><a href="#">Nehemiah</a></li>
+                                            <li><a href="#">Esther</a></li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="col-xs-3 books-li">
+                                        <ul>
+                                            <li><a href="#">Job</a></li>
+                                            <li><a href="#">Psalms</a></li>
+                                            <li><a href="#">Proverbs</a></li>
+                                            <li><a href="#">Ecclesiastes</a></li>
+                                            <li><a href="#">Song of Solomon</a></li>
+                                            <li><a href="#">Isaiah</a></li>
+                                            <li><a href="#">Jeremiah</a></li>
+                                            <li><a href="#">Lamentations</a></li>
+                                            <li><a href="#">Ezekiel</a></li>
+                                            <li><a href="#">Daniel</a></li>
+                                            <li><a href="#">Hosea</a></li>
+                                            <li><a href="#">Joel</a></li>
+                                            <li><a href="#">Amos</a></li>
+                                            <li><a href="#">Obadiah</a></li>
+                                            <li><a href="#">Jonah</a></li>
+                                            <li><a href="#">Micah</a></li>
+                                            <li><a href="#">Nahum</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-xs-3 books-li">
+                                        <ul>
+                                            <li><a href="#">Habakkuk</a></li>
+                                            <li><a href="#">Zephaniah</a></li>
+                                            <li><a href="#">Haggai</a></li>
+                                            <li><a href="#">Zechariah</a></li>
+                                            <li><a href="#">Malachi</a></li>
+                                            <li><a href="#">Matthew</a></li>
+                                            <li><a href="#">Mark</a></li>
+                                            <li><a href="#">Luke</a></li>
+                                            <li><a href="#">John</a></li>
+                                            <li><a href="#">Acts</a></li>
+                                            <li><a href="#">Romans</a></li>
+                                            <li><a href="#">1 Corinthians</a></li>
+                                            <li><a href="#">2 Corinthians</a></li>
+                                            <li><a href="#">Galatians</a></li>
+                                            <li><a href="#">Ephesians</a></li>
+                                            <li><a href="#">Philippians</a></li>
+                                            <li><a href="#">Colossians</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-xs-3 books-li">
+                                        <ul>
+                                            <li><a href="#">1 Thessalonians</a></li>
+                                            <li><a href="#">2 Thessalonians</a></li>
+                                            <li><a href="#">1 Timothy</a></li>
+                                            <li><a href="#">2 Timothy</a></li>
+                                            <li><a href="#">Titus</a></li>
+                                            <li><a href="#">Philemon</a></li>
+                                            <li><a href="#">Hebrews</a></li>
+                                            <li><a href="#">James</a></li>
+                                            <li><a href="#">1 Peter</a></li>
+                                            <li><a href="#">2 Peter</a></li>
+                                            <li><a href="#">1 John</a></li>
+                                            <li><a href="#">2 John</a></li>
+                                            <li><a href="#">3 John</a></li>
+                                            <li><a href="#">Jude</a></li>
+                                            <li><a href="#">Revelation</a></li>
+                                            <li><a href="#">1 Thessalonians</a></li>
+                                            <li><a href="#">2 Thessalonians</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mdl-tabs__panel" id="chapters-panel">
+                                <div class="chapter-no">
+                                    <ul>
+                                        <li><a href="#">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li><a href="#">5</a></li>
+                                        <li><a href="#">6</a></li>
+                                        <li><a href="#">7</a></li>
+                                        <li><a href="#">8</a></li>
+                                        <li><a href="#">9</a></li>
+                                        <li><a href="#">10</a></li>
+                                        <li><a href="#">11</a></li>
+                                        <li><a href="#">12</a></li>
+                                        <li><a href="#">13</a></li>
+                                        <li><a href="#">14</a></li>
+                                        <li><a href="#">15</a></li>
+                                        <li><a href="#">16</a></li>
+                                        <li><a href="#">17</a></li>
+                                        <li><a href="#">18</a></li>
+                                        <li><a href="#">19</a></li>
+                                        <li><a href="#">20</a></li>
+                                        <li><a href="#">21</a></li>
+                                        <li><a href="#">22</a></li>
+                                        <li><a href="#">23</a></li>
+                                        <li><a href="#">24</a></li>
+                                        <li><a href="#">25</a></li>
+                                        <li><a href="#">26</a></li>
+                                        <li><a href="#">27</a></li>
+                                        <li><a href="#">28</a></li>
+                                        <li><a href="#">29</a></li>
+                                        <li><a href="#">30</a></li>
+                                        <li><a href="#">31</a></li>
+                                        <li><a href="#">32</a></li>
+                                        <li><a href="#">33</a></li>
+                                        <li><a href="#">34</a></li>
+                                        <li><a href="#">35</a></li>
+                                        <li><a href="#">36</a></li>
+                                        <li><a href="#">37</a></li>
+                                        <li><a href="#">38</a></li>
+                                        <li><a href="#">39</a></li>
+                                        <li><a href="#">40</a></li>
+                                        <li><a href="#">41</a></li>
+                                        <li><a href="#">42</a></li>
+                                        <li><a href="#">43</a></li>
+                                        <li><a href="#">44</a></li>
+                                        <li><a href="#">45</a></li>
+                                        <li><a href="#">46</a></li>
+                                        <li><a href="#">47</a></li>
+                                        <li><a href="#">48</a></li>
+                                        <li><a href="#">49</a></li>
+                                        <li><a href="#">50</a></li>
+                                        <li><a href="#">56</a></li>
+                                        <li><a href="#">57</a></li>
+                                        <li><a href="#">58</a></li>
+                                        <li><a href="#">59</a></li>
+                                        <li><a href="#">60</a></li>
+                                        <li><a href="#">61</a></li>
+                                        <li><a href="#">62</a></li>
+                                        <li><a href="#">63</a></li>
+                                        <li><a href="#">64</a></li>
+                                        <li><a href="#">65</a></li>
+                                        <li><a href="#">66</a></li>
+                                        <li><a href="#">67</a></li>
+                                        <li><a href="#">68</a></li>
+                                        <li><a href="#">69</a></li>
+                                        <li><a href="#">70</a></li>
+                                        <li><a href="#">71</a></li>
+                                        <li><a href="#">72</a></li>
+                                        <li><a href="#">73</a></li>
+                                        <li><a href="#">74</a></li>
+                                        <li><a href="#">75</a></li>
+                                        <li><a href="#">76</a></li>
+                                        <li><a href="#">77</a></li>
+                                        <li><a href="#">78</a></li>
+                                        <li><a href="#">79</a></li>
+                                        <li><a href="#">80</a></li>
+                                        <li><a href="#">81</a></li>
+                                        <li><a href="#">82</a></li>
+                                        <li><a href="#">83</a></li>
+                                        <li><a href="#">84</a></li>
+                                        <li><a href="#">84</a></li>
+                                        <li><a href="#">86</a></li>
+                                        <li><a href="#">87</a></li>
+                                        <li><a href="#">88</a></li>
+                                        <li><a href="#">89</a></li>
+                                        <li><a href="#">90</a></li>
+                                        <li><a href="#">91</a></li>
+                                        <li><a href="#">92</a></li>
+                                        <li><a href="#">93</a></li>
+                                        <li><a href="#">94</a></li>
+                                        <li><a href="#">95</a></li>
+                                        <li><a href="#">96</a></li>
+                                        <li><a href="#">97</a></li>
+                                        <li><a href="#">98</a></li>
+                                        <li><a href="#">99</a></li>
+                                        <li><a href="#">100</a></li>
+                                        <li><a href="#">101</a></li>
+                                        <li><a href="#">102</a></li>
+                                        <li><a href="#">103</a></li>
+                                        <li><a href="#">104</a></li>
+                                        <li><a href="#">105</a></li>
+                                        <li><a href="#">106</a></li>
+                                        <li><a href="#">107</a></li>
+                                        <li><a href="#">108</a></li>
+                                        <li><a href="#">109</a></li>
+                                        <li><a href="#">110</a></li>
+                                        <li><a href="#">111</a></li>
+                                        <li><a href="#">112</a></li>
+                                        <li><a href="#">113</a></li>
+                                        <li><a href="#">114</a></li>
+                                        <li><a href="#">115</a></li>
+                                        <li><a href="#">116</a></li>
+                                        <li><a href="#">117</a></li>
+                                        <li><a href="#">118</a></li>
+                                        <li><a href="#">119</a></li>
+                                        <li><a href="#">120</a></li>
+                                        <li><a href="#">121</a></li>
+                                        <li><a href="#">122</a></li>
+                                        <li><a href="#">123</a></li>
+                                        <li><a href="#">124</a></li>
+                                        <li><a href="#">124</a></li>
+                                        <li><a href="#">125</a></li>
+                                        <li><a href="#">126</a></li>
+                                        <li><a href="#">127</a></li>
+                                        <li><a href="#">128</a></li>
+                                        <li><a href="#">129</a></li>
+                                        <li><a href="#">130</a></li>
+                                        <li><a href="#">131</a></li>
+                                        <li><a href="#">132</a></li>
+                                        <li><a href="#">133</a></li>
+                                        <li><a href="#">134</a></li>
+                                        <li><a href="#">135</a></li>
+                                        <li><a href="#">136</a></li>
+                                        <li><a href="#">137</a></li>
+                                        <li><a href="#">138</a></li>
+                                        <li><a href="#">139</a></li>
+                                        <li><a href="#">140</a></li>
+                                        <li><a href="#">141</a></li>
+                                        <li><a href="#">142</a></li>
+                                        <li><a href="#">143</a></li>
+                                        <li><a href="#">144</a></li>
+                                        <li><a href="#">145</a></li>
+                                        <li><a href="#">146</a></li>
+                                        <li><a href="#">147</a></li>
+                                        <li><a href="#">148</a></li>
+                                        <li><a href="#">149</a></li>
+                                        <li><a href="#">150</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -118,17 +479,218 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="chapters" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Chapters</h4>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+            <a class="navbar-brand navigation-btn" href="index.html" data-toggle="tooltip" data-placement="bottom" title="Home"><img alt="Brand" src="../assets/images/logo.png"></a>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar">
+            <ul class="nav navbar-nav" style="padding: 3px 0 0 243px;">
+                <li>
+                    <div class="btn-group navbar-btn strong verse-diff-on" role="group" aria-label="..." id="bookBtn">
+                        <a class="btn btn-default" data-toggle="modal" data-placement="bottom" title="Select Book" data-target="#myModal" href="javascript:getBookList();" id="book-chapter-btn">Genesis
+                        </a>
+
+                        <span id="chapterBtnSpan"><a class="btn btn-default" id="chapterBtn" data-target="#myModal" href="javascript:getBookChapterList('1');" data-toggle="modal" data-placement="bottom"  title="Select Chapter" >1</a></span>
+                    </div>
+                    <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Books</button> -->
+                    <!-- <div class="btn-group navbar-btn verse-diff-on" role="group" aria-label="...">
+                       <span>
+                        <a class="btn btn-default font-button minus" data-toggle="tooltip" data-placement="bottom" title="Decrease Font" href="JavaScript:void(0)">A-</a>
+                    </span>
+                        <input id="ex6" type="text" data-slider-min="-5" data-slider-max="20" data-slider-step="1" data-slider-value="3"/>
+                        <span id="ex6CurrentSliderValLabel"></span>
+                    <span>
+                        <a class="btn btn-default font-button plus" data-toggle="tooltip" data-placement="bottom" title="Increase Font" href="JavaScript:void(0);">A+</a>
+                    </span>
+                    </div> -->
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right nav-pills verse-diff-on">
+                <li>
+                    <a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="search" id="searchText"><i class="fa fa-search fa-2x"></i></a>
+                </li>
+                <li style="padding:17px 5px 0 0; color: #fff; font-weight: bold"><span>OFF</span></li>
+                <li>
+                  <label style="margin-top:17px;"class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-2">
+                    <input type="checkbox" id="switch-2" class="mdl-switch__input">
+                    <span class="mdl-switch__label"></span>
+                  </label>
+                    <!-- <div style="margin-top:10px;">
+                        <input type="checkbox" class="check-diff" />
+                    </div> -->
+                    <!-- <a href="javascript:void(0);" onClick="setDiffReferenceText('', '');" >Check Difference</a> -->
+                </li>
+                <li style="padding:17px 0 0 0; color: #fff; font-weight: bold"><span>ON</span></li>
+                <li><a href="#" data-target="#bannerformmodal"data-toggle="modal" data-placement="bottom" title="Settings" class="navigation-btn"><i class="fa fa-cog fa-2x"></i></a></li>
+                
+                <li><a href="about.html" data-toggle="tooltip" data-placement="bottom" title="About" class="navigation-btn"><i class="fa fa-info fa-2x"></i></a></li>
+                <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Export" id="export-usfm"><i class="fa fa-cloud-download fa-2x"></i></a>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid" >
+        <div class="row row-col-fixed">
+            <div class="col-sm-6 col-fixed" id="section-0">
+                <div class="row">
+                    <div class="col-12 center-align">
+                        <div class="btn-group">
+                <select class="ref-drop-down" title="Select Reference Text"></select>
+                <input type="hidden" class="current-val">
+                <span class="diff-count"></span>
+     <button id="demo-menu-top-left"
+            class="mdl-button mdl-js-button mdl-button ref-drop-down">
+        <li class="drop ">Language Select
+            <span class="caret"></span>
+        </li>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom mdl-js-menu mdl-js-ripple-effect"
+        data-mdl-for="demo-menu-top-left">
+      <li class="mdl-menu__item">Hindi</li>
+      <li class="mdl-menu__item">English</li>
+      <li class="mdl-menu__item">Urdu</li>
+      <!-- <li class="mdl-menu__item">Yet Another Action</li> -->
+    </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+                        <div class="col-12 col-ref first">
+                            <div data-verse="r1" id="n1"><span class="verse-num">1</span><span>In the beginning God created the heavens and the earth.</span></div>
+                            <div data-verse="r2" id="n2"><span class="verse-num">2</span><span>The earth was without form and empty. Darkness was upon the surface of the deep. The Spirit of God was moving above the surface of the waters.</span></div>
+                            <div data-verse="r3" id="n3"><span class="verse-num">3</span><span>God said, "Let there be light," and there was light.</span></div>
+                            <div data-verse="r4" id="n4"><span class="verse-num">4</span><span>God saw the light, that it was good. He divided the light from the darkness.</span></div>
+                            <div data-verse="r5" id="n5"><span class="verse-num">5</span><span>God called the light "day," and the darkness he called "night." This was evening and morning, the first day.</span></div>
+                            <div data-verse="r6" id="n6"><span class="verse-num">6</span><span>God said, "Let there be an expanse between the waters, and let it divide the waters from the waters."</span></div>
+                            <div data-verse="r7" id="n7"><span class="verse-num">7</span><span>God made the expanse and divided the waters which were under the expanse from the waters which were above the expanse. It was so.</span></div>
+                            <div data-verse="r8" id="n8"><span class="verse-num">8</span><span>God called the expanse "sky." This was evening and morning, the second day.</span></div>
+                            <div data-verse="r9" id="n9"><span class="verse-num">9</span><span>God said, "Let the waters under the sky be gathered together to one place, and let the dry land appear." It was so.</span></div>
+                            <div data-verse="r10" id="n10"><span class="verse-num">10</span><span>God called the dry land "earth," and the gathered waters he called "seas." He saw that it was good.</span></div>
+                            <div data-verse="r11" id="n11"><span class="verse-num">11</span><span>God said, "Let the earth sprout vegetation: plants yielding seed and fruit trees bearing fruit whose seed is in the fruit, each according to its own kind." It was so.</span></div>
+                            <div data-verse="r12" id="n12"><span class="verse-num">12</span><span>The earth produced vegetation, plants producing seed after their kind, and trees bearing fruit whose seed was in it, after their kind. God saw that it was good.</span></div>
+                            <div data-verse="r13" id="n13"><span class="verse-num">13</span><span>This was evening and morning, the third day.</span></div>
+                            <div data-verse="r14" ><span id="n14"class="verse-num">14</span><span>God said, "Let there be lights in the sky to divide the day from the night. And let them be as signs, for seasons, for days and years.</span></div>
+                            <div data-verse="r15" ><span id="n15" class="verse-num">15</span><span>Let them be lights in the sky to give light upon the earth." It was so.</span></div>
+                            <div data-verse="r16" id="n16"><span class="verse-num">16</span><span>God made the two great lights, the greater light to rule the day, and the lesser light to rule the night. He made the stars also.</span></div>
+                            <div data-verse="r17" id="n17" style=""><span class="verse-num">17</span><span>God set them in the sky to give light upon the earth,</span></div>
+                            <div data-verse="r18" id="n18" style=""><span class="verse-num">18</span><span>to rule over the day and over the night, and to divide the light from the darkness. God saw that it was good.</span></div>
+                            <div data-verse="r19" id="n19" style=""><span class="verse-num">19</span><span>This was evening and morning, the fourth day.</span></div>
+                            <div data-verse="r20" id="n20" style=""><span class="verse-num">20</span><span>God said, "Let the waters swarm with swarms of living creatures, and let birds fly above the earth in the expanse of the sky."</span></div>
+                            <div data-verse="r21" id="n21" style=""><span class="verse-num">21</span><span>God created the great sea creatures, as well as every living creature after its kind, creatures that move and with which the waters swarm, and every winged bird after its kind. God saw that it was good.</span></div>
+                            <div data-verse="r22" id="n22"><span class="verse-num">22</span><span>God blessed them, saying, "Be fruitful and multiply, and fill the waters in the seas. Let birds multiply on the earth."</span></div>
+                            <div data-verse="r23" id="n23"><span class="verse-num">23</span><span>This was evening and morning, the fifth day.</span></div>
+                            <div data-verse="r24" id="n24"><span class="verse-num">24</span><span>God said, "Let the earth produce living creatures, each according to its own kind, livestock, creeping things, and beasts of the earth, each according to its own kind." It was so.</span></div>
+                            <div data-verse="r25" id="n25"><span class="verse-num">25</span><span>God made the beasts of the earth after their kind, the livestock after their kinds, and everything that creeps upon the ground after its kind. He saw that it was good.</span></div>
+                            <div data-verse="r26" id="n26"><span class="verse-num">26</span><span>God said, "Let us make man in our image, after our likeness. Let them have dominion over the fish of the sea, over the birds of the sky, over the livestock, over all the earth, and over every creeping thing that creeps on the earth."</span></div>
+                            <div data-verse="r27" id="n27"><span class="verse-num">27</span><span>God created man in his own image. In his own image he created him. Male and female he created them.</span></div>
+                            <div data-verse="r28" id="n28"><span class="verse-num">28</span><span>God blessed them and said to them, "Be fruitful, and multiply. Fill the earth, and subdue it. Have dominion over the fish of the sea, over the birds of the sky, and over every living thing that moves upon the earth."</span></div>
+                            <div data-verse="r29" id="n29"><span class="verse-num">29</span><span>God said, "See, I have given you every plant yielding seed which is upon the surface of all the earth, and every tree with fruit which has seed in it. They will be food to you.</span></div>
+                            <div data-verse="r30" id="n30" ><span class="verse-num">30</span><span>To every beast of the earth, to every bird of the heavens, and to everything that creeps upon the earth, and to every creature that has the breath of life I have given every green plant for food." It was so.</span></div>
+                            <div  data-verse="r31" id="n31"><span class="verse-num">31</span><span>God saw everything that he had made. Behold, it was very good. This was evening and morning, the sixth day.</span></div>
+                        </div>
+    <!-- <div class="row">
+        <div type="ref" class="col-12 col-ref">
+        </div> -->
+    </div>
+</div>
+<div class="col-sm-6 col-fixed col-editor">
+    <div class="row">
+        <div class="col-12 center-align">
+            <!-- <div class="btn-group" role="group" aria-label="..."><a class="btn btn-success btn-default" style="
+                border-radius: 4px;
+                " href="#">Translation</a>
+                <span class="diff-count-target"></span>
+            </div> -->
+            <p class="translation">Translation</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- <div id="input-verses" class="col-12 col-ref">
+        </div> -->
+        <div class="col-12 col-ref">
+                        <div id="vi1"><span class="verse-num">1</span><span chunk-group="1-2" contenteditable="true" id="v1"></span></div>
+                        <div id="vi2"><span class="verse-num">2</span><span chunk-group="1-2" contenteditable="true" id="v2"></span></div>
+                        <div id="vi3"><span class="verse-num">3</span><span chunk-group="3-5" contenteditable="true" id="v3"></span></div>
+                        <div id="vi4"><span class="verse-num">4</span><span chunk-group="3-5" contenteditable="true" id="v4"></span></div>
+                        <div id="vi5"><span class="verse-num">5</span><span chunk-group="3-5" contenteditable="true" id="v5"></span></div>
+                        <div id="vi6"><span class="verse-num">6</span><span chunk-group="6-8" contenteditable="true" id="v6"></span></div>
+                        <div id="vi7"><span class="verse-num">7</span><span chunk-group="6-8" contenteditable="true" id="v7"></span></div>
+                        <div id="vi8"><span class="verse-num">8</span><span chunk-group="6-8" contenteditable="true" id="v8"></span></div>
+                        <div id="vi9"><span class="verse-num">9</span><span chunk-group="9-10" contenteditable="true" id="v9"></span></div>
+                        <div id="vi10"><span class="verse-num">10</span><span chunk-group="9-10" contenteditable="true" id="v10"></span></div>
+                        <div id="vi11"><span class="verse-num">11</span><span chunk-group="11-13" contenteditable="true" id="v11"></span></div>
+                        <div id="vi12"><span class="verse-num">12</span><span chunk-group="11-13" contenteditable="true" id="v12"></span></div>
+                        <div id="vi13"><span class="verse-num">13</span><span chunk-group="11-13" contenteditable="true" id="v13"></span></div>
+                        <div id="vi14"><span class="verse-num">14</span><span chunk-group="14-15" contenteditable="true" id="v14"></span></div>
+                        <div id="vi15"><span class="verse-num">15</span><span chunk-group="14-15" contenteditable="true" id="v15"></span></div>
+                        <div id="vi16"><span class="verse-num">16</span><span chunk-group="16-19" contenteditable="true" id="v16"></span></div>
+                        <div id="vi17"><span class="verse-num">17</span><span chunk-group="16-19" contenteditable="true" id="v17"></span></div>
+                        <div id="vi18"><span class="verse-num">18</span><span chunk-group="16-19" contenteditable="true" id="v18"></span></div>
+                        <div id="vi19"><span class="verse-num">19</span><span chunk-group="16-19" contenteditable="true" id="v19"></span></div>
+                        <div id="vi20"><span class="verse-num">20</span><span chunk-group="20-21" contenteditable="true" id="v20"></span></div>
+                        <div id="vi21"><span class="verse-num">21</span><span chunk-group="20-21" contenteditable="true" id="v21"></span></div>
+                        <div id="vi22"><span class="verse-num">22</span><span chunk-group="22-23" contenteditable="true" id="v22"></span></div>
+                        <div id="vi23"><span class="verse-num">23</span><span chunk-group="22-23" contenteditable="true" id="v23"></span></div>
+                        <div id="vi24"><span class="verse-num">24</span><span chunk-group="24-25" contenteditable="true" id="v24"></span></div>
+                        <div id="vi25"><span class="verse-num">25</span><span chunk-group="24-25" contenteditable="true" id="v25"></span></div>
+                        <div id="vi26"><span class="verse-num">26</span><span chunk-group="26-27" contenteditable="true" id="v26"></span></div>
+                        <div id="vi27"><span class="verse-num">27</span><span chunk-group="26-27" contenteditable="true" id="v27"></span></div>
+                        <div id="vi28"><span class="verse-num">28</span><span chunk-group="28-29" contenteditable="true" id="v28"></span></div>
+                        <div id="vi29"><span class="verse-num">29</span><span chunk-group="28-29" contenteditable="true" id="v29"></span></div>
+                        <div id="vi30"><span class="verse-num">30</span><span chunk-group="30-31" contenteditable="true" id="v30"></span></div>
+                        <div id="vi31"><span class="verse-num">31</span><span chunk-group="30-31" contenteditable="true" id="v31"></span></div>
+                    </div>
+    </div>
+</div>
+</div>
+</div>
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid">
+        <!-- <div class="collapse navbar-collapse"> -->
+            <div class="nav navbar-nav verse-diff-on">
+                <div class="btn-group navbar-btn verse-diff-on" role="group" aria-label="...">
+                    <span>
+                        <a class="btn btn-default font-button minus" data-toggle="tooltip" data-placement="top" title="Decrease Font" href="JavaScript:void(0)">A-</a>
+                    </span>
+                        <input id="ex6" type="text" data-slider-min="-5" data-slider-max="20" data-slider-step="1" data-slider-value="3"/>
+                        <span id="ex6CurrentSliderValLabel"></span>
+                    <span>
+                        <a class="btn btn-default font-button plus" data-toggle="tooltip" data-placement="top" title="Increase Font" href="JavaScript:void(0);">A+</a>
+                    </span>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <ul class="chapter-picker" id="chaptersList">
+                <div class="btn-group navbar-btn layout" role="group" aria-label="...">
+                    <a class="btn btn-primary btn-default" href="#" data-output="2x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="2 Column Layout">2x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
+                    <a class="btn btn-primary btn-default" href="#" data-output="3x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="3 Column Layout">3x &nbsp;<i class="fa fa-columns fa-lg"></i>
+                    </a>
+                    <a class="btn btn-primary btn-default" href="#" data-output="4x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="4 Column Layout">4x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
+                </div>
+                <a id="save-btn" data-toggle="tooltip" data-placement="top" title="Save To Target" class="btn btn-success btn-save navbar-btn navbar-right" href="#" role="button" style="float:none !important;">Save</a>
+                <span style="margin-right: 213px; color:rgba(45, 46, 47, 0.57);" id="saved-time"></span>
+            </div>
+        <!-- </div> -->
+    </div>
+</div>
+</nav>
+<div class="modal fade" id="books" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Books</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="wrap-center">
+                            <div class="btn-group" role="group" aria-label="...">
+                                <button class="btn btn-default" type="button" id="allBooksBtn">ALL</button>
+                                <button class="btn btn-default" type="button" id="otBooksBtn">OT</button>
+                                <button class="btn btn-default" type="button" id="ntBooksBtn">NT</button>
+                            </div>
+                            <ul class="books" id="books-pane">
                             </ul>
                         </div>
                     </div>
@@ -136,173 +698,367 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="login" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Login</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Enter the API Key to start using Autographer</label>
-                        <input class="form-control" id="api-code" placeholder="API KEY">
+</div>
+<div class="modal fade" id="chapters" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Chapters</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ul class="chapter-picker" id="chaptersList">
+                        </ul>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" type="button">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="login" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Login</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Enter the API Key to start using Autographer</label>
+                    <input class="form-control" id="api-code" placeholder="API KEY">
                 </div>
             </div>
-            <!-- /.modal-content-->
-        </div>
-        <!-- /.modal-dialog-->
-    </div>
-    <!-- /.modal-->
-    <div class="modal fade" tabindex="-1" role="dialog" id="dynamicModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="heading"></h4>
-                </div>
-                <div class="modal-body" id="content"></div>
-                <div class="modal-footer">
-                    <span class="btn btn-primary" data-dismiss="modal">Close</span>
-                </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button">Save changes</button>
             </div>
-            <!-- /.modal-content-->
         </div>
-        <!-- /.modal-dialog-->
+        <!-- /.modal-content-->
     </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="exportChoice">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="heading">Export Option</h4>
-                </div>
-                <div class="modal-body" id="content">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="input-group">
-                                <input type="text" class="form-control" aria-label="..." id="stageText">
-                                <div class="input-group-btn">
-                                    <button id="dropdownBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Choose Stage <span class="caret"></span></button>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="#" data-value="stage1">Stage 1</a></li>
-                                        <li><a href="#" data-value="stage2">Stage 2</a></li>
-                                        <li><a href="#" data-value="stage3">Stage 3</a></li>
-                                        <li><a href="#" data-value="stage4">Stage 4</a></li>
-                                        <li><a href="#" data-value="stage4">Stage 5</a></li>
-                                    </ul>
-                                </div>
-                                <!-- /btn-group -->
+    <!-- /.modal-dialog-->
+</div>
+<!-- /.modal-->
+<div class="modal fade" tabindex="-1" role="dialog" id="dynamicModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="heading"></h4>
+            </div>
+            <div class="modal-body" id="content"></div>
+            <div class="modal-footer">
+                <span class="btn btn-primary" data-dismiss="modal">Close</span>
+            </div>
+        </div>
+        <!-- /.modal-content-->
+    </div>
+    <!-- /.modal-dialog-->
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="exportChoice">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="heading">Export Option</h4>
+            </div>
+            <div class="modal-body" id="content">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="i<div  class="col-sm-6">
+        <h3>Left Tabs</h3>
+        <hr/>
+        <div class="col-xs-3"> <!-- required for floating -->
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs tabs-left sideways">
+            <li class="active"><a href="#home-v" data-toggle="tab">Home</a></li>
+            <li><a href="#profile-v" data-toggle="tab">Profile</a></li>
+            <li><a href="#messages-v" data-toggle="tab">Messages</a></li>
+            <li><a href="#settings-v" data-toggle="tab">Settings</a></li>
+          </ul>
+        </div>
+
+        <div class="col-xs-9">
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane active" id="home-v">Home Tab.</div>
+            <div class="tab-pane" id="profile-v">Profile Tab.</div>
+            <div class="tab-pane" id="messages-v">Messages Tab.</div>
+            <div class="tab-pane" id="settings-v">Settings Tab.</div>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+      </div>
+nput-group">
+                            <input type="text" class="form-control" aria-label="..." id="stageText">
+                            <div class="input-group-btn">
+                                <button id="dropdownBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Choose Stage <span class="caret"></span></button>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="#" data-value="stage1">Stage 1</a></li>
+                                    <li><a href="#" data-value="stage2">Stage 2</a></li>
+                                    <li><a href="#" data-value="stage3">Stage 3</a></li>
+                                    <li><a href="#" data-value="stage4">Stage 4</a></li>
+                                    <li><a href="#" data-value="stage4">Stage 5</a></li>
+                                </ul>
                             </div>
-                            <!-- /input-group -->
                         </div>
-                        <!-- /.col-lg-6 -->
                     </div>
-                    <!-- /.row -->
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" id="exportUsfm" disabled="disabled">Export</button>
-                    <span class="btn btn-primary" data-dismiss="modal">Close</span>
                 </div>
             </div>
-            <!-- /.modal-content-->
-        </div>
-        <!-- /.modal-dialog-->
-    </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="searchTextModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="heading">Search Text:</h4>
-                </div>
-                <div class="modal-body" id="content">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <label class="form-check-inline">
-                                <input type="radio" name="searchOption" checked class="form-check-input" value="current" /> Current Chapter
-                            </label>
-                            <label class="form-check-inline">
-                                <input type="radio" name="searchOption" class="form-check-input" value="all" /> All Chapters
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label>Find:</label>
-                                <input type="text" class="form-control" aria-label="..." id="searchTextBox">
-                                <span class="error help-inline" id="findError"></span>
-                            </div>
-                            <!-- /input-group -->
-                            <div class="form-group">
-                                <label>Replace With:</label>
-                                <input type="text" class="form-control" aria-label="..." id="replaceTextBox">
-                                <span class="error help-inline" id="replaceError"></span>
-                            </div>
-                            <!-- /input-group -->
-                        </div>
-                        <!-- /.col-lg-6 -->
-                    </div>
-                    <!-- /.row -->
-                </div>
-                <div class="modal-footer">
-                    <!-- <button class="btn btn-primary" id="btnfind">Find</button> -->
-                    <button class="btn btn-primary" id="btnfindReplace">Replace</button>
-                    <span class="btn btn-primary" data-dismiss="modal">Close</span>
-                </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="exportUsfm" disabled="disabled">Export</button>
+                <span class="btn btn-primary" data-dismiss="modal">Close</span>
             </div>
-            <!-- /.modal-content-->
         </div>
-        <!-- /.modal-dialog-->
     </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="replaced-text-change">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="heading">Information!!</h4>
-                </div>
-                <div class="modal-body" id="content">
-                    <div class="row">
-                        <div class="col-lg-6" id="replace-message">
-                        </div>
-                        <!-- /.col-lg-6 -->
-                    </div>
-                    <!-- /.row -->
-                </div>
-                <div class="modal-footer" id="btn-replace">
-                    <input type="hidden" id="chapter-option" />
-                    <button class="btn btn-primary" onclick="saveReplacedText();">Save Changes</button>
-                    <button class="btn btn-primary" data-dismiss="modal" id="replace-cancel">Cancel</button>
-                </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="searchTextModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="heading">Search Text:</h4>
             </div>
-            <!-- /.modal-content-->
+            <div class="modal-body" id="content">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <!-- <label class="form-check-inline">
+                            <input type="radio" name="searchOption" checked class="form-check-input" value="current" /> Current Chapter
+                        </label> -->
+                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                        <input type="radio" id="option-1" class="mdl-radio__button" name="searchOption" value="current" checked>
+                        <span class="mdl-radio__label">Current Chapter</span>
+                      </label>
+                        <!-- <label class="form-check-inline">
+                            <input type="radio" name="searchOption" class="form-check-input" value="all" /> All Chapters
+                        </label> -->
+                        <label style="margin-left: 10px;" class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                          <input type="radio" id="option-2" class="mdl-radio__button" name="searchOption" value="all">
+                          <span class="mdl-radio__label">All Chapters</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <!-- <div class="form-group">
+                            <label>Find:</label>
+                            <input type="text" class="form-control" aria-label="..." id="searchTextBox">
+                            <span class="error help-inline" id="findError"></span>
+                        </div> -->
+                        <form action="#">
+                          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="text" id="searchTextBox">
+                            <span class="error help-inline" id="findError"></span>
+                            <label class="mdl-textfield__label" for="searchTextBox">Find</label>
+                          </div>
+                        </form>
+                        <!-- /input-group -->
+                        <!-- <div class="form-group">
+                            <label>Replace With:</label>
+                            <input type="text" class="form-control" aria-label="..." id="replaceTextBox">
+                            <span class="error help-inline" id="replaceError"></span>
+                        </div> -->
+                        <form action="#">
+                          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="text" id="replaceTextBox">
+                            <span class="error help-inline" id="replaceError"></span>
+                            <label class="mdl-textfield__label" for="replaceTextBox">Replace With</label>
+                          </div>
+                        </form>
+                        <!-- /input-group -->
+                    </div>
+                    <!-- /.col-lg-6 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <div class="modal-footer">
+                <!-- <button class="btn btn-primary" id="btnfind">Find</button> -->
+                <button class="btn btn-primary" id="btnfindReplace">Replace</button>
+                <span class="btn btn-primary" data-dismiss="modal">Close</span>
+            </div>
         </div>
-        <!-- /.modal-dialog-->
+        <!-- /.modal-content-->
     </div>
+    <!-- /.modal-dialog-->
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="replaced-text-change">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="heading">Information!!</h4>
+            </div>
+            <div class="modal-body" id="content">
+                <div class="row">
+                    <div class="col-lg-6" id="replace-message">
+                    </div>
+                    <!-- /.col-lg-6 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <div class="modal-footer" id="btn-replace">
+                <input type="hidden" id="chapter-option" />
+                <button class="btn btn-primary" onclick="saveReplacedText();">Save Changes</button>
+                <button class="btn btn-primary" data-dismiss="modal" id="replace-cancel">Cancel</button>
+            </div>
+        </div>
+        <!-- /.modal-content-->
+    </div>
+    <!-- /.modal-dialog-->
+</div>
     <!--
     Bootstrap core JavaScript
     ==================================================
-    -->
-    <!-- Placed at the end of the document so the pages load faster-->
-    <script>
-      if (typeof module === 'object') {
-          window.module = module;
-          module = undefined;
-      }
-    </script>
-    <script src="../assets/javascript/vendor/jquery.min.js"></script>
-    <script src="../assets/javascript/vendor/bootstrap.min.js"></script>
-    <script src="../assets/javascript/vendor/bootstrap-switch.js"></script>
-    <script src="../controllers/index.js"></script>
-    <script>
-      if (window.module) module = window.module;
-    </script>
+-->
+<!-- Placed at the end of the document so the pages load faster-->
+<script>
+if (typeof module === 'object') {
+  window.module = module;
+  module = undefined;
+}
+</script>
+<script src="../assets/javascript/vendor/jquery.min.js"></script>
+<script src="../assets/javascript/vendor/bootstrap.min.js"></script>
+<!-- <script src="../assets/javascript/vendor/bootstrap-switch.js"></script> -->
+<script src="../controllers/index.js"></script>
+<!-- Material design js -->
+<script src="../assets/javascript/vendor/material.min.js"></script>
+<!-- stider js -->
+<script src="../assets/javascript/vendor/bootstrap-slider.js"></script>
+
+<script>
+$("#ex6").slider();
+$("#ex6").on("slide", function(slideEvt) {
+    $("#ex6SliderVal").text(slideEvt.value);
+});
+</script>
+
+<script>
+if (window.module) module = window.module;
+</script>
+
+<script>
+// $('#vi14').affix({
+//     offset: {
+//         top: $('#n14').offset().top
+//     }
+// });
+$("#vi1").click(function() {
+    $('.row, .col-ref, div.first').animate({
+        scrollTop: $("#n1").offset().top -200}, 000); 
+});
+$("#vi2").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n2").offset().top -200}, 000); 
+});$("#vi3").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n3").offset().top -200}, 000); 
+});$("#vi4").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n4").offset().top -200}, 000); 
+});$("#vi5").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n5").offset().top -200}, 000); 
+});$("#vi6").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n6").offset().top -200}, 000); 
+});$("#vi7").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n7").offset().top -200}, 000); 
+});$("#vi8").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n8").offset().top -200}, 000); 
+});$("#vi9").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n9").offset().top -200}, 000); 
+});$("#vi10").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n10").offset().top -200}, 000); 
+});$("#vi11").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n11").offset().top -200}, 000); 
+});$("#vi12").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n12").offset().top -200}, 000); 
+});$("#vi13").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n13").offset().top -200}, 000); 
+});
+$("#vi14").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n14").offset().top -200}, 000); 
+});
+$("#vi15").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n15").offset().top -200}, 000); 
+});
+$("#vi16").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n16").offset().top -200}, 000); 
+});
+$("#vi17").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n17").offset().top -200}, 000); 
+});
+$("#vi18").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n18").offset().top -200}, 000); 
+});
+$("#vi19").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n19").offset().top -200}, 000); 
+});
+$("#vi20").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n20").offset().top -200}, 000); 
+});
+$("#vi21").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n21").offset().top -200}, 000); 
+});
+$("#vi22").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n22").offset().top -200}, 0000); 
+});
+$("#vi23").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n23").offset().top -200}, 000); 
+});
+$("#vi24").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n24").offset().top -200}, 000); 
+});
+$("#vi25").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n25").offset().top -200}, 000); 
+});
+$("#vi26").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n26").offset().top -200}, 000); 
+});
+$("#vi27").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n27").offset().top -200}, 000); 
+});
+$("#vi28").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n28").offset().top -200}, 000); 
+});
+$("#vi29").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n29").offset().top -200}, 000); 
+});
+$("#vi30").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n30").offset().top -200}, 000);
+  });  
+$("#vi31").click(function() {
+    $('.col-ref, div.first').animate({
+        scrollTop: $("#n31").offset().top -200}, 000); 
+});
+</script>
 </body>
 
 </html>

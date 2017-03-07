@@ -53,7 +53,7 @@ document.getElementById("save-btn").addEventListener("click", function(e) {
 });
 
 function createVerseInputs(verses, chunks, chapter) {
-    document.getElementById('input-verses').innerHTML = "";
+    // document.getElementById('input-verses').innerHTML = "";
     var i, chunkIndex = 0,
         chunkVerseStart, chunkVerseEnd;
     for (i = 0; i < chunks.length; i++) {
@@ -87,7 +87,7 @@ function createVerseInputs(verses, chunks, chapter) {
         spanVerseNum.appendChild(document.createTextNode(i));
         divContainer.appendChild(spanVerseNum);
         divContainer.appendChild(spanVerse);
-        document.getElementById('input-verses').appendChild(divContainer);
+        // document.getElementById('input-verses').appendChild(divContainer);
         $(".diff-count-target").html("");
     }
     highlightRef();
@@ -135,8 +135,8 @@ function lastVisitFromDB(success) {
 
 
 function initializeTextInUI(book, chapter) {
-    document.getElementById('book-chapter-btn').innerHTML = booksList[parseInt(book, 10) - 1];
-    document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ');" >' + chapter + '</a>'
+    // document.getElementById('book-chapter-btn').innerHTML = booksList[parseInt(book, 10) - 1];
+    // document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ');" >' + chapter + '</a>'
     $('a[data-toggle=tooltip]').tooltip();
     db.get(book).then(function(doc) {
         refDb.get('refChunks').then(function(chunkDoc) {
@@ -486,10 +486,13 @@ function highlightRef() {
             var limits = e.target.getAttribute("chunk-group").split("-").map(function(element) {
                 return parseInt(element, 10) - 1;
             });
-            $('div[data-verse^="r"]').css('background-color', '');
+            $('div[data-verse^="r"]').css({ "background-color": "", "padding-left": "10px", "padding-right": "10px"});
             for (j = limits[0]; j <= limits[1]; j++) {
-                $('div[data-verse="r' + (j + 1) + '"]').css('background-color', '#b3ffa8');
+                $('div[data-verse="r' + (j + 1) + '"]').css({ "background-color": "#b3ffa8", "padding-left": "10px", "padding-right": "10px", "margin-right": "10px"});
             }
+            $('div[data-verse="r' + (limits[0] + 1) + '"]').css({"border-radius": "10px 10px 0px 0px"});
+            $('div[data-verse="r' + (limits[1] + 1) + '"]').css({"border-radius": "0px 0px 10px 10px"});
+            
         });
     }
 }
@@ -1178,3 +1181,13 @@ function saveLastVisit(book, chapter){
     });
 }
 //save last visit end
+// $("#ex6").slider();
+// $("#ex6").on("slide", function(slideEvt) {
+//     $("#ex6SliderVal").text(slideEvt.value);
+// });
+
+// Without JQuery
+// var slider = new Slider("#ex6");
+// slider.on("slide", function(sliderValue) {
+//     document.getElementById("ex6SliderVal").textContent = sliderValue;
+// });
