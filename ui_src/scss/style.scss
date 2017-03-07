@@ -476,3 +476,59 @@ button .caret { padding-bottom: 3px;
 .mdl-radio__label {
   font-weight: 100;
 }
+
+// settings tab css
+div.tab a:focus, .active {
+    background-color: #fff !important;
+    border-left: 3px solid blue;
+    border-right: 1px solid #fff;
+
+}
+ *{box-sizing: border-box}
+body {font-family: "Lato", sans-serif;}
+
+/* Style the tab */
+div.tab {
+    float: left;
+    /*border: 1px solid #ccc;*/
+    // border-left: 1px solid #ccc;
+    // border-bottom: 1px solid #ccc;
+    // border-top: 1px solid #ccc;
+    background-color: rgba(241, 241, 241, 0.52);;
+    width: 30%;
+    height: 380px;
+    padding-top: 28px; 
+    margin-top: 21px;
+}
+
+/* Style the links inside the tab */
+div.tab a {
+    display: block;
+    color: black;
+    padding: 22px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of links on hover */
+div.tab a:hover {
+    background-color: #ddd;
+    color: rgba(11,130,255,1);
+}
+
+/* Create an active/current tablink class */
+div.tab a:focus, .active {
+    background-color: #ccc;
+    color: rgba(11,130,255,1);
+}
+
+/* Style the tab content */
+.tabcontent {
+    float: left;
+    padding: 0px 12px;
+    // border: 1px solid #ccc;
+    width: 70%;
+    border-left: none;
+    height: 380px;
+}
