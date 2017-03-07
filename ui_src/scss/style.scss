@@ -314,15 +314,12 @@ ul {
 //   width: 100%;
 //   overflow-x: scroll;
 // }
+// Books tab css
+.books-li {width: 100%; column-count: 4; column-gap: 25%;}
+.books-li ul {padding-left: 50px;}
+.books-li ul li a{color: #0b63bf !important;}
 
-.books-li {
-  width: 25%;
-}
-
-.books-li ul {
-  padding: 0;
-}
-
+// chapter tab css
 .chapter-no{width: 100%; min-height: 485px; padding: 20px 0 0 10px;}
 .chapter-no ul {margin: 0; padding: 0; float: left; width: 100%;}
 .chapter-no ul li {margin: 5px 0; padding: 0; float: left; text-align: center; width: 8%;}
@@ -339,7 +336,7 @@ ul {
 
 .translation {text-decoration: underline; font-weight: bold;}
 
-.books-li ul li a{color: #0b63bf !important;}
+
 
 // #scroll-wrap{
 //   width: 710px;
@@ -479,7 +476,3 @@ button .caret { padding-bottom: 3px;
 .mdl-radio__label {
   font-weight: 100;
 }
-
-// .col-12 {
-//   data-position-fixed:true;
-// }
