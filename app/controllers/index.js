@@ -1191,7 +1191,7 @@ function saveLastVisit(book, chapter){
 // slider.on("slide", function(sliderValue) {
 //     document.getElementById("ex6SliderVal").textContent = sliderValue;
 // });
-function openCity(evt, cityName) {
+function settings(evt, settingsTab) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -1201,9 +1201,19 @@ function openCity(evt, cityName) {
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
-    document.getElementById(cityName).style.display = "block";
+    document.getElementById(settingsTab).style.display = "block";
     evt.currentTarget.className += " active";
 }
 
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
+
+
+
+// $(document).ready(function() {
+$(".books-li ul li a").click(function () {
+    $(".books-li ul li a").removeClass("book-active");
+    // $(".tab").addClass("active"); // instead of this do the below 
+    $(this).addClass("book-active");   
+});
+// });

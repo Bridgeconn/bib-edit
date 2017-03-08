@@ -28,14 +28,14 @@
           <div class="modal-content">
 <div class="modal-body" style="height:444px">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-<div class="tab" style="">
-  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Reference USFM settings</a>
-  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'Paris')">Target Language Settings</a>
-  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'Tokyo')">Import Target USFM File for Revision</a>
-  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'Bihar')">Modify Reference</a>
+<div class="tabs" style="">
+  <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'usfm-settings')" id="defaultOpen">Reference USFM settings</a>
+  <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'language-settings')">Target Language Settings</a>
+  <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'target-usfm')">Import Target USFM File for Revision</a>
+  <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'modify-reference')">Modify Reference</a>
 </div>
 
-<div id="London" class="tabcontent">
+<div id="usfm-settings" class="tabcontent">
               <div class="row">
                 <div class="alert alert-success" role="alert" style="display:none;"><strong>Well done!</strong> <span>You successfully read this important alert message.</span></div>
                 <div class="alert alert-danger" role="alert" style="display:none;position: relative;"><strong>Oh snap!</strong> <span>Change a few things up and try submitting again.</span></div>
@@ -71,7 +71,7 @@
               <button class="btn btn-success" id="ref-import-btn">Import</button>
           </div>
 
-<div id="Paris" class="tabcontent">
+<div id="language-settings" class="tabcontent">
   <div class="form-group">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="sample5">
@@ -93,7 +93,7 @@
               <button class="btn btn-success" id="save-settings">Save Settings</button>
 </div>
 
-<div id="Tokyo" class="tabcontent">
+<div id="target-usfm" class="tabcontent">
     <div class="form-group">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
           <input class="mdl-textfield__input" type="text" id="sample8">
@@ -102,7 +102,7 @@
     </div>
       <button id="target-import-btn" class="btn btn-success">Import Target</button>
 </div>
-<div id="Bihar" class="tabcontent">
+<div id="modify-reference" class="tabcontent">
   <div>
               <table class="table table-bordered table-hover table-striped">
                 <th>Reference Name</th>
@@ -970,10 +970,6 @@ $("#vi31").click(function() {
     $('.col-ref, div.first').animate({
         scrollTop: $("#n31").offset().top -200}, 000); 
 });
-</script>
-
-<script>
-
 </script>
 </body>
 
