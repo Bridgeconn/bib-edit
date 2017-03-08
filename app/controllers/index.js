@@ -1191,3 +1191,29 @@ function saveLastVisit(book, chapter){
 // slider.on("slide", function(sliderValue) {
 //     document.getElementById("ex6SliderVal").textContent = sliderValue;
 // });
+function settings(evt, settingsTab) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(settingsTab).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+
+
+
+// $(document).ready(function() {
+$(".books-li ul li a").click(function () {
+    $(".books-li ul li a").removeClass("book-active");
+    // $(".tab").addClass("active"); // instead of this do the below 
+    $(this).addClass("book-active");   
+});
+// });
