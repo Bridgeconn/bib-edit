@@ -36,6 +36,9 @@
           border-width: 3px 1px 1px;
           border-style: solid;
           background-color: white;
+          height: 200px;
+          overflow-y: scroll;
+          overflow-x:scroll; 
         }
     </style>
 
@@ -234,8 +237,8 @@
                         </li>
                         <li style="padding:17px 5px 0 0; color: #fff; font-weight: bold"><span>OFF</span></li>
                         <li>
-                            <label style="margin-top:17px;" class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-2">
-                                <input type="checkbox" id="switch-2" class="mdl-switch__input">
+                            <label style="margin-top:17px;" class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-2" id="switchLable">
+                                <input type="checkbox" id="switch-2" class="mdl-switch__input check-diff">
                                 <span class="mdl-switch__label"></span>
                             </label>
                             <!-- <div style="margin-top:10px;">
@@ -263,6 +266,17 @@
                                 <select class="ref-drop-down" title="Select Reference Text"></select>
                                 <input type="hidden" class="current-val">
                                 <span class="diff-count"></span>
+                                <!-- <button id="demo-menu-top-left" class="mdl-button mdl-js-button mdl-button ref-drop-down">
+                                    <li class="drop ">Language Select
+                                        <span class="caret"></span>
+                                    </li>
+                                </button>
+                                <ul class="mdl-menu mdl-menu--bottom mdl-js-menu mdl-js-ripple-effect" data-mdl-for="demo-menu-top-left">
+                                  <li class="mdl-menu__item">Hindi</li>
+                                  <li class="mdl-menu__item">English</li>
+                                  <li class="mdl-menu__item">Urdu</li>
+                                  <li class="mdl-menu__item">Yet Another Action</li>
+                                </ul> -->
                             </div>
                         </div>
                     </div>

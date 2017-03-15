@@ -6,6 +6,7 @@ var bibUtil = require("../util/json_to_usfm.js"),
 
 var db = require(`${__dirname}/../util/data-provider`).targetDb(),
     refDb = require(`${__dirname}/../util/data-provider`).referenceDb(),
+    lookupsDb = require(`${__dirname}/../util/data-provider`).lookupsDb(),
     book,
     chapter,
     currentBook,
@@ -594,11 +595,9 @@ function createBooksList(booksLimit) {
     session.defaultSession.cookies.get({ url: 'http://book.autographa.com' }, (error, cookie) => {
         if (cookie.length > 0) {
             book = cookie[0].value;
-            console.log(book);
             $("#b"+book).addClass("link-active");
             $("#c"+$("#chapterBtn").text()).addClass("link-active");
         }else{
-            console.log("test")
             refDb.get("ref_history").then(function(doc) {
                 book = doc.visit_history[0].bookId;
                 chapter = doc.visit_history[0].chapter;
@@ -639,7 +638,7 @@ function setBookName(bookId) {
         createChaptersList(doc.chapters.length);
         $('#booksTab').removeClass('is-active');
         $('#books-panel').removeClass('is-active');
-        $("#chapterTab").click().addClass('is-active');
+        $("#chapterTab").addClass('is-active');
         $("#chapters-panel").addClass("is-active");
     }).catch(function(err) {
         closeModal($("#books"));
@@ -709,19 +708,35 @@ function onBookSelect(bookId) {
 
 function getBookList() {
     createBooksList(66);
+    $("#bookChapTabModal").modal('toggle');
     session.defaultSession.cookies.get({ url: 'http://book.autographa.com' }, (error, cookie) => {
         if (cookie.length > 0) {
             book = cookie[0].value;
-            getBookChapterList(book);
+            db.get(book).then(function(doc) {
+                createChaptersList(doc.chapters.length);
+                $('#booksTab').addClass('is-active');
+                $('#books-panel').addClass('is-active');
+                $("#chapterTab").removeClass('is-active');
+                $("#chapters-panel").removeClass("is-active");
+            }).catch(function(err) {
+                closeModal($("#books"));
+                console.log('Error: While retrieving document. ' + err);
+            });
         }
     });
-    $("#c"+$("#chapterBtn").text()).addClass("link-active");
-    $("#bookChapTabModal").modal('toggle');
+
 }
 // get book chapter list in popup
 function getBookChapterList(bookId) {
     db.get(bookId).then(function(doc) {
         createChaptersList(doc.chapters.length);
+        createBooksList(66);
+        $("#bookChapTabModal").modal('toggle');
+        $('#booksTab').removeClass('is-active');
+        $('#books-panel').removeClass('is-active');
+        $("#chapterTab").click().addClass('is-active');
+        $("#chapters-panel").addClass("is-active");
+        
     }).catch(function(err) {
         console.log('Error: While retrieving document. ' + err);
     });
@@ -838,31 +853,31 @@ function saveReferenceLayout(layout) {
 }
 
 $(function() {
-    // $('[type="checkbox"]').bootstrapSwitch();
-    // refDb.get('targetReferenceLayout').then(function(doc) {
-    //     setMultiwindowReference(doc.layout);
-    // }).catch(function(err) {
-    //     //Layout value unset.       
-    // });
-    // session.defaultSession.cookies.get({ url: 'http://book.autographa.com' }, (error, cookie) => {
-    //     if (cookie.length == 0) {
-    //         const cookie = { url: 'http://book.autographa.com', name: 'book', value: '1' };
-    //         session.defaultSession.cookies.set(cookie, (error) => {
-    //             if (error)
-    //                 console.error(error);
-    //         });
-    //     }
-    // });
+     // $('#switch-2').bootstrapSwitch();
+    refDb.get('targetReferenceLayout').then(function(doc) {
+        setMultiwindowReference(doc.layout);
+    }).catch(function(err) {
+        //Layout value unset.       
+    });
+    session.defaultSession.cookies.get({ url: 'http://book.autographa.com' }, (error, cookie) => {
+        if (cookie.length == 0) {
+            const cookie = { url: 'http://book.autographa.com', name: 'book', value: '1' };
+            session.defaultSession.cookies.set(cookie, (error) => {
+                if (error)
+                    console.error(error);
+            });
+        }
+    });
 
-    // session.defaultSession.cookies.get({ url: 'http://chapter.autographa.com' }, (error, cookie) => {
-    //     if (cookie.length == 0) {
-    //         const cookie = { url: 'http://chapter.autographa.com', name: 'chapter', value: '1' };
-    //         session.defaultSession.cookies.set(cookie, (error) => {
-    //             if (error)
-    //                 console.error(error);
-    //         });
-    //     }
-    // });
+    session.defaultSession.cookies.get({ url: 'http://chapter.autographa.com' }, (error, cookie) => {
+        if (cookie.length == 0) {
+            const cookie = { url: 'http://chapter.autographa.com', name: 'chapter', value: '1' };
+            session.defaultSession.cookies.set(cookie, (error) => {
+                if (error)
+                    console.error(error);
+            });
+        }
+    });
 
     $(".dropdown-menu").on('click', 'li a', function() {
         $(this).parent().parent().siblings(".btn:first-child").html($(this).text() + ' <span class="caret"></span>');
@@ -909,14 +924,18 @@ function isSameLanguage() {
     });
 }
 
-$('.check-diff').on('switchChange.bootstrapSwitch', function(event, state) {
-    if (state === true) {
+$('.check-diff').on('click', function() {
+    if ($(this).is(':checked') === true) {
         diffModeFlag = true;
         promise = isSameLanguage();
         promise.then(function(response) {
             if (response == false) {
+                // $('.check-diff').p('checked', !($('.check-diff').is(':checked')));
+                $('.check-diff').removeAttr('checked')
                 alertModal("Language!!", "Differences are not meaningful between different languages." + "Kindly select the same language across all panes to continue.");
-                $('.check-diff').bootstrapSwitch('state', false);
+                // $('.check-diff').bootstrapSwitch('state', false);
+                // $(".check-diff").removeClass('is-checked');
+                $('#switchLable')[0].MaterialSwitch.off();
                 return false;
             } else {
                 setDiffReferenceText();
@@ -1505,16 +1524,8 @@ function setReferenceSetting() {
 //get reference setting
 $(function() {
     setReferenceSetting();
-    buildIndex();
     buildReferenceList();
 });
-
-function buildIndex() {
-    refDb.search({
-        fields: ['_id', 'names'],
-        build: true
-    })
-}
 
 function alertModal(heading, formContent) {
     $("#heading").html(heading);
@@ -1524,23 +1535,31 @@ function alertModal(heading, formContent) {
 }
 
 function matchCode(input) {
-    var matches = []
-    return refDb.search({
-        query: input,
-        limit: 10,
-        fields: ['_id', 'names'],
-        include_docs: true,
-        stale: 'ok'
+    // var matches = []
+    var filteredResults = {};
+    return lookupsDb.allDocs({
+        startkey: input,
+        endkey: input+'\uffff',
+        include_docs: true
     }).then(function(response) {
+        console.log(response)
         var data = ""
         if (response != undefined && response.rows.length > 0) {
             $.each(response.rows, function(index, value) {
                 doc = value.doc
                 if (doc) {
-                    matches.push({ name: doc.names + " " + "(" + (doc._id) + ")", id: doc._id });
+                    //matches.push({ name: doc.name+' ('+doc.lang_code+') ' , id: doc._id });
+                    if (!filteredResults.hasOwnProperty(doc.lang_code)) {
+                        filteredResults[doc.lang_code] = doc.name; // 0 duplicates
+                    } else {
+                        existingValue = filteredResults[doc.lang_code]
+                        filteredResults[doc.lang_code] = (existingValue+" , "+doc.name);
+                    }
                 }
+
             })
-            return matches;
+            // return matches;
+            return filteredResults
         } else {
             return [];
         }
@@ -1551,26 +1570,28 @@ function matchCode(input) {
 
 function changeInput(val, inputId, fieldValue, listId) {
     codeClicked = false; // flag to check language code clicked on list or not
-    var autoCompleteResult = matchCode(val)
-    autoCompleteResult.then(function(res) {
-        var parent_ul = "<ul>";
-        if (res) {
-            $.each(res, function(index, value) {
-                // CREATE AND ADD SUB LIST ITEMS.
-                parent_ul += "<li><span class='code-name'>" + value['name'] + "</span><input type='hidden' value=" + "'" + value['id'] + "'" + "class='code-id'/> </li>"
-            });
-            parent_ul += "</ul>"
-            $(listId).html(parent_ul).show();
-            $(listId + " li").on("click", function(e) {
-                var $clicked = $(this);
-                codeName = $clicked.children().select(".code-name").text();
-                codeId = $clicked.find(".code-id");
-                $(inputId).val(codeName);
-                $(fieldValue).val(codeId.val());
-                codeClicked = true;
-            });
-        }
-    });
+    if(val.length>=2){
+     var autoCompleteResult = matchCode(val)
+        autoCompleteResult.then(function(res) {
+            var parent_ul = "<ul>";
+            if (res) {
+                $.each(res, function(langCode, names) {
+                    // CREATE AND ADD SUB LIST ITEMS.
+                    parent_ul += "<li><span class='code-name'>" + names + ' ('+langCode+') ' + "</span><input type='hidden' value=" + "'" + langCode + "'" + "class='code-id'/> </li>"
+                });
+                parent_ul += "</ul>"
+                $(listId).html(parent_ul).show();
+                $(listId + " li").on("click", function(e) {
+                    var $clicked = $(this);
+                    codeName = $clicked.children().select(".code-name").text();
+                    codeId = $clicked.find(".code-id");
+                    $(inputId).val(codeName);
+                    $(fieldValue).val(codeId.val());
+                    codeClicked = true;
+                });
+            }
+        });   
+    }
     $(document).on("click", function(e) {
         var $clicked = $(e.target);
         if (!$clicked.hasClass("search")) {
