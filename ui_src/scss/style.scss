@@ -271,8 +271,9 @@ html, body {
   font-style: italic;
   font-family: Georgia,Serif;
   position: absolute;
-  right: 10px;
-  top: 14px;
+  right: 124px;
+  top: 28px;
+  color: rgba(0, 0, 0, 0.5);
 }
 
 ul {
@@ -381,9 +382,9 @@ ul {
 .plus {font-size: 20px;}
 
 //layout button 
-.navbar-fixed-bottom .navbar-btn {
-  margin-right: 299px;
-}
+// .navbar-fixed-bottom .navbar-btn {
+//   margin-right: 299px;
+// }
 
 #save-btn {
     padding: 8px 30px 8px 30px;
@@ -392,7 +393,7 @@ ul {
     background-color: #0b82ff;
     border-color: #0b82ff;
     margin-left: 120px;
-    margin-right: 0px;
+    margin-right: -24px;
 }
 
 .btn-success {
@@ -482,7 +483,7 @@ button .caret { padding-bottom: 3px;
 // settings tab css
 div.tabs a:focus, .active {
     background-color: #fff !important;
-    border-left: 3px solid blue;
+    border-left: 3px solid #0b82ff;
     border-right: 1px solid #fff;
 }
  *{box-sizing: border-box}
@@ -527,7 +528,7 @@ div.tabs a:focus, .active {
 /* Style the tab content */
 .tabcontent {
     float: left;
-    padding: 0px 12px;
+    padding: 12px 65px;
     // border: 1px solid #ccc;
     width: 70%;
     border-left: none;
@@ -542,3 +543,22 @@ div.tabs a:focus, .active {
     height: 34px;
     padding-left: 9px;
 }
+
+ .lang-code
+        {
+          position:absolute;
+          width:294px;
+          display:none;
+          margin-top:-1px;
+          border:solid 1px #dedede;
+          border-top:0px;
+          overflow:hidden;
+          border-bottom-right-radius: 6px;
+          border-bottom-left-radius: 6px;
+          -moz-border-bottom-right-radius: 6px;
+          -moz-border-bottom-left-radius: 6px;
+          box-shadow: 0px 0px 5px #999;
+          border-width: 3px 1px 1px;
+          border-style: solid;
+          background-color: white;
+        }

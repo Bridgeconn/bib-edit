@@ -46,11 +46,13 @@
         <div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true" id="bannerformmodal">
             <div class="modal-dialog modal-sm" style="margin-right: 690px;">
                 <div class="modal-content">
-                    <div class="alert alert-success" role="alert" style="display:none;"><strong>Well done!</strong> <span>You successfully read this important alert message.</span></div>
-                    <div class="alert alert-danger" role="alert" style="display:none;position: relative;"><strong>Oh snap!</strong> <span>Change a few things up and try submitting again.</span></div>
-                            
-                    <div class="modal-body" style="height:444px">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <div class="modal-header" style="height:40px;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <div class="alert alert-success" role="alert" style="display:none;"><strong>Well done!</strong> <span>You successfully read this important alert message.</span></div>
+                        <div class="alert alert-danger" role="alert" style="display:none;position: relative;"><strong>Oh snap!</strong> <span>Change a few things up and try submitting again.</span></div>
+                    </div>
+                    <div class="modal-body" style="height:475px">
+                        <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
                         <div class="tabs" style="">
                             <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'usfm-settings')" id="defaultOpen">Reference USFM settings</a>
                             <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'language-settings')">Target Language Settings</a>
@@ -84,7 +86,7 @@
                                     <label class="mdl-textfield__label" for="ref-path">Reference Bible Folder Location</label>
                                 </div>
                             </div>
-                            <button class="btn btn-success" id="ref-import-btn">Import</button>
+                            <button style="float:right; margin-right: 33px;" class="btn btn-success" id="ref-import-btn">Import</button>
                         </div>
                         <div id="language-settings" class="tabcontent">
                             <div class="form-group">
@@ -107,7 +109,7 @@
                                     <label class="mdl-textfield__label" for="export-path">Export Path</label>
                                 </div>
                             </div>
-                            <button class="btn btn-success" id="save-settings">Save Settings</button>
+                            <button style="float:right; margin-right: 33px;" class="btn btn-success" id="save-settings">Save Settings</button>
                         </div>
                         <div id="target-usfm" class="tabcontent">
                             <div class="form-group">
@@ -116,7 +118,7 @@
                                     <label class="mdl-textfield__label" for="target-import-path">/path/to/import/target/from</label>
                                 </div>
                             </div>
-                            <button id="target-import-btn" class="btn btn-success">Import Target</button>
+                            <button style="float:right; margin-right: 33px;" id="target-import-btn" class="btn btn-success">Import Target</button>
                         </div>
                         <div id="modify-reference" class="tabcontent">
                             <div>
@@ -298,32 +300,33 @@
             </div>
         </div>
         <nav class="navbar navbar-default navbar-fixed-bottom">
-            <div class="container-fluid">
-                <!-- <div class="collapse navbar-collapse"> -->
-                <div class="nav navbar-nav verse-diff-on">
-                    <div class="btn-group navbar-btn verse-diff-on" role="group" aria-label="...">
-                        <span>
-                          <a class="btn btn-default font-button minus" data-toggle="tooltip" data-placement="top" title="Decrease Font" href="JavaScript:void(0)">A-</a>
-                        </span>
-                        <input id="fontSlider" type="text" data-slider-min="14" data-slider-max="30" data-slider-step="1" data-slider-value="14" />
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse">
+          <div style="float:left;" class="btn-group navbar-btn verse-diff-on" role="group" aria-label="...">
+                    <span>
+                        <a class="btn btn-default font-button minus" data-toggle="tooltip" data-placement="top" title="Decrease Font" href="JavaScript:void(0)">A-</a>
+                    </span>
+                        <input id="fontSlider" type="text" data-slider-min="14" data-slider-max="25" data-slider-step="1" data-slider-value="14"/>
                         <span id="fontSliderCurrentSliderValLabel"></span>
-                        <span>
-                          <a class="btn btn-default font-button plus" data-toggle="tooltip" data-placement="top" title="Increase Font" href="JavaScript:void(0);">A+</a>
-                        </span>
-                    </div>
-                    <div class="btn-group navbar-btn layout" role="group" aria-label="...">
-                        <a class="btn btn-primary btn-default" href="#" data-output="2x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="2 Column Layout">2x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
-                        <a class="btn btn-primary btn-default" href="#" data-output="3x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="3 Column Layout">3x &nbsp;<i class="fa fa-columns fa-lg"></i>
-                        </a>
-                        <a class="btn btn-primary btn-default" href="#" data-output="4x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="4 Column Layout">4x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
-                    </div>
-                    <a id="save-btn" data-toggle="tooltip" data-placement="top" title="Save To Target" class="btn btn-success btn-save navbar-btn navbar-right" href="#" role="button" style="float:none !important;">Save</a>
-                    <span style="margin-right: 213px; color:rgba(45, 46, 47, 0.57);" id="saved-time"></span>
+                    <span>
+                        <a class="btn btn-default font-button plus" data-toggle="tooltip" data-placement="top" title="Increase Font" href="JavaScript:void(0);">A+</a>
+                    </span>
                 </div>
-                <!-- </div> -->
-              </div>
+            <div class="nav navbar-nav verse-diff-on">
+                <div class="btn-group navbar-btn layout" role="group" aria-label="...">
+                    <a class="btn btn-primary btn-default" href="#" data-output="2x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="2 Column Layout">2x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
+                    <a class="btn btn-primary btn-default" href="#" data-output="3x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="3 Column Layout">3x &nbsp;<i class="fa fa-columns fa-lg"></i>
+                    </a>
+                    <a class="btn btn-primary btn-default" href="#" data-output="4x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="4 Column Layout">4x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
+                </div>
             </div>
-        </nav>
+            <span color:rgba(45, 46, 47, 0.57);" id="saved-time"></span>
+                <ul style="margin-right:30px;" class="nav navbar-nav navbar-right">
+                  <li><a id="save-btn" data-toggle="tooltip" data-placement="top" title="Save To Target" class="btn btn-success btn-save navbar-btn navbar-right" href="#" role="button" style="float:none !important;">Save</a></li>
+                </ul>
+        </div>
+    </div>
+</nav>
         <div class="modal fade" id="books" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
