@@ -321,8 +321,8 @@ ul {
 .books-li {width: 100%; column-count: 4; column-gap: 25%;}
 .books-li ul {padding-left: 50px;}
 .books-li ul li a{color: #0b63bf !important;}
-.selected .books-li a.link-active {font-weight: bold !important; background-color: rgba(49, 50, 51, 0.14);padding: 4px 4px 2px 4px;margin-left: -5px;}
-.selected .chapter-no a.link-active {font-weight: bold !important; background-color: rgba(49, 50, 51, 0.38) !important;}
+.selected .books-li a.link-active {font-weight: bold !important;background-color: rgba(11, 99, 191, 0.8);color: #ffffff !important;padding: 4px 4px 2px 4px;margin-left: -5px;}
+.selected .chapter-no a.link-active {font-weight: bold !important; background-color: rgba(11, 99, 191, 0.8) !important; color: white !important;}
 // chapter tab css
 .chapter-no{width: 100%; min-height: 485px; padding: 20px 0 0 10px;}
 .chapter-no ul {margin: 0; padding: 0; float: left; width: 100%;}
