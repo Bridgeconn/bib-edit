@@ -33,7 +33,7 @@ var stringReplace = require('../util/string_replace.js'),
     chapter_arr = [],
     diffModeFlag = false,
     targetDirtyFlag = false,
-    
+
     bibUtil_to_json = require(`${__dirname}/../util/usfm_to_json`),
     fs = require("fs"),
     path = require("path"),
@@ -107,42 +107,43 @@ function createVerseInputs(verses, chunks, chapter) {
 function lastVisitFromSession(success, failure) {
     session.defaultSession.cookies.get({ url: 'http://book.autographa.com' }, (error, cookie) => {
         if (cookie.length > 0) {
-	    book = cookie[0].value;
-	    session.defaultSession.cookies.get({ url: 'http://chapter.autographa.com' }, (error, cookie) => {
-		if (cookie.length > 0) {
+            book = cookie[0].value;
+            session.defaultSession.cookies.get({ url: 'http://chapter.autographa.com' }, (error, cookie) => {
+                if (cookie.length > 0) {
                     chapter = cookie[0].value;
-		    // initializeTextInUI(book, chapter);
-		    success(book, chapter);
-		} else {
-		    failure();
-		}
+                    // initializeTextInUI(book, chapter);
+                    success(book, chapter);
+                } else {
+                    failure();
+                }
             });
         } else {
-	    failure();
-	}
+            failure();
+        }
     });
 }
 
 function lastVisitFromDB(success) {
     refDb.get("ref_history")
-	.then(function(doc) {
+        .then(function(doc) {
             book = doc.visit_history[0].bookId;
             chapter = doc.visit_history[0].chapter;
-	    var cookie = { url: 'http://book.autographa.com', name: 'book', value: book };
+            var cookie = { url: 'http://book.autographa.com', name: 'book', value: book };
             session.defaultSession.cookies.set(cookie, (error) => {
-		if (error)
-                    console.error(error);
-		var cookie = { url: 'http://chapter.autographa.com', name: 'chapter', value: chapter };
-		session.defaultSession.cookies.set(cookie, (error) => {
                 if (error)
-			console.error(error);
-		    success(book, chapter);
-		});
+                    console.error(error);
+                var cookie = { url: 'http://chapter.autographa.com', name: 'chapter', value: chapter };
+                session.defaultSession.cookies.set(cookie, (error) => {
+                    if (error)
+                        console.error(error);
+                    success(book, chapter);
+                });
             });
-	}).catch(function(err) {
+        }).catch(function(err) {
             console.log('Error: While retrieving document. ' + err);
-	});
+        });
 }
+
 
 
 function initializeTextInUI(book, chapter) {
@@ -164,10 +165,10 @@ function initializeTextInUI(book, chapter) {
 // Get last viewed book and chapter either from session or from DB, in that order.
 lastVisitFromSession(
     function(book, chapter) {
-	initializeTextInUI(book, chapter);
+        initializeTextInUI(book, chapter);
     },
     function() {
-	lastVisitFromDB(initializeTextInUI);
+        lastVisitFromDB(initializeTextInUI);
     }
 );
 
@@ -392,7 +393,7 @@ function getReferenceText(refId, callback) {
     var id = refId + '_' + bookCodeList[parseInt(book, 10) - 1],
         i;
     session.defaultSession.cookies.get({ url: 'http://chapter.autographa.com' }, (error, cookie) => {
-        refDb.get('ref_history').then(function(doc){
+        refDb.get('ref_history').then(function(doc) {
             chapter = doc.visit_history[0].chapter;
             if (cookie.length > 0) {
                 chapter = cookie[0].value;
@@ -488,7 +489,7 @@ $('.ref-drop-down').change(function(event) {
     });
 });
 
- function highlightRef() {
+function highlightRef() {
     var i,
         j,
         verses = document.querySelectorAll("span[id^=v]");
@@ -497,13 +498,13 @@ $('.ref-drop-down').change(function(event) {
             var limits = e.target.getAttribute("chunk-group").split("-").map(function(element) {
                 return parseInt(element, 10) - 1;
             });
-            $('div[data-verse^="r"]').css({ "background-color": "","font-weight":"", "padding-left": "10px", "padding-right": "10px"});
+            $('div[data-verse^="r"]').css({ "background-color": "", "font-weight": "", "padding-left": "10px", "padding-right": "10px" });
             for (j = limits[0]; j <= limits[1]; j++) {
-                $('div[data-verse="r' + (j + 1) + '"]').css({ "background-color": "rgba(11, 130, 255, 0.1)","font-weight":"600", "padding-left": "10px", "padding-right": "10px", "margin-right": "10px"});
+                $('div[data-verse="r' + (j + 1) + '"]').css({ "background-color": "rgba(11, 130, 255, 0.1)", "font-weight": "600", "padding-left": "10px", "padding-right": "10px", "margin-right": "10px" });
             }
-            $('div[data-verse="r' + (limits[0] + 1) + '"]').css({"border-radius": "10px 10px 0px 0px"});
-            $('div[data-verse="r' + (limits[1] + 1) + '"]').css({"border-radius": "0px 0px 10px 10px"});
-            
+            $('div[data-verse="r' + (limits[0] + 1) + '"]').css({ "border-radius": "10px 10px 0px 0px" });
+            $('div[data-verse="r' + (limits[1] + 1) + '"]').css({ "border-radius": "0px 0px 10px 10px" });
+
         });
     }
 }
@@ -595,14 +596,14 @@ function createBooksList(booksLimit) {
     session.defaultSession.cookies.get({ url: 'http://book.autographa.com' }, (error, cookie) => {
         if (cookie.length > 0) {
             book = cookie[0].value;
-            $("#b"+book).addClass("link-active");
-            $("#c"+$("#chapterBtn").text()).addClass("link-active");
-        }else{
+            $("#b" + book).addClass("link-active");
+            $("#c" + $("#chapterBtn").text()).addClass("link-active");
+        } else {
             refDb.get("ref_history").then(function(doc) {
                 book = doc.visit_history[0].bookId;
                 chapter = doc.visit_history[0].chapter;
-                $("#b"+book).addClass("link-active");
-                $("#c"+chapter).addClass("link-active");
+                $("#b" + book).addClass("link-active");
+                $("#c" + chapter).addClass("link-active");
             });
         }
     });
@@ -631,7 +632,7 @@ function createChaptersList(chaptersLimit) {
 
 function setBookName(bookId) {
     $(".selected ul li a").removeClass("link-active");
-    $("#"+bookId).addClass("link-active");
+    $("#" + bookId).addClass("link-active");
     db.get(bookId.substring(1).toString()).then(function(doc) {
         book = bookId.substring(1).toString();
         // setChapterCookie('0');
@@ -646,6 +647,7 @@ function setBookName(bookId) {
     });
 
 }
+
 
 function setChapter(chapter) {
     db.get(book).then(function(doc) {
@@ -671,7 +673,7 @@ function setChapter(chapter) {
 function setChapterButton(bookId, chapterId) {
     document.getElementById('chapterBtnSpan').innerHTML = '<a id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + bookId + "'" + ');" >' + chapterId + '</a>'
     $('a[data-toggle=tooltip]').tooltip();
-     const cookie = { url: 'http://book.autographa.com', name: 'book', value: bookId };
+    const cookie = { url: 'http://book.autographa.com', name: 'book', value: bookId };
     session.defaultSession.cookies.set(cookie, (error) => {
         if (error)
             console.error(error);
@@ -736,7 +738,7 @@ function getBookChapterList(bookId) {
         $('#books-panel').removeClass('is-active');
         $("#chapterTab").click().addClass('is-active');
         $("#chapters-panel").addClass("is-active");
-        
+
     }).catch(function(err) {
         console.log('Error: While retrieving document. ' + err);
     });
@@ -853,7 +855,7 @@ function saveReferenceLayout(layout) {
 }
 
 $(function() {
-     // $('#switch-2').bootstrapSwitch();
+    // $('#switch-2').bootstrapSwitch();
     refDb.get('targetReferenceLayout').then(function(doc) {
         setMultiwindowReference(doc.layout);
     }).catch(function(err) {
@@ -982,7 +984,7 @@ $(".font-button").bind("click", function() {
     var size = parseInt($('.col-ref').css("font-size"));
     if ($(this).hasClass("plus")) {
         size = size + 2;
-        if(size >= 30){
+        if (size >= 30) {
             size = 30;
         }
     } else {
@@ -1228,13 +1230,12 @@ function saveTarget() {
     });
 }
 // save last visit in database
-function saveLastVisit(book, chapter){
-    refDb.get('ref_history').then(function(doc){
-        doc.visit_history = [{"book": $('#book-chapter-btn').text(), "chapter": chapter, "bookId": book}]
-        refDb.put(doc).then(function(response) {
-        }).catch(function(err) {
+function saveLastVisit(book, chapter) {
+    refDb.get('ref_history').then(function(doc) {
+        doc.visit_history = [{ "book": $('#book-chapter-btn').text(), "chapter": chapter, "bookId": book }]
+        refDb.put(doc).then(function(response) {}).catch(function(err) {
             console.log(err);
-        });    
+        });
     });
 }
 //save last visit end
@@ -1273,10 +1274,10 @@ function settings(evt, settingsTab) {
 document.getElementById("defaultOpen").click();
 
 // $(document).ready(function() {
-$(".selected ul li a").click(function () {
+$(".selected ul li a").click(function() {
     $(".selected ul li a").removeClass("link-active");
     // $(".tab").addClass("active"); // instead of this do the below 
-    $(this).addClass("link-active");   
+    $(this).addClass("link-active");
 });
 // });
 
@@ -1318,7 +1319,7 @@ document.getElementById('save-settings').addEventListener('click', function(e) {
             targetVersion: document.getElementById('target-version').value,
             targetPath: document.getElementById('export-path').value
         }).then(function(e) {
-            alertModal("Language Setting", "Language setting saved successfully!!");
+            alert_message(".alert-success", "Language setting saved successfully!!");
         });
     }).catch(function(err) {
         db.put({
@@ -1327,7 +1328,7 @@ document.getElementById('save-settings').addEventListener('click', function(e) {
             targetVersion: document.getElementById('target-version').value,
             targetPath: document.getElementById('export-path').value
         }).then(function(e) {
-            alertModal("Language Setting", "Language setting saved successfully!!");
+            alert_message(".alert-success", "Language setting saved successfully!!");
         }).catch(function(err) {
             alert_message(".alert-danger", "Something went wrong!! Please try again");
         });
@@ -1355,13 +1356,13 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
             refDb.put(doc).then(function(res) {
                 saveJsonToDB(files);
                 buildReferenceList();
-                alertModal("Reference Usfm Setting", "Reference Usfm Setting saved successfully!!");
+                alert_message(".alert-success", "Reference Usfm Setting saved successfully!!");
                 clearReferenceSetting();
             });
         } else {
             saveJsonToDB(files);
             buildReferenceList();
-            alertModal("Reference Usfm Setting", "Reference Usfm Setting saved successfully!!");
+            alert_message(".alert-success", "Reference Usfm Setting saved successfully!!");
             clearReferenceSetting();
 
         }
@@ -1376,15 +1377,15 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
             refDb.put(refs).then(function(res) {
                 saveJsonToDB(files);
                 buildReferenceList();
-                alertModal("Reference Usfm Setting", "Reference Usfm Setting saved successfully!!");
+                alert_message(".alert-success", "Reference Usfm Setting saved successfully!!");
                 clearReferenceSetting();
             }).catch(function(internalErr) {
-                alertModal("Reference USFM Setting", "There was an error while importing USFM.");
+                alert_message(".alert-danger", "There was an error while importing USFM.");
             });
         } else if (err.message === 'usfm parser error') {
-            alertModal("Reference USFM Setting", "There was an error while parsing the USFM.");
+            alert_message(".alert-danger", "There was an error while parsing the USFM.");
         } else {
-            alertModal("Reference USFM Setting", "There was an error while importing USFM.");
+            alert_message(".alert-danger", "There was an error while importing USFM.");
         }
     });
 });
@@ -1512,13 +1513,14 @@ function alert_message(type, message) {
 
 function setReferenceSetting() {
     db.get('targetBible').then(function(doc) {
-        $("#target-lang").val(doc.targetLang);
-        $("#target-version").val(doc.targetVersion);
-        $("#export-path").val(doc.targetPath);
+        $("#target-lang-code").val(doc.targetLang);
+        $("#target-lang")[0].parentNode.MaterialTextfield.change(doc.targetLang);
+        $("#target-version")[0].parentNode.MaterialTextfield.change(doc.targetVersion);
+        $("#export-path")[0].parentNode.MaterialTextfield.change(doc.targetPath);
     }).catch(function(err) {
-        $("#target-lang").val("");
-        $("#target-version").val("");
-        $("#export-path").val("");
+        $("#target-lang")[0].parentNode.MaterialTextfield.change("");
+        $("#target-version")[0].parentNode.MaterialTextfield.change("");
+        $("#export-path")[0].parentNode.MaterialTextfield.change("");
     });
 }
 //get reference setting
@@ -1539,26 +1541,26 @@ function matchCode(input) {
     var filteredResults = {};
     return lookupsDb.allDocs({
         startkey: input,
-        endkey: input+'\uffff',
+        endkey: input + '\uffff',
         include_docs: true
     }).then(function(response) {
         console.log(response)
         var data = ""
         if (response != undefined && response.rows.length > 0) {
             $.each(response.rows, function(index, value) {
-                doc = value.doc
-                if (doc) {
-                    //matches.push({ name: doc.name+' ('+doc.lang_code+') ' , id: doc._id });
-                    if (!filteredResults.hasOwnProperty(doc.lang_code)) {
-                        filteredResults[doc.lang_code] = doc.name; // 0 duplicates
-                    } else {
-                        existingValue = filteredResults[doc.lang_code]
-                        filteredResults[doc.lang_code] = (existingValue+" , "+doc.name);
+                    doc = value.doc
+                    if (doc) {
+                        //matches.push({ name: doc.name+' ('+doc.lang_code+') ' , id: doc._id });
+                        if (!filteredResults.hasOwnProperty(doc.lang_code)) {
+                            filteredResults[doc.lang_code] = doc.name; // 0 duplicates
+                        } else {
+                            existingValue = filteredResults[doc.lang_code]
+                            filteredResults[doc.lang_code] = (existingValue + " , " + doc.name);
+                        }
                     }
-                }
 
-            })
-            // return matches;
+                })
+                // return matches;
             return filteredResults
         } else {
             return [];
@@ -1570,14 +1572,14 @@ function matchCode(input) {
 
 function changeInput(val, inputId, fieldValue, listId) {
     codeClicked = false; // flag to check language code clicked on list or not
-    if(val.length>=2){
-     var autoCompleteResult = matchCode(val)
+    if (val.length >= 2) {
+        var autoCompleteResult = matchCode(val)
         autoCompleteResult.then(function(res) {
             var parent_ul = "<ul>";
             if (res) {
                 $.each(res, function(langCode, names) {
                     // CREATE AND ADD SUB LIST ITEMS.
-                    parent_ul += "<li><span class='code-name'>" + names + ' ('+langCode+') ' + "</span><input type='hidden' value=" + "'" + langCode + "'" + "class='code-id'/> </li>"
+                    parent_ul += "<li><span class='code-name'>" + names + ' (' + langCode + ') ' + "</span><input type='hidden' value=" + "'" + langCode + "'" + "class='code-id'/> </li>"
                 });
                 parent_ul += "</ul>"
                 $(listId).html(parent_ul).show();
@@ -1590,7 +1592,7 @@ function changeInput(val, inputId, fieldValue, listId) {
                     codeClicked = true;
                 });
             }
-        });   
+        });
     }
     $(document).on("click", function(e) {
         var $clicked = $(e.target);
@@ -1730,3 +1732,21 @@ function clearReferenceSetting() {
     $('#ref-version').val('');
     $("#ref-lang-code").val('');
 }
+$("#btnSettings").click(function() {
+    $('#bannerformmodal').modal('toggle')
+})
+$(document).on('show.bs.modal', '#bannerformmodal', function() {
+    setReferenceSetting();
+    buildReferenceList();
+});
+
+$("#chapterTab").click(function() {
+    session.defaultSession.cookies.get({ url: 'http://chapter.autographa.com' }, (error, cookie) => {
+        if (cookie.length > 0) {
+            chapter = cookie[0].value;
+            $("#c"+chapter).addClass("link-active");
+        } else {
+            
+        }
+    });
+})
