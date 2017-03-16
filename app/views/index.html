@@ -18,30 +18,7 @@
     <!-- Material Design icon font -->
     <link rel="stylesheet" href="../assets/stylesheets/icon.css">
     <!-- material design files -->
-    <style type="text/css">
-        .lang-code
-        {
-          position:absolute;
-          width:294px;
-          display:none;
-          margin-top:-1px;
-          border:solid 1px #dedede;
-          border-top:0px;
-          overflow:hidden;
-          border-bottom-right-radius: 6px;
-          border-bottom-left-radius: 6px;
-          -moz-border-bottom-right-radius: 6px;
-          -moz-border-bottom-left-radius: 6px;
-          box-shadow: 0px 0px 5px #999;
-          border-width: 3px 1px 1px;
-          border-style: solid;
-          background-color: white;
-          height: 200px;
-          overflow-y: scroll;
-          overflow-x:scroll; 
-        }
-    </style>
-
+</head>
     <body>
         <div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true" id="bannerformmodal">
             <div class="modal-dialog modal-sm" style="margin-right: 690px;">
@@ -190,7 +167,14 @@
                                     <a href="#chapters-panel" id="chapterTab" class="mdl-tabs__tab">Chapters</a>
                                 </div>
                                 <div class="mdl-tabs__panel is-active" id="books-panel">
-                                    <div class="dropdown">
+                                    <div class="wrap-center">
+                                        <div class="btn-group" role="group" aria-label="...">
+                                            <button class="btn btn-primary" type="button" id="allBooksBtn">ALL</button>
+                                            <button class="btn btn-primary" type="button" id="otBooksBtn">OT</button>
+                                            <button class="btn btn-primary" type="button" id="ntBooksBtn">NT</button>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="dropdown">
                                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Testament
                                             <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
@@ -198,7 +182,7 @@
                                             <li><a href="javascript:void(0)" id="otBooksBtn">OT</a></li>
                                             <li><a href="javascript:void(0)" id="ntBooksBtn" >NT</a></li>
                                         </ul>
-                                    </div>
+                                    </div> -->
                                     <div class="row books-li" id="bookdata">
                                         <ul id="books-pane">
                                         </ul>
