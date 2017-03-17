@@ -226,11 +226,11 @@ html, body {
     
 }
 
-@media (max-width: 768px) {
-  .navbar-fixed-bottom .navbar-btn {
-    margin-right: 0px !important;
-    }
-}
+// @media (max-width: 768px) {
+//   .navbar-fixed-bottom .navbar-btn {
+//     margin-right: 0px !important;
+//     }
+// }
 
 .main .page-header {
     margin-top: 0;
@@ -434,11 +434,11 @@ button .caret { padding-bottom: 3px;
   // background-color: #0b82ff;
 }
 
-@media (max-width: 768px) {
-  .navbar-nav {
-    padding: 0 0 0 0 !important;
-} 
-}
+// @media (max-width: 768px) {
+//   .navbar-nav {
+//     padding: 0 0 0 0 !important;
+// } 
+// }
 
 .mdl-textfield__label:after {
     bottom: 13px !important;
@@ -570,3 +570,10 @@ div.tabs a:focus, .active {
 #language-settings .lang-code {margin-top: 0px !important;}
 
 .col-ref{margin-top: 10px;}
+
+ @media (max-width: 768px) {
+  .layout {
+    display: none;
+} 
+}
+

@@ -20,6 +20,72 @@
     <!-- material design files -->
 </head>
     <body>
+        <div class="modal fade aboutmodal" tabindex="-1" role="dialog" aria-labelledby="aboutmodal" aria-hidden="true" id="aboutmodal">
+            <div class="modal-dialog modal-sm" style="margin-right: 690px;">
+                <div class="modal-content">
+                    <button style="padding: 13px 22px;" type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="modal-header" style="height:50px;">
+                        <h4>About</h4>
+                    </div>
+                    <div class="modal-body" style="height: 370px;">
+                        <div role="tabpanel" class="selected">
+                            <!-- Nav tabs -->
+                            <!-- <ul class="nav nav-tabs" role="tablist"> -->
+                        <div class="container-fluid">
+                                <div class="row">
+                        <div class="col-sm-12">
+                            <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+                                <div class="mdl-tabs__tab-bar">
+                                    <a href="#overview-tab" id="overviewtab" class="mdl-tabs__tab is-active">Overview</a>
+                                    <a href="#license-tab" id="licensetab" class="mdl-tabs__tab">License</a>
+                                </div>
+                            <div class="mdl-tabs__panel is-active" id="overview-tab">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <img src="../assets/images/autographa_lite_large.png" class="img-circle" alt="Cinque Terre" width="215" height="200" style="margin-top: 55px; border: 5px solid #0b82ff;">
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <h3 style="margin-top:100px;">Autographa Lite Beta</h3>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="mdl-tabs__panel" id="license-tab" style="height: 306px;overflow-y: scroll; overflow-x:scroll">
+                                <h3>FAQS</h3>
+                                      <p>What is MIT license and what does it mean ?</p>
+                                      <h3>The MIT License (MIT)</h3>
+                                      <p>Copyright (c) 2016  - Friends of Agape and RUN Ministries </p>
+                                      
+                                      <li>www.friendsofagape.org/</li>
+
+                                      <li>www.runministries.org/</li>  
+                                      
+                                      <br>
+
+                                      <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+                                      <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+                                      <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+                                      <h3>Why another Bible translation Tool?</h3>
+                                      <p>To provide  a minimalist USFM editor for Bible Translators to use without any specific training or technical know how .</p>
+                                      <h3>What is USFM ?</h3>
+                                      <p>USFM stands for Unified Standard Format Markers the de-facto markup convention for Bible Translation software tools .</p>
+                                      <h3>More info at http://paratext.org/about/usfm</h3>
+                                      <h3>Recommend  USFM Requirements for Autographa ?</h3>
+                                      <p>https://git.door43.org/Door43/ContentTechs/wiki/Minimum-USFM-Requirements</p>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                        <!-- <div class="clearfix"></div> -->
+                    </div>
+                    </div>
+                    <!--modal body-->
+                </div>
+                <!--modal content-->
+            </div>
+            <!--modal dialog-->
+        </div>
+
         <div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true" id="bannerformmodal">
             <div class="modal-dialog modal-sm" style="margin-right: 690px;">
                 <div class="modal-content">
@@ -44,7 +110,7 @@
                                     <label class="mdl-textfield__label" for="ref-name">Reference Bible Name</label>
                                 </div>
                             </div>
-                            <div class="form-group">
+                        <div class="form-group">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                     <input class="mdl-textfield__input" type="text" id="ref-lang-code">
                                     <label class="mdl-textfield__label" for="ref-lang-code">Reference Bible Language Code</label>
@@ -235,7 +301,7 @@
                         </li>
                         <li style="padding:17px 0 0 0; color: #fff; font-weight: bold"><span>ON</span></li>
                         <li><a href="#" data-target="#bannerformmodal" data-toggle="modal" data-placement="bottom" title="Settings" class="navigation-btn"><i class="fa fa-cog fa-2x"></i></a></li>
-                        <li><a href="about.html" data-toggle="tooltip" data-placement="bottom" title="About" class="navigation-btn"><i class="fa fa-info fa-2x"></i></a></li>
+                        <li><a href="#" data-target="#aboutmodal" data-toggle="modal" data-placement="bottom" title="About" class="navigation-btn"><i class="fa fa-info fa-2x"></i></a></li>
                         <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Export" id="export-usfm"><i class="fa fa-cloud-download fa-2x"></i></a>
                     </ul>
                 </div>
@@ -284,9 +350,9 @@
                 </div>
             </div>
         </div>
-        <nav class="navbar navbar-default navbar-fixed-bottom">
+<nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">
-        <div class="collapse navbar-collapse">
+        <!-- <div class="collapse navbar-collapse"> -->
           <div style="float:left;" class="btn-group navbar-btn verse-diff-on" role="group" aria-label="...">
                     <span>
                         <a class="btn btn-default font-button minus" data-toggle="tooltip" data-placement="top" title="Decrease Font" href="JavaScript:void(0)">A-</a>
@@ -297,7 +363,7 @@
                         <a class="btn btn-default font-button plus" data-toggle="tooltip" data-placement="top" title="Increase Font" href="JavaScript:void(0);">A+</a>
                     </span>
                 </div>
-            <div class="nav navbar-nav verse-diff-on">
+            <div class="nav navbar-nav verse-diff-on" style="margin-left:200px;">
                 <div class="btn-group navbar-btn layout" role="group" aria-label="...">
                     <a class="btn btn-primary btn-default" href="#" data-output="2x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="2 Column Layout">2x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
                     <a class="btn btn-primary btn-default" href="#" data-output="3x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="3 Column Layout">3x &nbsp;<i class="fa fa-columns fa-lg"></i>
@@ -309,7 +375,6 @@
                 <ul style="margin-right:30px;" class="nav navbar-nav navbar-right">
                   <li><a id="save-btn" data-toggle="tooltip" data-placement="top" title="Save To Target" class="btn btn-success btn-save navbar-btn navbar-right" href="#" role="button" style="float:none !important;">Save</a></li>
                 </ul>
-        </div>
     </div>
 </nav>
         <div class="modal fade" id="books" tabindex="-1" role="dialog">
