@@ -500,7 +500,7 @@ function highlightRef() {
             });
             $('div[data-verse^="r"]').css({ "background-color": "", "font-weight": "", "padding-left": "10px", "padding-right": "10px" });
             for (j = limits[0]; j <= limits[1]; j++) {
-                $('div[data-verse="r' + (j + 1) + '"]').css({ "background-color": "rgba(11, 130, 255, 0.1)", "font-weight": "600", "padding-left": "10px", "padding-right": "10px", "margin-right": "10px" });
+                $('div[data-verse="r' + (j + 1) + '"]').css({ "background-color": "rgba(11, 130, 255, 0.1)",  "padding-left": "10px", "padding-right": "10px", "margin-right": "10px" });
             }
             $('div[data-verse="r' + (limits[0] + 1) + '"]').css({ "border-radius": "10px 10px 0px 0px" });
             $('div[data-verse="r' + (limits[1] + 1) + '"]').css({ "border-radius": "0px 0px 10px 10px" });
@@ -835,6 +835,7 @@ function getBooksByLimit(start, booksLength) {
         li.appendChild(a);
         document.getElementById('books-pane').appendChild(li);
     }
+    $("#b"+currentBook._id).addClass('link-active')
 }
 
 function saveReferenceLayout(layout) {
@@ -1068,14 +1069,14 @@ function findReplaceSearchInputs(verses, chapter, searchVal, replaceVal, option)
         if (option == "current") {
             var originalVerse = verses[i - 1].verse;
             replacedVerse[i] = i;
-            if (originalVerse.search(new RegExp(searchVal, 'g')) >= 0) {
+            if (originalVerse.search(new RegExp(escapeRegExp(searchVal), 'g')) >= 0) {
                 modifiedVerse = originalVerse.replaceAll(searchVal, replaceVal);
                 replacedVerse[i] = modifiedVerse;
                 chapter_hash["verse"] = modifiedVerse;
                 chapter_hash["verse_number"] = i + 1;
                 verses_arr.push(chapter_hash);
                 chapter_hash = {};
-                replaceCount += originalVerse.match(new RegExp(searchVal, 'g')).length;
+                replaceCount += originalVerse.match(new RegExp(escapeRegExp(searchVal), 'g')).length;
             } else {
                 replacedVerse[i] = originalVerse;
                 chapter_hash["verse"] = originalVerse;
@@ -1086,7 +1087,7 @@ function findReplaceSearchInputs(verses, chapter, searchVal, replaceVal, option)
         } else {
             var originalVerse = verses[i - 1].verse
             replacedVerse[i] = i;
-            if (originalVerse.search(new RegExp(searchVal, 'g')) >= 0) {
+            if (originalVerse.search(new RegExp(escapeRegExp(searchVal), 'g')) >= 0) {
                 modifiedVerse = originalVerse.replaceAll(searchVal, replaceVal);
                 chapter_hash["verse"] = modifiedVerse;
                 chapter_hash["verse_number"] = i + 1;
@@ -1627,6 +1628,7 @@ $('#target-lang').on('blur', function() {
 
 function buildReferenceList() {
     $("#reference-list").html('');
+    $(".ref-drop-down").html('');
     refDb.get('refs').then(function(doc) {
         tr = '';
         var remove_link = '';
@@ -1640,7 +1642,8 @@ function buildReferenceList() {
                 tr += "<td><a data-id=" + ref_doc.ref_id + " href=javaScript:void(0); class='edit-ref'>Rename</a> | <a data-id=" + ref_doc.ref_id + " href=javaScript:void(0) class='remove-ref'>Remove</a></td>";
             }
             tr += "</tr>";
-        })
+            $('<option></option>').val(ref_doc.ref_id).text(ref_doc.ref_name).appendTo(".ref-drop-down");
+        });
         $("#reference-list").html(tr);
     })
 }
@@ -1750,3 +1753,6 @@ $("#chapterTab").click(function() {
         }
     });
 })
+function escapeRegExp(str) {
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
