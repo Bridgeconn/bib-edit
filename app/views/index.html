@@ -23,7 +23,7 @@
         <div class="modal fade aboutmodal" tabindex="-1" role="dialog" aria-labelledby="aboutmodal" aria-hidden="true" id="aboutmodal">
             <div class="modal-dialog modal-sm" style="margin-right: 690px;">
                 <div class="modal-content">
-                    <button style="padding: 13px 22px;" type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button style="padding: 13px 22px;" type="button" class="close" data-dismiss="modal" data-toggle = "tooltip" data-placement="bottom" title = "Close">&times;</button>
                     <div class="modal-header" style="height:50px;">
                         <h4>About</h4>
                     </div>
@@ -46,32 +46,19 @@
                                     </div>
                                     <div class="col-xs-6">
                                         <h3 style="margin-top:100px;">Autographa Lite Beta</h3>
-                                        <span>Version 0.0.1</span>
+                                        <p>Version v0.1-beta.4</p>
+                                        <p>Source code hosted at <a href="https://github.com/Bridgeconn/bib-edit" target="blank">https://github.com/Bridgeconn/bib-edit</a></p>
                                     </div>
                                 </div>
                             </div>
                                 <div class="mdl-tabs__panel" id="license-tab" style="height: 306px;overflow-y: scroll; overflow-x:scroll">
-                                <h3>FAQS</h3>
-                                      <p>What is MIT license and what does it mean ?</p>
-                                      <h3>The MIT License (MIT)</h3>
-                                      <p>Copyright (c) 2016  - Friends of Agape and RUN Ministries </p>
-                                      
-                                      <li>www.friendsofagape.org/</li>
-
-                                      <li>www.runministries.org/</li>  
-                                      
+                                      <p></p>
+                                      <p>Copyright (c) 2017  - Friends of Agape (<a href="http://www.friendsofagape.org">www.friendsofagape.org</a>) and RUN Ministries (<a href="http://www.runministries.org">www.runministries.org</a>). </p>
                                       <br>
-
                                       <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
                                       <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
                                       <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-                                      <h3>Why another Bible translation Tool?</h3>
-                                      <p>To provide  a minimalist USFM editor for Bible Translators to use without any specific training or technical know how .</p>
-                                      <h3>What is USFM ?</h3>
-                                      <p>USFM stands for Unified Standard Format Markers the de-facto markup convention for Bible Translation software tools .</p>
-                                      <h3>More info at http://paratext.org/about/usfm</h3>
-                                      <h3>Recommend  USFM Requirements for Autographa ?</h3>
-                                      <p>https://git.door43.org/Door43/ContentTechs/wiki/Minimum-USFM-Requirements</p>
+                                     
                                 </div>
                             </div>
                         </div>
@@ -90,7 +77,7 @@
         <div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true" id="bannerformmodal">
             <div class="modal-dialog modal-sm" style="margin-right: 690px;">
                 <div class="modal-content">
-                    <button style="padding: 13px 22px;" type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button style="padding: 13px 22px;" type="button" class="close" data-dismiss="modal" data-toggle = "tooltip" data-placement="bottom" title = "Close">&times;</button>
                     <div class="modal-header" style="height:87px;">
                         <h4> Settings </h4>
                         <div class="alert alert-success" role="alert" style="display:none;    margin-top: -18px;"><strong>Well done!</strong> <span>You successfully read this important alert message.</span></div>
@@ -188,12 +175,12 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close" data-toggle = "tooltip" data-placement="bottom" title = "Close"><span aria-hidden="true">×</span></button>
                         <h4 class="modal-title" id="heading"></h4>
                     </div>
                     <div class="modal-body" id="content"></div>
                     <div class="modal-footer">
-                        <span class="btn btn-primary" data-dismiss="modal">Close</span>
+                        <span class="btn btn-primary" data-dismiss="modal">Ok</span>
                     </div>
                 </div>
                 <!-- /.modal-content-->
@@ -204,7 +191,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close" data-toggle = "tooltip" data-placement="bottom" title = "Close"><span aria-hidden="true">×</span></button>
                         <h4 class="modal-title" id="heading"></h4>
                     </div>
                     <div class="modal-body" id="confirmMessage"></div>
@@ -221,9 +208,9 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-toggle = "tooltip" data-placement="bottom" title = "Close"><span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">Books and Chapter</h4>
+                        <h4 class="modal-title" id="myModalLabel">Book and Chapter</h4>
                     </div>
                     <div class="modal-body">
                         <div role="tabpanel" class="selected">
@@ -237,9 +224,9 @@
                                 <div class="mdl-tabs__panel is-active" id="books-panel">
                                     <div class="wrap-center">
                                         <div class="btn-group" role="group" aria-label="...">
-                                            <button class="btn btn-primary" type="button" id="allBooksBtn">ALL</button>
-                                            <button class="btn btn-primary" type="button" id="otBooksBtn">OT</button>
-                                            <button class="btn btn-primary" type="button" id="ntBooksBtn">NT</button>
+                                            <button class="btn btn-primary" type="button" id="allBooksBtn" data-toggle="tooltip" data-placement="bottom" title="ALL">ALL</button>
+                                            <button class="btn btn-primary" type="button" id="otBooksBtn" data-toggle="tooltip" data-placement="bottom" title="OT">OT</button>
+                                            <button class="btn btn-primary" type="button" id="ntBooksBtn" data-toggle="tooltip" data-placement="bottom" title="NT">NT</button>
                                         </div>
                                     </div>
                                     <!-- <div class="dropdown">
@@ -287,7 +274,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right nav-pills verse-diff-on">
                         <li>
-                            <a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="search" id="searchText"><i class="fa fa-search fa-2x"></i></a>
+                            <a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="Find and replace" id="searchText"><i class="fa fa-search fa-2x"></i></a>
                         </li>
                         <li style="padding:17px 5px 0 0; color: #fff; font-weight: bold"><span>OFF</span></li>
                         <li>
@@ -301,9 +288,11 @@
                             <!-- <a href="javascript:void(0);" onClick="setDiffReferenceText('', '');" >Check Difference</a> -->
                         </li>
                         <li style="padding:17px 0 0 0; color: #fff; font-weight: bold"><span>ON</span></li>
-                        <li><a href="#" data-target="#bannerformmodal" data-toggle="modal" data-placement="bottom" title="Settings" class="navigation-btn"><i class="fa fa-cog fa-2x"></i></a></li>
-                        <li><a href="#" data-target="#aboutmodal" data-toggle="modal" data-placement="bottom" title="About" class="navigation-btn"><i class="fa fa-info fa-2x"></i></a></li>
-                        <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Export" id="export-usfm"><i class="fa fa-cloud-download fa-2x"></i></a>
+                        <li><a href="javascript:;" id="btnSettings" data-target="#bannerformmodal" data-toggle="tooltip" data-placement="bottom" title="Settings"><i class="fa fa-cog fa-2x"></i></a></li>
+                        <li>
+                            <a href="#" data-target="#aboutmodal" data-toggle="tooltip" data-placement="bottom" title="About" id="btnAbout"><i class="fa fa-info fa-2x"></i></a>
+                        </li>
+                        <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Export as USFM" id="export-usfm"><i class="fa fa-cloud-download fa-2x"></i></a>
                     </ul>
                 </div>
             </div>
@@ -356,25 +345,25 @@
         <!-- <div class="collapse navbar-collapse"> -->
           <div style="float:left;" class="btn-group navbar-btn verse-diff-on" role="group" aria-label="...">
                     <span>
-                        <a class="btn btn-default font-button minus" data-toggle="tooltip" data-placement="top" title="Decrease Font" href="JavaScript:void(0)">A-</a>
+                        <a class="btn btn-default font-button minus" data-toggle="tooltip" data-placement="top" title="Decrease font size" href="JavaScript:void(0)">A-</a>
                     </span>
                         <input id="fontSlider" type="text" data-slider-min="14" data-slider-max="25" data-slider-step="1" data-slider-value="14"/>
                         <span id="fontSliderCurrentSliderValLabel"></span>
                     <span>
-                        <a class="btn btn-default font-button plus" data-toggle="tooltip" data-placement="top" title="Increase Font" href="JavaScript:void(0);">A+</a>
+                        <a class="btn btn-default font-button plus" data-toggle="tooltip" data-placement="top" title="Increase font size" href="JavaScript:void(0);">A+</a>
                     </span>
                 </div>
             <div class="nav navbar-nav verse-diff-on" style="margin-left:200px;">
                 <div class="btn-group navbar-btn layout" role="group" aria-label="...">
-                    <a class="btn btn-primary btn-default" href="#" data-output="2x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="2 Column Layout">2x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
-                    <a class="btn btn-primary btn-default" href="#" data-output="3x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="3 Column Layout">3x &nbsp;<i class="fa fa-columns fa-lg"></i>
+                    <a class="btn btn-primary btn-default" href="#" data-output="2x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="2-column layout">2x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
+                    <a class="btn btn-primary btn-default" href="#" data-output="3x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="3-column layout">3x &nbsp;<i class="fa fa-columns fa-lg"></i>
                     </a>
-                    <a class="btn btn-primary btn-default" href="#" data-output="4x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="4 Column Layout">4x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
+                    <a class="btn btn-primary btn-default" href="#" data-output="4x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="4-column layout">4x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
                 </div>
             </div>
             <span color:rgba(45, 46, 47, 0.57);" id="saved-time"></span>
                 <ul style="margin-right:30px;" class="nav navbar-nav navbar-right">
-                  <li><a id="save-btn" data-toggle="tooltip" data-placement="top" title="Save To Target" class="btn btn-success btn-save navbar-btn navbar-right" href="#" role="button" style="float:none !important;">Save</a></li>
+                  <li><a id="save-btn" data-toggle="tooltip" data-placement="top" title="Save changes" class="btn btn-success btn-save navbar-btn navbar-right" href="#" role="button" style="float:none !important;">Save</a></li>
                 </ul>
     </div>
 </nav>
@@ -382,7 +371,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close" data-toggle = "tooltip" data-placement="bottom" title = "Close"><span aria-hidden="true">×</span></button>
                         <h4 class="modal-title">Books</h4>
                     </div>
                     <div class="modal-body">
@@ -409,7 +398,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close" data-toggle = "tooltip" data-placement="bottom" title = "Close"><span aria-hidden="true">×</span></button>
                         <h4 class="modal-title">Chapters</h4>
                     </div>
                     <div class="modal-body">
@@ -427,7 +416,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close" data-toggle = "tooltip" data-placement="bottom" title = "Close"><span aria-hidden="true">×</span></button>
                         <h4 class="modal-title">Login</h4>
                     </div>
                     <div class="modal-body">
@@ -445,36 +434,20 @@
             <!-- /.modal-dialog-->
         </div>
         <!-- /.modal-->
-        <div class="modal fade" tabindex="-1" role="dialog" id="dynamicModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="heading"></h4>
-                    </div>
-                    <div class="modal-body" id="content"></div>
-                    <div class="modal-footer">
-                        <span class="btn btn-primary" data-dismiss="modal">Close</span>
-                    </div>
-                </div>
-                <!-- /.modal-content-->
-            </div>
-            <!-- /.modal-dialog-->
-        </div>
+        
         <!-- /.modal-dialog-->
-        </div>
         <div class="modal fade" tabindex="-1" role="dialog" id="exportChoice">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="heading">Export Option</h4>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close" data-toggle = "tooltip" data-placement="bottom" title = "Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="heading">Export USFM</h4>
                     </div>
                     <div class="modal-body" id="content">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" aria-label="..." id="stageText">
+                                    <input type="text" class="form-control" aria-label="..." id="stageText" placeholder="Stage name of translation.">
                                     <div class="input-group-btn">
                                         <button id="dropdownBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Choose Stage <span class="caret"></span></button>
                                         <ul class="dropdown-menu dropdown-menu-right">
@@ -491,7 +464,6 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" id="exportUsfm" disabled="disabled">Export</button>
-                        <span class="btn btn-primary" data-dismiss="modal">Close</span>
                     </div>
                 </div>
             </div>
@@ -500,8 +472,8 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="heading">Search Text:</h4>
+                        <button class="close" type="button" data-dismiss="modal" data-toggle = "tooltip" data-placement="bottom" title = "Close" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="heading">Find and Replace:</h4>
                     </div>
                     <div class="modal-body" id="content">
                         <div class="row">
@@ -511,14 +483,14 @@
                         </label> -->
                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
                                     <input type="radio" id="option-1" class="mdl-radio__button" name="searchOption" value="current" checked>
-                                    <span class="mdl-radio__label">Current Chapter</span>
+                                    <span class="mdl-radio__label">Current chapter</span>
                                 </label>
                                 <!-- <label class="form-check-inline">
                             <input type="radio" name="searchOption" class="form-check-input" value="all" /> All Chapters
                         </label> -->
                                 <label style="margin-left: 10px;" class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
                                     <input type="radio" id="option-2" class="mdl-radio__button" name="searchOption" value="all">
-                                    <span class="mdl-radio__label">All Chapters</span>
+                                    <span class="mdl-radio__label">All chapter</span>
                                 </label>
                             </div>
                         </div>
@@ -531,7 +503,7 @@
                         </div> -->
                                 <form action="#">
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                        <input class="mdl-textfield__input" type="text" id="searchTextBox">
+                                        <input class="mdl-textfield__input" type="text" id="searchTextBox" placeholder="search text">
                                         <span class="error help-inline" id="findError"></span>
                                         <label class="mdl-textfield__label" for="searchTextBox">Find</label>
                                     </div>
@@ -544,9 +516,9 @@
                         </div> -->
                                 <form action="#">
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                        <input class="mdl-textfield__input" type="text" id="replaceTextBox">
+                                        <input class="mdl-textfield__input" type="text" id="replaceTextBox" placeholder="Replace with">
                                         <span class="error help-inline" id="replaceError"></span>
-                                        <label class="mdl-textfield__label" for="replaceTextBox">Replace With</label>
+                                        <label class="mdl-textfield__label" for="replaceTextBox">Replace with</label>
                                     </div>
                                 </form>
                                 <!-- /input-group -->
@@ -557,8 +529,7 @@
                     </div>
                     <div class="modal-footer">
                         <!-- <button class="btn btn-primary" id="btnfind">Find</button> -->
-                        <button class="btn btn-primary" id="btnfindReplace">Replace</button>
-                        <span class="btn btn-primary" data-dismiss="modal">Close</span>
+                        <button class="btn btn-primary" id="btnfindReplace" data-toggle="tooltip" data-placement="bottom" title="Run find and replace">Replace</button>
                     </div>
                 </div>
                 <!-- /.modal-content-->
@@ -569,7 +540,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <button class="close" data-dismiss="modal" data-toggle = "tooltip" data-placement="bottom" title = "Close" type="button"  aria-label="Close"><span aria-hidden="true">×</span></button>
                         <h4 class="modal-title" id="heading">Information!!</h4>
                     </div>
                     <div class="modal-body" id="content">

@@ -149,7 +149,7 @@ function lastVisitFromDB(success) {
 function initializeTextInUI(book, chapter) {
     document.getElementById('book-chapter-btn').innerHTML = booksList[parseInt(book, 10) - 1];
     document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ');" >' + chapter + '</a>'
-    $('a[data-toggle=tooltip]').tooltip();
+    $('[data-toggle=tooltip]').tooltip();
     db.get(book).then(function(doc) {
         refDb.get('refChunks').then(function(chunkDoc) {
             // console.log(doc.chapters[parseInt(chapter,10)-1].verses.length);
@@ -658,7 +658,7 @@ function setChapter(chapter) {
             createVerseInputs(doc.chapters[parseInt(chapter, 10) - 1].verses, chunkDoc.chunks[parseInt(book, 10) - 1], chapter);
         });
         document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" data-toggle="tooltip" data-placement="bottom"  title="Select Book" href="javascript:getBookList();" id="book-chapter-btn">' + doc.book_name + '</a><span id="chapterBtnSpan"><a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ')" >' + chapter + '</span></a>'
-        $('a[data-toggle=tooltip]').tooltip();
+        $('[data-toggle=tooltip]').tooltip();
         setChapterButton(book, chapter);
         setChapterCookie(chapter);
         saveLastVisit(book, chapter);
@@ -672,7 +672,7 @@ function setChapter(chapter) {
 
 function setChapterButton(bookId, chapterId) {
     document.getElementById('chapterBtnSpan').innerHTML = '<a id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + bookId + "'" + ');" >' + chapterId + '</a>'
-    $('a[data-toggle=tooltip]').tooltip();
+    $('[data-toggle=tooltip]').tooltip();
     const cookie = { url: 'http://book.autographa.com', name: 'book', value: bookId };
     session.defaultSession.cookies.set(cookie, (error) => {
         if (error)
@@ -756,11 +756,11 @@ document.getElementById('export-usfm').addEventListener('click', function(e) {
             exportChoice();
         }).catch(function(err) {
             // handle any errors
-            alertModal("Setting Error", "Please setup Target Language settings for export to work.");
+            alertModal("Error", "Please enter translation details in Settings first to continue with export.");
         });
     }).catch(function(err) {
         // handle any errors
-        alertModal("Setting Error", "Please setup Target Language settings for export to work.");
+        alertModal("Error", "Please enter translation details in Settings first to continue with export.");
     });
 });
 
@@ -935,7 +935,7 @@ $('.check-diff').on('click', function() {
             if (response == false) {
                 // $('.check-diff').p('checked', !($('.check-diff').is(':checked')));
                 $('.check-diff').removeAttr('checked')
-                alertModal("Language!!", "Differences are not meaningful between different languages." + "Kindly select the same language across all panes to continue.");
+                alertModal("Error!!", "Compare mode is not meaningful across different languages. Please select the same language across all panes to continue.");
                 // $('.check-diff').bootstrapSwitch('state', false);
                 // $(".check-diff").removeClass('is-checked');
                 $('#switchLable')[0].MaterialSwitch.off();
@@ -1204,6 +1204,7 @@ $(".navigation-btn").click(function() {
     }
 });
 
+
 function saveTarget() {
     var verses = currentBook.chapters[parseInt(chapter, 10) - 1].verses;
     verses.forEach(function(verse, index) {
@@ -1320,7 +1321,7 @@ document.getElementById('save-settings').addEventListener('click', function(e) {
             targetVersion: document.getElementById('target-version').value,
             targetPath: document.getElementById('export-path').value
         }).then(function(e) {
-            alert_message(".alert-success", "Language setting saved successfully!!");
+            alert_message(".alert-success", "Settings saved successfully!!");
         });
     }).catch(function(err) {
         db.put({
@@ -1329,7 +1330,7 @@ document.getElementById('save-settings').addEventListener('click', function(e) {
             targetVersion: document.getElementById('target-version').value,
             targetPath: document.getElementById('export-path').value
         }).then(function(e) {
-            alert_message(".alert-success", "Language setting saved successfully!!");
+            alert_message(".alert-success", "Settings saved successfully!!");
         }).catch(function(err) {
             alert_message(".alert-danger", "Something went wrong!! Please try again");
         });
@@ -1357,13 +1358,13 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
             refDb.put(doc).then(function(res) {
                 saveJsonToDB(files);
                 buildReferenceList();
-                alert_message(".alert-success", "Reference Usfm Setting saved successfully!!");
+                alert_message(".alert-success", "Settings saved successfully!!");
                 clearReferenceSetting();
             });
         } else {
             saveJsonToDB(files);
             buildReferenceList();
-            alert_message(".alert-success", "Reference Usfm Setting saved successfully!!");
+            alert_message(".alert-success", "Settings saved successfully!!");
             clearReferenceSetting();
 
         }
@@ -1378,7 +1379,7 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
             refDb.put(refs).then(function(res) {
                 saveJsonToDB(files);
                 buildReferenceList();
-                alert_message(".alert-success", "Reference Usfm Setting saved successfully!!");
+                alert_message(".alert-success", "Settings saved successfully!!");
                 clearReferenceSetting();
             }).catch(function(internalErr) {
                 alert_message(".alert-danger", "There was an error while importing USFM.");
@@ -1454,16 +1455,16 @@ function reference_setting() {
         path = $("#ref-path").val(),
         isValid = true;
     if (name == "") {
-        alert_message(".alert-danger", "Reference Bible name must not be blank");
+        alert_message(".alert-danger", "The Bible name is required.");
         isValid = false;
     } else if (langCode === null || langCode === "") {
-        alert_message(".alert-danger", "Reference Bible language code must not be blank");
+        alert_message(".alert-danger", "The Bible language code is required.");
         isValid = false;
     } else if (version === null || version === "") {
-        alert_message(".alert-danger", "Reference Bible version must not be blank");
+        alert_message(".alert-danger", "The Bible version is required.");
         isValid = false;
     } else if (path === null || path === "") {
-        alert_message(".alert-danger", "Reference Bible path must not be blank");
+        alert_message(".alert-danger", "The Bible path is required.");
         isValid = false;
     } else {
         isValid = true;
@@ -1480,13 +1481,13 @@ function target_setting() {
         isValid = true;
 
     if (langCode === null || langCode === "") {
-        alert_message(".alert-danger", "Target Bible language code must not be blank");
+        alert_message(".alert-danger", "Target Bible language code is required.");
         isValid = false;
     } else if (version === null || version === "") {
-        alert_message(".alert-danger", "Target Bible version must not be blank");
+        alert_message(".alert-danger", "Target Bible version is required.");
         isValid = false;
     } else if (path === null || path === "") {
-        alert_message(".alert-danger", "Target Bible path must not be blank");
+        alert_message(".alert-danger", "Target Bible path is required.");
         isValid = false;
     } else {
         isValid = true;
@@ -1514,6 +1515,7 @@ function alert_message(type, message) {
 
 function setReferenceSetting() {
     db.get('targetBible').then(function(doc) {
+        console.log("test")
         $("#target-lang-code").val(doc.targetLang);
         $("#target-lang")[0].parentNode.MaterialTextfield.change(doc.targetLang);
         $("#target-version")[0].parentNode.MaterialTextfield.change(doc.targetVersion);
@@ -1545,7 +1547,6 @@ function matchCode(input) {
         endkey: input + '\uffff',
         include_docs: true
     }).then(function(response) {
-        console.log(response)
         var data = ""
         if (response != undefined && response.rows.length > 0) {
             $.each(response.rows, function(index, value) {
@@ -1594,6 +1595,8 @@ function changeInput(val, inputId, fieldValue, listId) {
                 });
             }
         });
+    }else{
+        $(listId).hide();
     }
     $(document).on("click", function(e) {
         var $clicked = $(e.target);
@@ -1737,6 +1740,9 @@ function clearReferenceSetting() {
 }
 $("#btnSettings").click(function() {
     $('#bannerformmodal').modal('toggle')
+})
+$("#btnAbout").click(function() {
+    $('#aboutmodal').modal('toggle')
 })
 $(document).on('show.bs.modal', '#bannerformmodal', function() {
     setReferenceSetting();
