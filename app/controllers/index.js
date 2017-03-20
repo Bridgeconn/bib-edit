@@ -1008,7 +1008,7 @@ function setAutoSaveTime(dateTime) {
 
 session.defaultSession.cookies.get({ url: 'http://autosave.autographa.com' }, (error, cookie) => {
     if (cookie.length > 0) {
-        $("#saved-time").html("Last saved target at: " + cookie[0].value);
+        $("#saved-time").html("Changes last saved on " + cookie[0].value);
     }
 });
 
@@ -1215,15 +1215,15 @@ function saveTarget() {
     db.get(currentBook._id).then(function(book) {
         currentBook._rev = book._rev;
         db.put(currentBook).then(function(response) {
-            var dateTime = new Date().toLocaleString();
-            $("#saved-time").html("Last saved target at: " + dateTime);
-            setAutoSaveTime(dateTime);
+            var dateTime = new Date();
+            $("#saved-time").html("Changes last saved on " + formatDate(dateTime));
+            setAutoSaveTime(formatDate(dateTime));
             clearInterval(intervalId);
         }).catch(function(err) {
             db.put(currentBook).then(function(response) {
-                var dateTime = new Date().toLocaleString();
-                $("#saved-time").html("Last saved target at: " + dateTime);
-                setAutoSaveTime(dateTime);
+                var dateTime = new Date();
+                $("#saved-time").html("Changes last saved on " + formatDate(dateTime));
+                setAutoSaveTime(formatDate(dateTime));
             }).catch(function(err) {
                 clearInterval(intervalId);
             });
@@ -1760,4 +1760,26 @@ $("#chapterTab").click(function() {
 })
 function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
+function formatDate(date) {
+  var monthNames = [
+    "Jan", "Feb", "Mar",
+    "Apr", "May", "June", "July",
+    "Aug", "Sep", "Oct",
+    "Nov", "Dec"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+  var hours = date.getHours();
+  var seconds = date.getSeconds();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+
+  return day + '-' + monthNames[monthIndex] + '-' + year+' at '+hours+ ':' + minutes + ':' + seconds +' '+ ampm
 }
