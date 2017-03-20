@@ -47,13 +47,13 @@
                                     <div class="col-xs-6">
                                         <h3 style="margin-top:100px;">Autographa Lite (Beta)</h3>
                                         <p>Version v0.1-beta.4</p>
-                                        <p>Source code hosted at: <a href="https://github.com/Bridgeconn/bib-edit" target="blank">https://github.com/Bridgeconn/bib-edit</a></p>
+                                        <p>Source code hosted at: https://github.com/Bridgeconn/bib-edit</p>
                                     </div>
                                 </div>
                             </div>
                                 <div class="mdl-tabs__panel" id="license-tab" style="height: 306px;overflow-y: scroll; overflow-x:scroll">
-                                      <p></p>
-                                      <p>Copyright (c) 2017  - Friends of Agape (www.friendsofagape.org) and RUN Ministries (www.runministries.org). </p>
+                                      <h3> The MIT License (MIT)</h3>
+                                      <p>Copyright 2017  - Friends of Agape (www.friendsofagape.org) and RUN Ministries (www.runministries.org). </p>
                                       <br>
                                       <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
                                       <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
@@ -86,9 +86,9 @@
                     <div class="modal-body" style="height:475px">
                         <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
                         <div class="tabs" style="">
-                            <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'usfm-settings')" id="defaultOpen">Reference</a>
-                            <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'language-settings')">Translation</a>
+                             <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'language-settings')">Translation Details</a>
                             <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'target-usfm')">Import Translation</a>
+                            <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'usfm-settings')" id="defaultOpen">Import Reference</a>
                             <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'modify-reference')">Modify Reference</a>
                         </div>
                         <div id="usfm-settings" class="tabcontent">
@@ -146,7 +146,7 @@
                         <div id="target-usfm" class="tabcontent">
                             <div class="form-group">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <input class="mdl-textfield__input" type="text" id="target-import-path" placeholder="Path of folder containing USFM file">
+                                    <input class="mdl-textfield__input" type="text" id="target-import-path" placeholder="Path of folder containing USFM files">
                                     <label class="mdl-textfield__label" for="target-import-path"> Folder Location</label>
                                 </div>
                             </div>
@@ -155,7 +155,7 @@
                         <div id="modify-reference" class="tabcontent">
                             <div>
                                 <table class="table table-bordered table-hover table-striped">
-                                    <th>Reference Name</th>
+                                    <th>Name</th>
                                     <th>Action</th>
                                     <tbody id="reference-list">
                                     </tbody>
@@ -491,7 +491,7 @@
                         </label> -->
                                 <label style="margin-left: 10px;" class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
                                     <input type="radio" id="option-2" class="mdl-radio__button" name="searchOption" value="all">
-                                    <span class="mdl-radio__label">All chapter</span>
+                                    <span class="mdl-radio__label">Current book</span>
                                 </label>
                             </div>
                         </div>
@@ -517,7 +517,7 @@
                         </div> -->
                                 <form action="#">
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                        <input class="mdl-textfield__input" type="text" id="replaceTextBox" placeholder="Replace with">
+                                        <input class="mdl-textfield__input" type="text" id="replaceTextBox" placeholder="Replacement">
                                         <span class="error help-inline" id="replaceError"></span>
                                         <label class="mdl-textfield__label" for="replaceTextBox">Replace with</label>
                                     </div>
