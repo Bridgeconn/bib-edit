@@ -499,7 +499,7 @@ div.tabs {
     // border-top: 1px solid #ccc;
     background-color: rgba(241, 241, 241, 0.52);;
     width: 30%;
-    height: 380px;
+    height: 345px;
     padding-top: 28px; 
     margin-top: 21px;
 }
@@ -597,3 +597,6 @@ div.tabs a:focus, .active {
 //     margin-left: 23px !important;
 // } 
 // }
+.import {
+  color: transparent !important;
+}
