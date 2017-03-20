@@ -1649,7 +1649,7 @@ function buildReferenceList() {
                 tr += "<td><a data-id=" + ref_doc.ref_id + " href=javaScript:void(0); class='edit-ref'>Rename</a> | <a data-id=" + ref_doc.ref_id + " href=javaScript:void(0) class='remove-ref'>Remove</a></td>";
             }
             tr += "</tr>";
-            var ref_name = ref_first.toUpperCase()+"_"+ref_except_first;
+            var ref_name = ref_first.toUpperCase()+"-"+ref_except_first;
             $('<option></option>').val(ref_doc.ref_id).text(ref_name).appendTo(".ref-drop-down");
         });
         $("#reference-list").html(tr);
