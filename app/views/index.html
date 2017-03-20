@@ -45,15 +45,15 @@
                                         <img src="../assets/images/autographa_lite_large.png" class="img-circle" alt="Cinque Terre" width="215" height="200" style="margin-top: 55px; border: 5px solid #0b82ff;">
                                     </div>
                                     <div class="col-xs-6">
-                                        <h3 style="margin-top:100px;">Autographa Lite Beta</h3>
+                                        <h3 style="margin-top:100px;">Autographa Lite (Beta)</h3>
                                         <p>Version v0.1-beta.4</p>
-                                        <p>Source code hosted at <a href="https://github.com/Bridgeconn/bib-edit" target="blank">https://github.com/Bridgeconn/bib-edit</a></p>
+                                        <p>Source code hosted at: <a href="https://github.com/Bridgeconn/bib-edit" target="blank">https://github.com/Bridgeconn/bib-edit</a></p>
                                     </div>
                                 </div>
                             </div>
                                 <div class="mdl-tabs__panel" id="license-tab" style="height: 306px;overflow-y: scroll; overflow-x:scroll">
                                       <p></p>
-                                      <p>Copyright (c) 2017  - Friends of Agape (<a href="http://www.friendsofagape.org">www.friendsofagape.org</a>) and RUN Ministries (<a href="http://www.runministries.org">www.runministries.org</a>). </p>
+                                      <p>Copyright (c) 2017  - Friends of Agape (www.friendsofagape.org) and RUN Ministries (www.runministries.org). </p>
                                       <br>
                                       <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
                                       <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
@@ -180,7 +180,7 @@
                     </div>
                     <div class="modal-body" id="content"></div>
                     <div class="modal-footer">
-                        <span class="btn btn-primary" data-dismiss="modal">Ok</span>
+                        <span class="btn btn-primary" data-dismiss="modal">OK</span>
                     </div>
                 </div>
                 <!-- /.modal-content-->
@@ -224,9 +224,9 @@
                                 <div class="mdl-tabs__panel is-active" id="books-panel">
                                     <div class="wrap-center">
                                         <div class="btn-group" role="group" aria-label="...">
-                                            <button class="btn btn-primary" type="button" id="allBooksBtn" data-toggle="tooltip" data-placement="bottom" title="ALL">ALL</button>
-                                            <button class="btn btn-primary" type="button" id="otBooksBtn" data-toggle="tooltip" data-placement="bottom" title="OT">OT</button>
-                                            <button class="btn btn-primary" type="button" id="ntBooksBtn" data-toggle="tooltip" data-placement="bottom" title="NT">NT</button>
+                                            <button class="btn btn-primary" type="button" id="allBooksBtn" data-toggle="tooltip" data-placement="bottom" title="All">ALL</button>
+                                            <button class="btn btn-primary" type="button" id="otBooksBtn" data-toggle="tooltip" data-placement="bottom" title="Old Testament">OT</button>
+                                            <button class="btn btn-primary" type="button" id="ntBooksBtn" data-toggle="tooltip" data-placement="bottom" title="New Testament">NT</button>
                                         </div>
                                     </div>
                                     <!-- <div class="dropdown">
@@ -259,7 +259,7 @@
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                    <a class="navbar-brand navigation-btn" href="index.html" data-toggle="tooltip" data-placement="bottom" title="Home"><img alt="Brand" src="../assets/images/logo.png"></a>
+                    <a class="navbar-brand navigation-btn" href="javascript:;"><img alt="Brand" src="../assets/images/logo.png"></a>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar">
                     <ul class="nav navbar-nav" style="padding: 3px 0 0 243px;">
@@ -278,7 +278,8 @@
                         </li>
                         <li style="padding:17px 5px 0 0; color: #fff; font-weight: bold"><span>OFF</span></li>
                         <li>
-                            <label style="margin-top:17px;" class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-2" id="switchLable">
+                            <label style="margin-top:17px;" class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-2" id="switchLable" data-toggle='tooltip' data-placement='bottom' title="Compare mode">
+                                <span>
                                 <input type="checkbox" id="switch-2" class="mdl-switch__input check-diff">
                                 <span class="mdl-switch__label"></span>
                             </label>
@@ -441,13 +442,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close" data-toggle = "tooltip" data-placement="bottom" title = "Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="heading">Export USFM</h4>
+                        <h4 class="modal-title" id="heading">Export as USFM</h4>
                     </div>
                     <div class="modal-body" id="content">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" aria-label="..." id="stageText" placeholder="Stage name of translation.">
+                                    <input type="text" class="form-control" aria-label="..." id="stageText" placeholder="Stage name of translation">
                                     <div class="input-group-btn">
                                         <button id="dropdownBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Choose Stage <span class="caret"></span></button>
                                         <ul class="dropdown-menu dropdown-menu-right">
@@ -473,7 +474,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button class="close" type="button" data-dismiss="modal" data-toggle = "tooltip" data-placement="bottom" title = "Close" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="heading">Find and Replace:</h4>
+                        <h4 class="modal-title" id="heading">Find and Replace</h4>
                     </div>
                     <div class="modal-body" id="content">
                         <div class="row">
@@ -503,7 +504,7 @@
                         </div> -->
                                 <form action="#">
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                        <input class="mdl-textfield__input" type="text" id="searchTextBox" placeholder="search text">
+                                        <input class="mdl-textfield__input" type="text" id="searchTextBox" placeholder="Search text">
                                         <span class="error help-inline" id="findError"></span>
                                         <label class="mdl-textfield__label" for="searchTextBox">Find</label>
                                     </div>

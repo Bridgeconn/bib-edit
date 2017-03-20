@@ -935,7 +935,7 @@ $('.check-diff').on('click', function() {
             if (response == false) {
                 // $('.check-diff').p('checked', !($('.check-diff').is(':checked')));
                 $('.check-diff').removeAttr('checked')
-                alertModal("Error!!", "Compare mode is not meaningful across different languages. Please select the same language across all panes to continue.");
+                alertModal("Error", "Compare mode is not meaningful across different languages. Please select the same language across all panes to continue.");
                 // $('.check-diff').bootstrapSwitch('state', false);
                 // $(".check-diff").removeClass('is-checked');
                 $('#switchLable')[0].MaterialSwitch.off();
