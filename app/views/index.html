@@ -80,42 +80,42 @@
                     <button style="padding: 13px 22px;" type="button" class="close" data-dismiss="modal" data-toggle = "tooltip" data-placement="bottom" title = "Close">&times;</button>
                     <div class="modal-header" style="height:87px;">
                         <h4> Settings </h4>
-                        <div class="alert alert-success" role="alert" style="display:none;    margin-top: -18px;"><strong>Well done!</strong> <span>You successfully read this important alert message.</span></div>
-                        <div class="alert alert-danger" role="alert" style="display:none;position: relative;margin-top: -18px;"><strong>Oh snap!</strong> <span>Change a few things up and try submitting again.</span></div>
+                        <div class="alert alert-success" role="alert" style="display:none;    margin-top: -18px;"><span>You successfully read this important alert message.</span></div>
+                        <div class="alert alert-danger" role="alert" style="display:none;position: relative;margin-top: -18px;"><span>Change a few things up and try submitting again.</span></div>
                     </div>
                     <div class="modal-body" style="height:475px">
                         <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
                         <div class="tabs" style="">
-                            <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'usfm-settings')" id="defaultOpen">Reference USFM settings</a>
-                            <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'language-settings')">Target Language Settings</a>
-                            <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'target-usfm')">Import Target USFM File for Revision</a>
+                            <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'usfm-settings')" id="defaultOpen">Reference</a>
+                            <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'language-settings')">Translation</a>
+                            <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'target-usfm')">Import Translation</a>
                             <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'modify-reference')">Modify Reference</a>
                         </div>
                         <div id="usfm-settings" class="tabcontent">
                             <div class="form-group">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <input class="mdl-textfield__input" type="text" id="ref-name">
-                                    <label class="mdl-textfield__label" for="ref-name">Reference Bible Name</label>
+                                    <input class="mdl-textfield__input" type="text" id="ref-name" placeholder="New English Translation">
+                                    <label class="mdl-textfield__label" for="ref-name">Bible name</label>
                                 </div>
                             </div>
                         <div class="form-group">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <input class="mdl-textfield__input" type="text" id="ref-lang-code">
-                                    <label class="mdl-textfield__label" for="ref-lang-code">Reference Bible Language Code</label>
+                                    <input class="mdl-textfield__input" type="text" id="ref-lang-code" placeholder="eng">
+                                    <label class="mdl-textfield__label" for="ref-lang-code">Language Code</label>
                                 </div>
                                 <div id="reference-lang-result" class="lang-code"></div>
                                 <input type="hidden" id="langCode" />
                             </div>
                             <div class="form-group">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <input class="mdl-textfield__input" type="text" id="ref-version">
-                                    <label class="mdl-textfield__label" for="ref-version">Reference Bible Version</label>
+                                    <input class="mdl-textfield__input" type="text" id="ref-version" placeholder="NET-S3">
+                                    <label class="mdl-textfield__label" for="ref-version">Version</label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <input class="mdl-textfield__input" type="text" id="ref-path">
-                                    <label class="mdl-textfield__label" for="ref-path">Reference Bible Folder Location</label>
+                                    <input class="mdl-textfield__input" type="text" id="ref-path" placeholder="Path of folder containing USFM files">
+                                    <label class="mdl-textfield__label" for="ref-path">Folder Location</label>
                                 </div>
                             </div>
                             <button style="float:right; margin-right: 33px;" class="btn btn-success" id="ref-import-btn">Import</button>
@@ -123,34 +123,34 @@
                         <div id="language-settings" class="tabcontent">
                             <div class="form-group">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <input class="mdl-textfield__input" type="text" id="target-lang">
-                                    <label class="mdl-textfield__label" for="target-lang">Target Language Code</label>
+                                    <input class="mdl-textfield__input" type="text" id="target-lang" placeholder="eng">
+                                    <label class="mdl-textfield__label" for="target-lang">Language Code</label>
                                     <div id="target-lang-result" class="lang-code"></div>
                                     <input type="hidden" id="target-lang-code" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <input class="mdl-textfield__input" type="text" id="target-version">
-                                    <label class="mdl-textfield__label" for="target-version">Target Version</label>
+                                    <input class="mdl-textfield__input" type="text" id="target-version" placeholder="NET-S3">
+                                    <label class="mdl-textfield__label" for="target-version">Version</label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <input class="mdl-textfield__input" type="text" id="export-path">
-                                    <label class="mdl-textfield__label" for="export-path">Export Path</label>
+                                    <input class="mdl-textfield__input" type="text" id="export-path" placeholder="Path to destination folder">
+                                    <label class="mdl-textfield__label" for="export-path">Export Folder Location</label>
                                 </div>
                             </div>
-                            <button style="float:right; margin-right: 33px;" class="btn btn-success" id="save-settings">Save Settings</button>
+                            <button style="float:right; margin-right: 33px;" class="btn btn-success" id="save-settings">Save</button>
                         </div>
                         <div id="target-usfm" class="tabcontent">
                             <div class="form-group">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <input class="mdl-textfield__input" type="text" id="target-import-path">
-                                    <label class="mdl-textfield__label" for="target-import-path">/path/to/import/target/from</label>
+                                    <input class="mdl-textfield__input" type="text" id="target-import-path" placeholder="Path of folder containing USFM file">
+                                    <label class="mdl-textfield__label" for="target-import-path"> Folder Location</label>
                                 </div>
                             </div>
-                            <button style="float:right; margin-right: 33px;" id="target-import-btn" class="btn btn-success">Import Target</button>
+                            <button style="float:right; margin-right: 33px;" id="target-import-btn" class="btn btn-success">Import</button>
                         </div>
                         <div id="modify-reference" class="tabcontent">
                             <div>
@@ -265,9 +265,9 @@
                     <ul class="nav navbar-nav" style="padding: 3px 0 0 243px;">
                         <li>
                             <div class="btn-group navbar-btn strong verse-diff-on" role="group" aria-label="..." id="bookBtn">
-                                <a class="btn btn-default" data-toggle="modal" data-placement="bottom" title="Select Book" href="javascript:getBookList();" id="book-chapter-btn">Genesis
+                                <a href="javascript:getBookList();" class="btn btn-default" data-toggle="modal" data-placement="bottom" title="Select Book"  id="book-chapter-btn">
                                 </a>
-                                <span id="chapterBtnSpan"><a class="btn btn-default" id="chapterBtn" data-target="#myModal" href="javascript:getBookChapterList('1');" data-toggle="modal" data-placement="bottom"  title="Select Chapter" >1</a></span>
+                                <span id="chapterBtnSpan"><a class="btn btn-default" id="chapterBtn" data-target="#myModal" href="javascript:getBookChapterList('1');" data-toggle="modal" data-placement="bottom"  title="Select Chapter" ></a></span>
                             </div>
                             
                         </li>

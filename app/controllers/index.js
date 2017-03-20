@@ -1515,7 +1515,6 @@ function alert_message(type, message) {
 
 function setReferenceSetting() {
     db.get('targetBible').then(function(doc) {
-        console.log("test")
         $("#target-lang-code").val(doc.targetLang);
         $("#target-lang")[0].parentNode.MaterialTextfield.change(doc.targetLang);
         $("#target-version")[0].parentNode.MaterialTextfield.change(doc.targetVersion);
