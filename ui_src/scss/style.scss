@@ -388,12 +388,12 @@ ul {
 // }
 
 #save-btn {
-    padding: 8px 30px 8px 30px;
+    padding: 8px 26px 8px 26px;
     color: #fff;
     font-weight: 600;
     background-color: #0b82ff;
     border-color: #0b82ff;
-    margin-left: 120px;
+    // margin-left: 100px;
     margin-right: -24px;
 }
 
@@ -574,6 +574,26 @@ div.tabs a:focus, .active {
  @media (max-width: 768px) {
   .layout {
     display: none;
-} 
+}
+  #saved-time {
+    display: none;
+  } 
 }
 
+//  @media (max-width: 785px) {
+//   #bookBtn {
+//     margin-left: 0px !important;
+// } 
+// }
+
+//  @media (max-width: 786px) {
+//   #save-btn {
+//     float: right;
+// }
+// }
+
+//  @media (max-width: 360px) {
+//   #save-btn {
+//     margin-left: 23px !important;
+// } 
+// }

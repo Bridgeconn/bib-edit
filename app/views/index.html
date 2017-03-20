@@ -18,14 +18,21 @@
     <!-- Material Design icon font -->
     <link rel="stylesheet" href="../assets/stylesheets/icon.css">
     <!-- material design files -->
+    <style type="text/css">
+    .navbar-nav.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
+  }
+    </style>
 </head>
     <body>
         <div class="modal fade aboutmodal" tabindex="-1" role="dialog" aria-labelledby="aboutmodal" aria-hidden="true" id="aboutmodal">
-            <div class="modal-dialog modal-sm" style="margin-right: 690px;">
+            <div class="modal-dialog modal-sm" style="margin-right: 55%;">
                 <div class="modal-content">
                     <button style="padding: 13px 22px;" type="button" class="close" data-dismiss="modal" data-toggle = "tooltip" data-placement="bottom" title = "Close">&times;</button>
                     <div class="modal-header" style="height:50px;">
-                        <h4>About</h4>
+                        <h4 class="modal-title" id="myModalLabel">About</h4>
                     </div>
                     <div class="modal-body" style="height: 370px;">
                         <div role="tabpanel" class="selected">
@@ -75,11 +82,11 @@
         </div>
 
         <div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true" id="bannerformmodal">
-            <div class="modal-dialog modal-sm" style="margin-right: 690px;">
+            <div class="modal-dialog modal-sm" style="margin-right: 55%;">
                 <div class="modal-content">
                     <button style="padding: 13px 22px;" type="button" class="close" data-dismiss="modal" data-toggle = "tooltip" data-placement="bottom" title = "Close">&times;</button>
                     <div class="modal-header" style="height:87px;">
-                        <h4> Settings </h4>
+                        <h4 class="modal-title" id="myModalLabel"> Settings </h4>
                         <div class="alert alert-success" role="alert" style="display:none;    margin-top: -18px;"><span>You successfully read this important alert message.</span></div>
                         <div class="alert alert-danger" role="alert" style="display:none;position: relative;margin-top: -18px;"><span>Change a few things up and try submitting again.</span></div>
                     </div>
@@ -262,9 +269,9 @@
                     <a class="navbar-brand navigation-btn" href="javascript:;"><img alt="Brand" src="../assets/images/logo.png"></a>
                 </div>
                 <div class="navbar-collapse collapse" id="navbar">
-                    <ul class="nav navbar-nav" style="padding: 3px 0 0 243px;">
+                    <ul class="nav navbar-nav" style="padding: 3px 0 0 0px;">
                         <li>
-                            <div class="btn-group navbar-btn strong verse-diff-on" role="group" aria-label="..." id="bookBtn">
+                            <div class="btn-group navbar-btn strong verse-diff-on" role="group" aria-label="..." id="bookBtn" style="margin-left:215px;">
                                 <a href="javascript:getBookList();" class="btn btn-default" data-toggle="modal" data-placement="bottom" title="Select Book"  id="book-chapter-btn">
                                 </a>
                                 <span id="chapterBtnSpan"><a class="btn btn-default" id="chapterBtn" data-target="#myModal" href="javascript:getBookChapterList('1');" data-toggle="modal" data-placement="bottom"  title="Select Chapter" ></a></span>
@@ -354,7 +361,7 @@
                         <a class="btn btn-default font-button plus" data-toggle="tooltip" data-placement="top" title="Increase font size" href="JavaScript:void(0);">A+</a>
                     </span>
                 </div>
-            <div class="nav navbar-nav verse-diff-on" style="margin-left:200px;">
+            <div class="nav navbar-nav navbar-center verse-diff-on">
                 <div class="btn-group navbar-btn layout" role="group" aria-label="...">
                     <a class="btn btn-primary btn-default" href="#" data-output="2x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="2-column layout">2x &nbsp;<i class="fa fa-columns fa-lg"></i></a>
                     <a class="btn btn-primary btn-default" href="#" data-output="3x" role="multi-window-btn" data-toggle="tooltip" data-placement="top" title="3-column layout">3x &nbsp;<i class="fa fa-columns fa-lg"></i>
@@ -363,8 +370,9 @@
                 </div>
             </div>
             <span color:rgba(45, 46, 47, 0.57);" id="saved-time"></span>
-                <ul style="margin-right:30px;" class="nav navbar-nav navbar-right">
-                  <li><a id="save-btn" data-toggle="tooltip" data-placement="top" title="Save changes" class="btn btn-success btn-save navbar-btn navbar-right" href="#" role="button" style="float:none !important;">Save</a></li>
+                <ul style="margin-right:30px; float: right;" class="nav navbar-nav navbar-right">
+                    
+                  <li><a id="save-btn" data-toggle="tooltip" data-placement="top" title="Save changes" class="btn btn-success btn-save navbar-btn navbar-right" href="#" role="button">Save</a></li>
                 </ul>
     </div>
 </nav>
@@ -474,7 +482,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button class="close" type="button" data-dismiss="modal" data-toggle = "tooltip" data-placement="bottom" title = "Close" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="heading">Find and Replace</h4>
+                        <h4 class="modal-title" id="myModalLabel">Find and Replace</h4>
                     </div>
                     <div class="modal-body" id="content">
                         <div class="row">
