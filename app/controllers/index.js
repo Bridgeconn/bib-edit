@@ -1666,7 +1666,7 @@ $(document).on('click', '.remove-ref', function() {
     removeReferenceLink = element;
     var modal = $("#confirmModal");
     modal.modal("show");
-    $("#confirmMessage").html("Are you sure to delete reference?");
+    $("#confirmMessage").html("Are you sure you want to delete this reference text?");
 });
 $("#confirmOk").click(function() {
     removeRef(removeReferenceLink);
