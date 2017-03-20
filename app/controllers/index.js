@@ -1542,8 +1542,8 @@ function matchCode(input) {
     // var matches = []
     var filteredResults = {};
     return lookupsDb.allDocs({
-        startkey: input,
-        endkey: input + '\uffff',
+        startkey: input.toLowerCase(),
+        endkey: input.toLowerCase() + '\uffff',
         include_docs: true
     }).then(function(response) {
         var data = ""
@@ -1635,31 +1635,37 @@ function buildReferenceList() {
         tr = '';
         var remove_link = '';
         doc.ref_ids.forEach(function(ref_doc) {
+            var ref_id = ref_doc.ref_id
+            var ref_first = ref_id.substr(0, ref_id.indexOf('_'));
+            var ref_except_first =  ref_id.substr(ref_id.indexOf('_')+1);
             tr += "<tr><td>";
             tr += ref_doc.ref_name;
             tr += "</td>";
+            tr += "<td>"+ref_first+"</td>"
+            tr += "<td>"+ref_except_first+"</td>"
             if (constants.defaultReferences.indexOf(ref_doc.ref_id) >= 0) {
                 tr += "<td></td>";
             } else {
                 tr += "<td><a data-id=" + ref_doc.ref_id + " href=javaScript:void(0); class='edit-ref'>Rename</a> | <a data-id=" + ref_doc.ref_id + " href=javaScript:void(0) class='remove-ref'>Remove</a></td>";
             }
             tr += "</tr>";
-            $('<option></option>').val(ref_doc.ref_id).text(ref_doc.ref_name).appendTo(".ref-drop-down");
+            var ref_name = ref_first.toUpperCase()+"_"+ref_except_first;
+            $('<option></option>').val(ref_doc.ref_id).text(ref_name).appendTo(".ref-drop-down");
         });
         $("#reference-list").html(tr);
     })
 }
 $(document).on('click', '.edit-ref', function() {
-    var tdElement = $(this).parent().prev();
+    var tdElement = $(this).parent().parent().children(':first-child');
     var temp_text = tdElement.text();
     var docId = $(this).data('id');
     $(this).css('pointer-events', 'none');
     tdElement.html('<input type="text"  class="ref-text" value="' + tdElement.text() + '" maxlength="25" />&nbsp;<a data-docid=' + docId + ' class="save-ref-text" href="javaScript:void(0)">Save</a> | <a data-temp = ' + temp_text + ' class="cancel-ref" href="javaScript:void(0)">Cancel</a>');
 });
 $(document).on('click', '.cancel-ref', function() {
-    var tdElement = $(this).parent();
+    var tdElement = $(this).parent().parent().children(':first-child');
     tdElement.html($(this).data('temp'));
-    tdElement.next().find('.edit-ref').css('pointer-events', '');
+    tdElement.parent().children(':last-child').find('.edit-ref').css('pointer-events', '');
 });
 $(document).on('click', '.remove-ref', function() {
     var element = $(this);
@@ -1684,6 +1690,7 @@ function removeRef(element) {
         return refDb.put(doc);
     }).then(function(res) {
         element.closest('tr').remove();
+        buildReferenceList();
         $("#confirmModal").modal("hide");
     }).catch(function(err) {
         $("#confirmModal").modal("hide");
