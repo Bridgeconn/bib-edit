@@ -163,6 +163,8 @@
                             <div>
                                 <table class="table table-bordered table-hover table-striped">
                                     <th>Name</th>
+                                    <th>Language Code</th>
+                                    <th>Version</th>
                                     <th>Action</th>
                                     <tbody id="reference-list">
                                     </tbody>
@@ -199,12 +201,12 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close" data-toggle = "tooltip" data-placement="bottom" title = "Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="heading"></h4>
+                        <h4 class="modal-title" id="heading">Confirmation</h4>
                     </div>
                     <div class="modal-body" id="confirmMessage"></div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" id="confirmOk">Ok</button>
-                        <span class="btn btn-primary" id="btnDelete" data-dismiss="modal" id="confirmCancel">Close</span>
+                        <button type="button" class="btn btn-default" id="confirmOk">Confirm</button>
+                        <span class="btn btn-primary" id="btnDelete" data-dismiss="modal" id="confirmCancel">Cancel</span>
                     </div>
                 </div>
                 <!-- /.modal-content-->
@@ -272,7 +274,7 @@
                     <ul class="nav navbar-nav" style="padding: 3px 0 0 0px;">
                         <li>
                             <div class="btn-group navbar-btn strong verse-diff-on" role="group" aria-label="..." id="bookBtn" style="margin-left:200px;">
-                                <a href="#" onclick="getBookList()" class="btn btn-default" data-toggle="modal" data-placement="bottom" title="Select Book"  id="book-chapter-btn">
+                                <a href="#" onclick="getBookList()" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Select Book"  id="book-chapter-btn">
                                 </a>
                                 <span id="chapterBtnSpan"><a class="btn btn-default" id="chapterBtn" data-target="#myModal" href="javascript:getBookChapterList('1');" data-toggle="modal" data-placement="bottom"  title="Select Chapter" ></a></span>
                             </div>
