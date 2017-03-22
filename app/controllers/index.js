@@ -449,6 +449,11 @@ function createRefSelections() {
             });
         });
     } else {
+        session.defaultSession.cookies.get({ url: 'http://reference.autographa.com' }, (error, cookie) => {
+            if (cookie.length > 0) {
+                $('.ref-drop-down').val(cookie[0].value);
+            } 
+        });
         $('.ref-drop-down :selected').each(function(i, selected) {
             $(".current-val").val($(selected).val());
             getReferenceText($(selected).val(), function(err, refContent) {
@@ -475,6 +480,11 @@ function createRefSelections() {
 
 $('.ref-drop-down').change(function(event) {
     var selectedRefElement = $(this);
+    const cookie = { url: 'http://reference.autographa.com', name: 'reference', value: $(this).val() };
+    session.defaultSession.cookies.set(cookie, (error) => {
+        if (error)
+            console.error(error);
+    });
     getReferenceText($(this).val(), function(err, refContent) {
         if (err) {
             selectedRefElement.val(selectedRefElement.next().val());
