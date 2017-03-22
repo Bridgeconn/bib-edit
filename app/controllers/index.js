@@ -39,7 +39,8 @@ var stringReplace = require('../util/string_replace.js'),
     path = require("path"),
     codeClicked = false,
     constants = require(`${__dirname}/../util/constants.js`),
-    removeReferenceLink = '';
+    removeReferenceLink = '',
+    ref_select = '';
 
 
 
@@ -449,31 +450,54 @@ function createRefSelections() {
             });
         });
     } else {
-        session.defaultSession.cookies.get({ url: 'http://reference.autographa.com' }, (error, cookie) => {
+         session.defaultSession.cookies.get({ url: 'http://reference.autographa.com' }, (error, cookie) => {
             if (cookie.length > 0) {
+                console.log(cookie[0].value)
                 $('.ref-drop-down').val(cookie[0].value);
+                $(".current-val").val(cookie[0].value);
+                getReferenceText(cookie[0].value, function(err, refContent) {
+                    if (err) {
+                        $(".ref-drop-down").val(cookie[0].value);
+                        getReferenceText(cookie[0].value, function(err, refContent) {
+                            if (err) {
+                                console.log("The selected language on book for current chapter is not available!!");
+                            }
+                            $('div[type="ref"]').html(refContent);
+                        })
+                        return;
+                    }
+                    if ($("#section-" + i).length > 0) {
+                        $("#section-" + i).find('div[type="ref"]').html(refContent);
+                    } else {
+                        $('div[type="ref"]').html(refContent);
+                    }
+                });
+                
+            }else {
+                console.log("djajdaj")
+                $('.ref-drop-down :selected').each(function(i, selected) {
+                    $(".current-val").val($(selected).val());
+                    getReferenceText($(selected).val(), function(err, refContent) {
+                        if (err) {
+                            $(".ref-drop-down").val($(".ref-drop-down option:first").val());
+                            getReferenceText($(".ref-drop-down option:first").val(), function(err, refContent) {
+                                if (err) {
+                                    console.log("The selected language on book for current chapter is not available!!");
+                                }
+                                $('div[type="ref"]').html(refContent);
+                            })
+                            return;
+                        }
+                        if ($("#section-" + i).length > 0) {
+                            $("#section-" + i).find('div[type="ref"]').html(refContent);
+                        } else {
+                            $('div[type="ref"]').html(refContent);
+                        }
+                    });
+                });
             } 
         });
-        $('.ref-drop-down :selected').each(function(i, selected) {
-            $(".current-val").val($(selected).val());
-            getReferenceText($(selected).val(), function(err, refContent) {
-                if (err) {
-                    $(".ref-drop-down").val($(".ref-drop-down option:first").val());
-                    getReferenceText($(".ref-drop-down option:first").val(), function(err, refContent) {
-                        if (err) {
-                            console.log("The selected language on book for current chapter is not available!!");
-                        }
-                        $('div[type="ref"]').html(refContent);
-                    })
-                    return;
-                }
-                if ($("#section-" + i).length > 0) {
-                    $("#section-" + i).find('div[type="ref"]').html(refContent);
-                } else {
-                    $('div[type="ref"]').html(refContent);
-                }
-            });
-        });
+        
 
     }
 }
