@@ -1130,6 +1130,7 @@ function saveReplacedText() {
                         $("#replaced-text-change").modal('toggle');
                         alertModal("Error Message!!", "Something went wrong please try later!!");
                     } else {
+                        replaceCount = 0;
                         window.location.reload();
                     }
                 });
