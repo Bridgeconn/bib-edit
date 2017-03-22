@@ -452,7 +452,6 @@ function createRefSelections() {
     } else {
          session.defaultSession.cookies.get({ url: 'http://reference.autographa.com' }, (error, cookie) => {
             if (cookie.length > 0) {
-                console.log(cookie[0].value)
                 $('.ref-drop-down').val(cookie[0].value);
                 $(".current-val").val(cookie[0].value);
                 getReferenceText(cookie[0].value, function(err, refContent) {
@@ -474,7 +473,6 @@ function createRefSelections() {
                 });
                 
             }else {
-                console.log("djajdaj")
                 $('.ref-drop-down :selected').each(function(i, selected) {
                     $(".current-val").val($(selected).val());
                     getReferenceText($(selected).val(), function(err, refContent) {
@@ -497,8 +495,6 @@ function createRefSelections() {
                 });
             } 
         });
-        
-
     }
 }
 
