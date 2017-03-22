@@ -54,7 +54,7 @@ document.getElementById("save-btn").addEventListener("click", function(e) {
     db.get(currentBook._id).then(function(doc) {
         doc.chapters[parseInt(chapter, 10) - 1].verses = verses;
         db.put(doc).then(function(response) {
-            alertModal("Save Message!!", "Edited Content saved successfully!!");
+            alertModal("Translation Data", "Successfully saved changes");
         }).catch(function(err) {
             console.log(err);
         });
@@ -1411,8 +1411,13 @@ document.getElementById('target-import-btn').addEventListener('click', function(
             bibUtil_to_json.toJson(options);
         }
     });
-    alertModal("Import and Sync", "Import and Sync Setting saved successfully!!");
+    $("#importModal").modal('toggle');
 });
+
+$('#importModal').on('hidden.bs.modal', function () {
+    window.location.reload();
+})
+
 
 
 function saveJsonToDB(files) {
