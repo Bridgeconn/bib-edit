@@ -37,17 +37,21 @@ body {font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; 
 /*
  * Sidebar
  */
-.wrap-center {text-align: center; margin-top: 15px; } .books {text-align: left; margin: 0; padding: 0; column-count: 4; li {display: inline-block; width: 135px; } }
+.wrap-center {text-align: center; margin-top: 15px; } 
+.books {text-align: left; margin: 0; padding: 0; column-count: 4; li {display: inline-block; width: 135px; } }
 .chapter-picker {margin: 0; padding: 0; li {display: block; float: left; text-align: center; padding: 10px 0; width: 5%; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; a {display: block; } } }
 .chapter-picker li:nth-child(-n+20) {border-top: 1px solid #ddd; }
 .chapter-picker li:nth-child(20n+0),
 .chapter-picker li:last-child {border-right: 1px solid #ddd; }
 /* Hide for mobile, show later */
 .sidebar {display: none; .btn-group {padding-bottom: 20px; } }
-@media (min-width: 768px) {.sidebar {position: fixed; z-index: 1000; top: 51px; bottom: 0; left: 0; display: block; overflow-x: hidden; overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */ padding: 20px; border-right: 1px solid #eee; background-color: #f5f8fa; } }
+@media (min-width: 768px) {.sidebar {position: fixed; z-index: 1000; top: 51px; bottom: 0; left: 0; display: block; overflow-x: hidden; overflow-y: auto; 
+	/* Scrollable contents if viewport is shorter than content. */ padding: 20px; border-right: 1px solid #eee; background-color: #f5f8fa; } }
 .col-md-offset-3 {padding: 30px 0 0; }
 /* Editor */
-.center-align {text-align: center; .btn-group {padding: 10px 0 0; } } .col-fixed {padding: 10px 40px 60px; background: #f5f8fa; border-right: 1px solid darken(#f5f8fa, 10%); } .col-editor {background: #FFF; }
+.center-align {text-align: center; .btn-group {padding: 10px 0 0; } } 
+.col-fixed {min-height:634px; padding: 10px 40px 60px; background: #f5f8fa; border-right: 1px solid darken(#f5f8fa, 10%); } 
+.col-editor {background: #FFF; }
 html, body {height: 100%; }
 .col-flex {height: 100vh; display: flex; flex: 1; }
 .col-ref {/* overflow-y: scroll; // max-height: 1000px; */ div {padding: 5px 0; span:first-child {padding:  0 10px 0 0;} } } .navbar-fixed-bottom, .navbar-fixed-top {.navbar-nav {display: inline-block; float: none; vertical-align: top; } .navbar-collapse {text-align: center; } } .btn-save {margin-left: 20px; }
