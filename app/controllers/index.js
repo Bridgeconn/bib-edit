@@ -300,7 +300,6 @@ function setDiffReferenceText() {
     }).catch(function(err) {
         console.log('Error: While retrieving document. ' + err);
     });
-
 }
 
 function setReferenceTextBack() {
@@ -459,7 +458,7 @@ function createRefSelections() {
                         $(".ref-drop-down").val(cookie[0].value);
                         getReferenceText(cookie[0].value, function(err, refContent) {
                             if (err) {
-                                console.log("The selected language on book for current chapter is not available!!");
+                                console.log("This chapter is not available in the selected reference version.");
                             }
                             $('div[type="ref"]').html(refContent);
                         })
@@ -480,7 +479,7 @@ function createRefSelections() {
                             $(".ref-drop-down").val($(".ref-drop-down option:first").val());
                             getReferenceText($(".ref-drop-down option:first").val(), function(err, refContent) {
                                 if (err) {
-                                    console.log("The selected language on book for current chapter is not available!!");
+                                    console.log("This chapter is not available in the selected reference version.");
                                 }
                                 $('div[type="ref"]').html(refContent);
                             })
@@ -509,7 +508,7 @@ $('.ref-drop-down').change(function(event) {
         if (err) {
             selectedRefElement.val(selectedRefElement.next().val());
             console.log(err);
-            alertModal("Language!!", "The selected language on book for current chapter is not available!!");
+            alertModal("Error", "This chapter is not available in the selected reference version.");
             return;
         } else {
             selectedRefElement.next().val(selectedRefElement.val());
@@ -786,11 +785,11 @@ document.getElementById('export-usfm').addEventListener('click', function(e) {
             exportChoice();
         }).catch(function(err) {
             // handle any errors
-            alertModal("Error", "Please enter translation details in Settings first to continue with export.");
+            alertModal("Error", "Please enter Translation Details in the Settings to continue with Export.");
         });
     }).catch(function(err) {
         // handle any errors
-        alertModal("Error", "Please enter translation details in Settings first to continue with export.");
+        alertModal("Error", "Please enter Translation Details in the Settings to continue with Export.");
     });
 });
 
@@ -799,7 +798,7 @@ $("#exportUsfm").on("click", function() {
 })
 
 function exportChoice() {
-    $("#dropdownBtn").html("Choose Stage" + ' <span class="caret"></span>');
+    $("#dropdownBtn").html("Stage in Translation" + ' <span class="caret"></span>');
     $("#stageText").val('');
     $("#exportChoice").modal();
     $("#exportChoice").toggle();
@@ -828,7 +827,7 @@ function exportUsfm() {
         }).catch(function(err) {
             $("#exportChoice").modal('hide');
             console.log('Error: Cannot get details from DB' + err);
-            alertModal("Export Alert!!", "Please configure export setting!!");
+            alertModal("Error", "Please enter Translation Details in the Settings to continue.");
         });
     });
 }
@@ -1158,7 +1157,7 @@ function saveReplacedText() {
                 db.put(doc, function(err, response) {
                     if (err) {
                         $("#replaced-text-change").modal('toggle');
-                        alertModal("Error Message!!", "Something went wrong please try later!!");
+                        alertModal("Error", "Something went wrong. Try again.");
                     } else {
                         replaceCount = 0;
                         window.location.reload();
@@ -1173,7 +1172,7 @@ function saveReplacedText() {
                 if (err) {
                     chapter_arr = [];
                     $("#replaced-text-change").modal('toggle');
-                    alertModal("Error Message!!", "Something went wrong please try later!!");
+                    alertModal("Error", "Something went wrong. Try again.");
                 } else {
                     chapter_arr = [];
                     replacedChapter = {};
@@ -1209,7 +1208,7 @@ $("#btnfind").click(function() {
     findVal = $("#searchTextBox").val();
     if (findVal == "" && findVal.length == 0) {
         $("#searchTextModal").modal('toggle');
-        alertModal("Find message!!", "Please enter find value to search.");
+        alertModal("Error", "Please enter text to search for.");
         return
     }
     findAndReplaceText(findVal, "highlight");
@@ -1352,7 +1351,7 @@ document.getElementById('save-settings').addEventListener('click', function(e) {
             targetVersion: document.getElementById('target-version').value,
             targetPath: document.getElementById('export-path').value
         }).then(function(e) {
-            alert_message(".alert-success", "Settings saved successfully!!");
+            alert_message(".alert-success", "Saved translation details successfully.");
         });
     }).catch(function(err) {
         db.put({
@@ -1361,9 +1360,9 @@ document.getElementById('save-settings').addEventListener('click', function(e) {
             targetVersion: document.getElementById('target-version').value,
             targetPath: document.getElementById('export-path').value
         }).then(function(e) {
-            alert_message(".alert-success", "Settings saved successfully!!");
+            alert_message(".alert-success", "Saved translation details successfully.");
         }).catch(function(err) {
-            alert_message(".alert-danger", "Something went wrong!! Please try again");
+            alert_message(".alert-danger", "Something went wrong. Try again.");
         });
     });
 });
@@ -1389,13 +1388,13 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
             refDb.put(doc).then(function(res) {
                 saveJsonToDB(files);
                 buildReferenceList();
-                alert_message(".alert-success", "Settings saved successfully!!");
+                alert_message(".alert-success", "Imported reference text successfully.");
                 clearReferenceSetting();
             });
         } else {
             saveJsonToDB(files);
             buildReferenceList();
-            alert_message(".alert-success", "Settings saved successfully!!");
+            alert_message(".alert-success", "Imported reference text successfully.");
             clearReferenceSetting();
 
         }
@@ -1410,15 +1409,15 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
             refDb.put(refs).then(function(res) {
                 saveJsonToDB(files);
                 buildReferenceList();
-                alert_message(".alert-success", "Settings saved successfully!!");
+                alert_message(".alert-success", "Imported reference text successfully.");
                 clearReferenceSetting();
             }).catch(function(internalErr) {
-                alert_message(".alert-danger", "There was an error while importing USFM.");
+                alert_message(".alert-danger", "There was an error while importing the USFM file.");
             });
         } else if (err.message === 'usfm parser error') {
-            alert_message(".alert-danger", "There was an error while parsing the USFM.");
+            alert_message(".alert-danger", "There was an error while parsing the USFM file.");
         } else {
-            alert_message(".alert-danger", "There was an error while importing USFM.");
+            alert_message(".alert-danger", "There was an error while importing the USFM file.");
         }
     });
 });
@@ -1730,7 +1729,7 @@ function removeRef(element) {
         $("#confirmModal").modal("hide");
     }).catch(function(err) {
         $("#confirmModal").modal("hide");
-        alertModal("Remove Info", "Unable to delete.please try later!!");
+        alertModal("Remove Info", "Unable to delete. Try again.");
     })
 }
 $(document).on('click', '.save-ref-text', function() {
@@ -1739,7 +1738,7 @@ $(document).on('click', '.save-ref-text', function() {
     var tdElement = $(this).parent();
     var result = false;
     if (textElement.val() === '') {
-        alertModal("Alert", "Please enter reference name!!");
+        alertModal("Alert", "Reference name is required.");
         return;
     }
     var ref_ids = [];
@@ -1763,13 +1762,13 @@ $(document).on('click', '.save-ref-text', function() {
         }
     }).then(function(res) {
         if (res == true) {
-            alertModal("Update Info", "Name is already taken.Please enter different name!!");
+            alertModal("Update Info", "That name is already taken. Try a different name.");
         } else {
             tdElement.html(textElement.val());
             tdElement.next().find('.edit-ref').css('pointer-events', '');
         }
     }).catch(function(err) {
-        alertModal("Update Info", "Unable to rename.please try later!!");
+        alertModal("Update Info", "Unable to re-name. Try again.");
     })
 });
 
