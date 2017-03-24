@@ -50,7 +50,7 @@ body {font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; 
 .col-md-offset-3 {padding: 30px 0 0; }
 /* Editor */
 .center-align {text-align: center; .btn-group {padding: 10px 0 0; } } 
-.col-fixed {min-height:634px; padding: 10px 40px 60px; background: #f5f8fa; border-right: 1px solid darken(#f5f8fa, 10%); } 
+.col-fixed {min-height:93.7vh; padding: 10px 40px 60px; background: #f5f8fa; border-right: 1px solid darken(#f5f8fa, 10%); } 
 .col-editor {background: #FFF; }
 html, body {height: 100%; }
 .col-flex {height: 100vh; display: flex; flex: 1; }
@@ -148,6 +148,6 @@ div.tabs a:focus, .active {background-color: #ccc; color: rgba(11,130,255,1);}
 .col-xs-6 p {margin: 0;}
 // #input-verses span {font-size: 14px;font-family: "Helvetica","Arial",sans-serif; font-weight: 400;}
 .verse-num {font-size: 10px; font-weight: bold;} 
-@media (min-width: 1024px) {.col-fixed{min-height: 765px;}}
-@media (min-width: 1440px) {.col-fixed{min-height: 985px;}}
-@media (min-width: 2560px) {.col-fixed{min-height: 1690px;}}
+// @media (min-width: 1024px) {.col-fixed{min-height: 765px;}}
+// @media (min-width: 1440px) {.col-fixed{min-height: 985px;}}
+// @media (min-width: 2560px) {.col-fixed{min-height: 1690px;}}
