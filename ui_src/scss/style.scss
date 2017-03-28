@@ -54,7 +54,8 @@ body {font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; 
 .col-editor {background: #FFF; }
 html, body {height: 100%; }
 .col-flex {height: 100vh; display: flex; flex: 1; }
-.col-ref {/* overflow-y: scroll; // max-height: 1000px; */ div {padding: 5px 0; span:first-child {padding:  0 10px 0 0;} } } .navbar-fixed-bottom, .navbar-fixed-top {.navbar-nav {display: inline-block; float: none; vertical-align: top; } .navbar-collapse {text-align: center; } } .btn-save {margin-left: 20px; }
+.col-ref { div {padding: 5px 0; span:first-child {padding:  0 10px 0 0;} } } 
+.navbar-fixed-bottom, .navbar-fixed-top {.navbar-nav {display: inline-block; float: none; vertical-align: top; } .navbar-collapse {text-align: center; } } .btn-save {margin-left: 20px; }
 /* Sidebar navigation */
 .nav-sidebar {margin-right: -21px; /* 20px padding + 1px border */ margin-bottom: 20px; margin-left: -20px; }
 .nav-sidebar > li > a {padding-right: 20px; padding-left: 20px; } 
@@ -147,7 +148,7 @@ div.tabs a:focus, .active {background-color: #ccc; color: rgba(11,130,255,1);}
 .col-xs-6 h3 {margin-top:79px; margin-bottom:0; font-size:30px}
 .col-xs-6 p {margin: 0;}
 // #input-verses span {font-size: 14px;font-family: "Helvetica","Arial",sans-serif; font-weight: 400;}
-.verse-num {font-size: 10px; font-weight: bold;} 
+// .verse-num {font-size: 10px; font-weight: bold;} 
 // @media (min-width: 1024px) {.col-fixed{min-height: 765px;}}
 // @media (min-width: 1440px) {.col-fixed{min-height: 985px;}}
 // @media (min-width: 2560px) {.col-fixed{min-height: 1690px;}}
