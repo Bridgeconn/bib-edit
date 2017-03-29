@@ -449,28 +449,31 @@ function createRefSelections() {
             });
         });
     } else {
-         session.defaultSession.cookies.get({ url: 'http://reference.autographa.com' }, (error, cookie) => {
+        var refCookieValue = {}
+        session.defaultSession.cookies.get({ url: 'http://refs.autographa.com' }, (error, cookie) => {
             if (cookie.length > 0) {
-                $('.ref-drop-down').val(cookie[0].value);
-                $(".current-val").val(cookie[0].value);
-                getReferenceText(cookie[0].value, function(err, refContent) {
-                    if (err) {
-                        $(".ref-drop-down").val(cookie[0].value);
-                        getReferenceText(cookie[0].value, function(err, refContent) {
-                            if (err) {
-                                console.log("This chapter is not available in the selected reference version.");
-                            }
-                            $('div[type="ref"]').html(refContent);
-                        })
-                        return;
-                    }
-                    if ($("#section-" + i).length > 0) {
-                        $("#section-" + i).find('div[type="ref"]').html(refContent);
-                    } else {
-                        $('div[type="ref"]').html(refContent);
-                    }
+                $.each(cookie, function(i, v){
+                    refCookieValue[v.name.toString()] = v.value
                 });
-                
+                $.each(refCookieValue, function(i, val){
+                    if($('.ref-drop-down')[i] && $('.ref-drop-down')[i].length > 0 ){
+                        $('.ref-drop-down')[i].value = val;
+                        $(".current-val")[i].value = val;
+                    }
+                    getReferenceText(val, function(err, refContent) {
+                        if (err) {
+                            $(".ref-drop-down")[i].value = val;
+                            getReferenceText(val, function(err, refContent) {
+                                if (err) {
+                                    console.log("This chapter is not available in the selected reference version.");
+                                }
+                                $('div[type="ref"]').html(refContent);
+                            })
+                            return;
+                        }
+                        $("#section-" + i).find('div[type="ref"]').html(refContent);
+                    });
+                });
             }else {
                 $('.ref-drop-down :selected').each(function(i, selected) {
                     $(".current-val").val($(selected).val());
@@ -499,10 +502,10 @@ function createRefSelections() {
 
 $('.ref-drop-down').change(function(event) {
     var selectedRefElement = $(this);
-    const cookie = { url: 'http://reference.autographa.com', name: 'reference', value: $(this).val() };
-    session.defaultSession.cookies.set(cookie, (error) => {
+    var cookieRef = { url: 'http://refs.autographa.com', name: selectedRefElement.next().next().val().toString() , value: selectedRefElement.val() };
+    session.defaultSession.cookies.set(cookieRef, (error) => {
         if (error)
-            console.error(error);
+            console.log(error);
     });
     getReferenceText($(this).val(), function(err, refContent) {
         if (err) {
@@ -579,6 +582,16 @@ function setMultiwindowReference(layout) {
             //var newID = element.attr('id').replace(/\d+$/, function(str) { return parseInt(str) + 1});
             clone_ele = $(children[0]).clone(true, true).attr("id", "section-1").insertBefore('div.col-editor');
             clone_ele.find(".ref-drop-down").val(clone_ele.find(".current-val").val());
+            clone_ele.find(".current-pos").val('1');
+            var refVal = clone_ele.find(".current-val").val()
+            if(refVal != ""){
+                console.log(refVal)
+                var cookieRef = { url: 'http://refs.autographa.com', name: "1" , value: refVal };
+                session.defaultSession.cookies.set(cookieRef, (error) => {
+                    if (error)
+                        console.log(error);
+                });
+            }
             //element.attr("id", newID).insertBefore('div.col-editor');
         }
     } else if (layout === '4x') {
@@ -599,6 +612,15 @@ function setMultiwindowReference(layout) {
         for (i = 0; i < (4 - children.length); i++) {
             clone_ele = $(children[0]).clone(true, true).attr("id", "section-" + count).insertBefore('div.col-editor');
             clone_ele.find(".ref-drop-down").val(clone_ele.find(".current-val").val());
+            clone_ele.find(".current-pos").val(count);
+            var refVal = clone_ele.find(".current-val").val()
+            if(refVal != ""){
+                var cookieRef = { url: 'http://refs.autographa.com', name: "2" , value: refVal };
+                session.defaultSession.cookies.set(cookieRef, (error) => {
+                    if (error)
+                        console.log(error);
+                });
+            }
             count = count + 1;
         }
     }
@@ -886,6 +908,9 @@ function saveReferenceLayout(layout) {
 
 $(function() {
     // $('#switch-2').bootstrapSwitch();
+    setReferenceSetting();
+    buildReferenceList();
+
     refDb.get('targetReferenceLayout').then(function(doc) {
         setMultiwindowReference(doc.layout);
     }).catch(function(err) {
@@ -911,6 +936,25 @@ $(function() {
         }
     });
 
+    session.defaultSession.cookies.get({ url: 'http://refs.autographa.com' }, (error, cookie) => {
+        if(cookie.length < 2 ){
+            var cookieRefCol1 = { url: 'http://refs.autographa.com', name: '0', value: 'eng_ulb'};
+            session.defaultSession.cookies.set(cookieRefCol1, (error) => {
+                if (error)
+                console.log(error);
+            });
+            var cookieRefCol2 = { url: 'http://refs.autographa.com', name: '1', value: 'eng_ulb'};
+            session.defaultSession.cookies.set(cookieRefCol2, (error) => {
+                if (error)
+                console.log(error);
+            });
+            var cookieRefCol3 = { url: 'http://refs.autographa.com', name: '2', value: 'eng_ulb'};
+            session.defaultSession.cookies.set(cookieRefCol3, (error) => {
+                if (error)
+                console.log(error);
+            });
+        }
+    })
     $(".dropdown-menu").on('click', 'li a', function() {
         $(this).parent().parent().siblings(".btn:first-child").html($(this).text() + ' <span class="caret"></span>');
         $(this).parent().parent().siblings(".btn:first-child").val($(this).text());
@@ -924,9 +968,8 @@ $(function() {
             $("#exportUsfm").prop('disabled', true);
         }
     });
-
 });
-
+//check same langauge in the reference
 function isSameLanguage() {
     var verseLangCode = "",
         check_value = false;
@@ -955,7 +998,7 @@ function isSameLanguage() {
         return false;
     });
 }
-
+//check difference on click
 $('.check-diff').on('click', function() {
     if ($(this).is(':checked') === true) {
         diffModeFlag = true;
@@ -1560,11 +1603,6 @@ function setReferenceSetting() {
         $("#export-path")[0].parentNode.MaterialTextfield.change("");
     });
 }
-//get reference setting
-$(function() {
-    setReferenceSetting();
-    buildReferenceList();
-});
 
 function alertModal(heading, formContent) {
     $("#heading").html(heading);
