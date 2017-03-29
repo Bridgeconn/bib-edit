@@ -1055,19 +1055,29 @@ $('#input-verses').on('keyup', debounce(true, function() {
 // call above function after stopped typing in the target pane end here
 $(".font-button").bind("click", function() {
     var size = parseInt($('.col-ref').css("font-size"));
+    var numFontSize = parseInt($('.verse-num').css("font-size"));
     if ($(this).hasClass("plus")) {
         size = size + 2;
+        numFontSize = numFontSize + 1;
         if (size >= 30) {
             size = 30;
         }
+        if(numFontSize >= 30){
+            numFontSize = 30
+        }
     } else {
         size = size - 2;
+        numFontSize = numFontSize -1 ;
         if (size <= 14) {
             size = 14;
+        }
+        if(numFontSize <= 10){
+            numFontSize = 10;
         }
     }
     $("#fontSlider").slider('setValue', size);
     $('.col-ref').css("font-size", size);
+    $('.verse-num').css("font-size", numFontSize);
 });
 
 function setAutoSaveTime(dateTime) {
@@ -1320,11 +1330,13 @@ $("#fontSlider").slider();
 $("#fontSlider").on("slide", function(slideEvt) {
     $("#fontSliderSliderVal").text(slideEvt.value);
     $('.col-ref').css("font-size", slideEvt.value);
+    $('.verse-num').css("font-size", slideEvt.value-4);
 });
 
 $("#fontSlider").on("slideStart", function(slideEvt) {
     $("#fontSliderSliderVal").text(slideEvt.value);
     $('.col-ref').css("font-size", slideEvt.value);
+    $('.verse-num').css("font-size", slideEvt.value-4);
 });
 
 //font slider
