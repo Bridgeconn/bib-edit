@@ -51,7 +51,7 @@ body {font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; 
 /* Editor */
 .center-align {text-align: center; .btn-group {padding: 10px 0 0; } } 
 .col-fixed {min-height:93.7vh; padding: 10px 40px 60px; background: #f5f8fa; border-right: 1px solid darken(#f5f8fa, 10%); } 
-.col-editor {background: #FFF; }
+.col-editor {background: #FFF;}
 html, body {height: 100%; }
 .col-flex {height: 100vh; display: flex; flex: 1; }
 .col-ref { div {padding: 5px 0; span:first-child {padding:  0 10px 0 0;} } } 
@@ -75,7 +75,7 @@ html, body {height: 100%; }
 .placeholder img {display: inline-block; border-radius: 50%; }
 .nav-tabs {padding-left: 185px; }
 .btn-primary {padding-top: 10px; }
-#saved-time {font-style: italic; font-family: Georgia,Serif; position: absolute; right: 130px; top: 28px; color: rgba(0, 0, 0, 0.5); }
+#saved-time {font-style: italic; font-family: Georgia,Serif; position: absolute; right: 125px; top: 28px; color: rgba(0, 0, 0, 0.5); }
 ul {list-style-type: none; } 
 #myModalLabel {font-weight: bold;}
 .modal-header {border-bottom: 0px; padding-bottom: inherit; } 
@@ -142,6 +142,7 @@ div.tabs a:focus, .active {background-color: #ccc; color: rgba(11,130,255,1);}
 #language-settings .lang-code {margin-top: 0px !important;}
 .col-ref{margin-top: 10px;}
 @media (max-width: 768px) {.layout {display: none; } #saved-time {display: none; }}
+@media (max-width: 1050px) { #saved-time {display: none; }}
 @media (max-width: 765px) {#bookBtn {margin-left: 0px !important;}}
 .import {color: transparent !important; text-shadow: 0 0 0 #808080 !important; /*&:focus {outline: none; }*/} 
 .img-circle {margin-top: 55px; margin-left:30px; border: 5px solid #0b82ff;}
@@ -149,6 +150,8 @@ div.tabs a:focus, .active {background-color: #ccc; color: rgba(11,130,255,1);}
 .col-xs-6 p {margin: 0;}
 // #input-verses span {font-size: 14px;font-family: "Helvetica","Arial",sans-serif; font-weight: 400;}
 .verse-num {font-size: 10px; font-weight: bold;} 
-// @media (min-width: 1024px) {.col-fixed{min-height: 765px;}}
-// @media (min-width: 1440px) {.col-fixed{min-height: 985px;}}
-// @media (min-width: 2560px) {.col-fixed{min-height: 1690px;}}
+// @media screen and (max-width: 2880px) {.col-fixed{min-height: 1690px;}}
+// @media screen and (max-width: 1280px) {.col-fixed{min-height: 765px;}}
+// // @media (min-width: 1440px) {.col-fixed{min-height: 985px;}}
+
+// #input-verse div span{direction: rtl;}
