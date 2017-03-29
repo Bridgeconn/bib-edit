@@ -155,3 +155,4 @@ div.tabs a:focus, .active {background-color: #ccc; color: rgba(11,130,255,1);}
 // // @media (min-width: 1440px) {.col-fixed{min-height: 985px;}}
 
 // #input-verse div span{direction: rtl;}
+@media screen and (max-width: 760px) {.rmvflex{display: block !important;}}
