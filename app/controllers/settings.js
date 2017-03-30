@@ -1,8 +1,8 @@
 const { dialog } = require('electron').remote;
-
 var bibUtil = require(`${__dirname}/../util/usfm_to_json`),
     db = require(`${__dirname}/../util/data-provider`).targetDb(),
     refDb = require(`${__dirname}/../util/data-provider`).referenceDb(),
+    lookupsDb = require(`${__dirname}/../util/data-provider`).lookupsDb(),
     fs = require("fs"),
     path = require("path"),
     codeClicked = false,
@@ -250,16 +250,8 @@ function setReferenceSetting() {
 //get reference setting
 $(function() {
     setReferenceSetting();
-    buildIndex();
     buildReferenceList();
 });
-
-function buildIndex() {
-    refDb.search({
-        fields: ['_id', 'names'],
-        build: true
-    })
-}
 
 function alertModal(heading, formContent) {
     $("#heading").html(heading);
