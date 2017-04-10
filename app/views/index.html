@@ -25,6 +25,7 @@
     transform: translatex(-50%);
   }
     </style>
+    
 </head>
     <body>
         <div class="modal fade aboutmodal" tabindex="-1" role="dialog" aria-labelledby="aboutmodal" aria-hidden="true" id="aboutmodal">
@@ -298,7 +299,7 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right nav-pills verse-diff-on">
-                        <li style="padding:17px 5px 0 0; color: #fff; font-weight: bold"><span>OFF</span></li>
+                        <li id = "label-off" style="padding:17px 5px 0 0; color: #fff; font-weight: bold"><span>OFF</span></li>
                         <li>
                             <label style="margin-top:17px;" class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-2" id="switchLable" data-toggle='tooltip' data-placement='bottom' title="Compare mode">
                                 <span>
@@ -307,7 +308,7 @@
                             </label>
                             
                         </li>
-                        <li style="padding:17px 0 0 0; color: #fff; font-weight: bold"><span>ON</span></li>
+                        <li id= "label-on" style="padding:17px 0 0 0; color: #fff; font-weight: bold"><span>ON</span></li>
                         <li>
                             <a href="javascript:;" data-toggle="tooltip" data-placement="bottom" title="Find and replace" id="searchText"><i class="fa fa-search fa-2x"></i></a>
                         </li>
@@ -618,6 +619,10 @@
         <script src="../controllers/index.js"></script>
         <script>
           if (window.module) module = window.module;
+          window.i18n = new(require('../../translations/i18n'));
+        </script>
+        <script type="text/javascript">
+            require('../../app/assets/javascript/vendor/translations');
         </script>        
     </body>
 
