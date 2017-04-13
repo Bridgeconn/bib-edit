@@ -882,7 +882,7 @@ function getBooksByLimit(start, booksLength) {
     for (var i = start; i <= booksLength; i++) {
         var li = document.createElement('li'),
             a = document.createElement('a'),
-            bookName = document.createTextNode(booksList[i - 1]);
+            bookName = document.createTextNode(i18n.__("book-"+(booksList[i - 1]).toLowerCase()));
         a.id = 'b' + i;
         a.setAttribute('href', "javascript:setBookName(" + "'" + "b" + i + "'" + ")");
         a.appendChild(bookName);
