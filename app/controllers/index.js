@@ -3,6 +3,7 @@ const { dialog } = require('electron').remote;
 var bibUtil = require("../util/json_to_usfm.js"),
     DiffMatchPatch = require('diff-match-patch'),
     dmp_diff = new DiffMatchPatch();
+    i18n = new(require('../../translations/i18n'));
 
 var db = require(`${__dirname}/../util/data-provider`).targetDb(),
     refDb = require(`${__dirname}/../util/data-provider`).referenceDb(),
@@ -148,8 +149,9 @@ function lastVisitFromDB(success) {
 
 
 function initializeTextInUI(book, chapter) {
-    document.getElementById('book-chapter-btn').innerHTML = booksList[parseInt(book, 10) - 1];
+    document.getElementById('book-chapter-btn').innerHTML = i18n.__("book-"+(booksList[book - 1]).toLowerCase());
     document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ');" >' + chapter + '</a>'
+    $("#chapterBtn").attr('title', i18n.__('tooltip-select-chapter'))
     $('[data-toggle=tooltip]').tooltip();
     db.get(book).then(function(doc) {
         refDb.get('refChunks').then(function(chunkDoc) {
@@ -637,7 +639,7 @@ function createBooksList(booksLimit) {
     for (var i = 1; i <= booksLimit; i++) {
         var li = document.createElement('li'),
             a = document.createElement('a'),
-            bookName = document.createTextNode(constants.booksList[i - 1]);
+            bookName = document.createTextNode(i18n.__("book-"+(constants.booksList[i - 1]).toLowerCase()));
         a.id = 'b' + i;
         a.setAttribute('href', "javascript:setBookName(" + "'" + "b" + i + "'" + ")");
         a.appendChild(bookName);
@@ -665,7 +667,7 @@ function createChaptersList(chaptersLimit) {
     for (var i = 1; i <= chaptersLimit; i++) {
         var li = document.createElement('li'),
             a = document.createElement('a'),
-            chapterNumber = document.createTextNode(i);
+            chapterNumber = document.createTextNode(i.toLocaleString());
         a.id = 'c' + i;
         a.setAttribute('href', "javascript:setChapter(" + "'" + i + "'" + ")");
         a.appendChild(chapterNumber);
@@ -708,7 +710,8 @@ function setChapter(chapter) {
             createRefSelections();
             createVerseInputs(doc.chapters[parseInt(chapter, 10) - 1].verses, chunkDoc.chunks[parseInt(book, 10) - 1], chapter);
         });
-        document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" data-toggle="tooltip" data-placement="bottom"  title="Select Book" href="javascript:getBookList();" id="book-chapter-btn">' + doc.book_name + '</a><span id="chapterBtnSpan"><a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ')" >' + chapter + '</span></a>'
+        document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" data-toggle="tooltip" data-placement="bottom"  title="Select Book" href="javascript:getBookList();" id="book-chapter-btn">' + i18n.__("book-"+ doc.book_name.toLowerCase())  + '</a><span id="chapterBtnSpan"><a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ')" >' + chapter + '</span></a>'
+        $("#book-chapter-btn").attr('title', i18n.__('tooltip-select-book'))
         $('[data-toggle=tooltip]').tooltip();
         setChapterButton(book, chapter);
         setChapterCookie(chapter);
@@ -723,6 +726,7 @@ function setChapter(chapter) {
 
 function setChapterButton(bookId, chapterId) {
     document.getElementById('chapterBtnSpan').innerHTML = '<a id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + bookId + "'" + ');" >' + chapterId + '</a>'
+    $("#chapterBtn").attr('title', i18n.__('tooltip-select-chapter'))
     $('[data-toggle=tooltip]').tooltip();
     const cookie = { url: 'http://book.autographa.com', name: 'book', value: bookId };
     session.defaultSession.cookies.set(cookie, (error) => {
@@ -854,10 +858,9 @@ function exportUsfm() {
     });
 }
 
-// Alert Model Function for dynamic message
 function alertModal(heading, formContent) {
-    $("#heading").html(heading);
-    $("#content").html(formContent);
+    $("#heading").text(i18n.__(heading.toLowerCase()));
+    $("#content").text(i18n.__(formContent.toLowerCase()));
     $("#dynamicModal").modal();
     $("#dynamicModal").toggle();
 }
@@ -1090,7 +1093,7 @@ function setAutoSaveTime(dateTime) {
 
 session.defaultSession.cookies.get({ url: 'http://autosave.autographa.com' }, (error, cookie) => {
     if (cookie.length > 0) {
-        $("#saved-time").html("Changes last saved on " + cookie[0].value);
+        $("#saved-time").html(i18n.__('label-last-saved') +"  "+ cookie[0].value);
     }
 });
 
@@ -1299,13 +1302,13 @@ function saveTarget() {
         currentBook._rev = book._rev;
         db.put(currentBook).then(function(response) {
             var dateTime = new Date();
-            $("#saved-time").html("Changes last saved on " + formatDate(dateTime));
+            $("#saved-time").html(i18n.__('label-last-saved')+"  " + formatDate(dateTime));
             setAutoSaveTime(formatDate(dateTime));
             clearInterval(intervalId);
         }).catch(function(err) {
             db.put(currentBook).then(function(response) {
                 var dateTime = new Date();
-                $("#saved-time").html("Changes last saved on " + formatDate(dateTime));
+                $("#saved-time").html(i18n.__('label-last-saved')+"  "+ formatDate(dateTime));
                 setAutoSaveTime(formatDate(dateTime));
             }).catch(function(err) {
                 clearInterval(intervalId);
@@ -1571,13 +1574,13 @@ function target_setting() {
         isValid = true;
 
     if (langCode === null || langCode === "") {
-        alert_message(".alert-danger", "Target Bible language code is required.");
+        alert_message(".alert-danger", "The Bible language code is required.");
         isValid = false;
     } else if (version === null || version === "") {
-        alert_message(".alert-danger", "Target Bible version is required.");
+        alert_message(".alert-danger", "The Bible version is required.");
         isValid = false;
     } else if (path === null || path === "") {
-        alert_message(".alert-danger", "Target Bible path is required.");
+        alert_message(".alert-danger", "The Bible path is required.");
         isValid = false;
     } else {
         isValid = true;
@@ -1600,7 +1603,8 @@ function alert_message(type, message) {
     $(type).fadeTo(2000, 1000).slideUp(1000, function() {
         $(type).css("display", "none");
     });
-    $(type + " " + "span").html(message);
+
+    $(type + " " + "span").html(i18n.__("dynamic-msg-"+message));
 }
 
 function setReferenceSetting() {
@@ -1614,13 +1618,6 @@ function setReferenceSetting() {
         $("#target-version")[0].parentNode.MaterialTextfield.change("");
         $("#export-path")[0].parentNode.MaterialTextfield.change("");
     });
-}
-
-function alertModal(heading, formContent) {
-    $("#heading").html(heading);
-    $("#content").html(formContent);
-    $("#dynamicModal").modal();
-    $("#dynamicModal").toggle();
 }
 
 function matchCode(input) {
@@ -1812,13 +1809,13 @@ $(document).on('click', '.save-ref-text', function() {
         }
     }).then(function(res) {
         if (res == true) {
-            alertModal("Update Info", "That name is already taken. Try a different name.");
+            alertModal("Update Information", "That name is already taken. Try a different name.");
         } else {
             tdElement.html(textElement.val());
             tdElement.next().find('.edit-ref').css('pointer-events', '');
         }
     }).catch(function(err) {
-        alertModal("Update Info", "Unable to re-name. Try again.");
+        alertModal("Update Information", "Unable to re-name. Try again.");
     })
 });
 
