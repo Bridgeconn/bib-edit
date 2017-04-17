@@ -1250,11 +1250,11 @@ $("#btnfindReplace").click(function() {
     option = $(".form-check-input:checked").val();
     $("#chapter-option").val(option);
     if (findVal == "" && findVal.length == 0) {
-        $("#findError").html("Please enter value to search");
+        $("#findError").html(i18n.__('error-msg-Please enter value to search'));
         return
     }
     if (replaceVal == "" && replaceVal.length == 0) {
-        $("#replaceError").html("Please enter value to replace");
+        $("#replaceError").html(i18n.__("error-msg-Please enter value to replace"));
         return
     }
     findAndReplaceText(findVal, replaceVal, option);
@@ -1870,5 +1870,5 @@ function formatDate(date) {
   minutes = minutes < 10 ? '0'+minutes : minutes;
   var strTime = hours + ':' + minutes + ' ' + ampm;
 
-  return day + '-' + monthNames[monthIndex] + '-' + year+' at '+hours+ ':' + minutes + ':' + seconds +' '+ ampm
+  return hours+ ':' + minutes + ':' + seconds +' '+ ampm
 }
