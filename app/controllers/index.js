@@ -56,7 +56,7 @@ document.getElementById("save-btn").addEventListener("click", function(e) {
     db.get(currentBook._id).then(function(doc) {
         doc.chapters[parseInt(chapter, 10) - 1].verses = verses;
         db.put(doc).then(function(response) {
-            alertModal("Translation Data", "Successfully saved changes");
+            alertModal("dynamic-msg-translation-data", "Successfully saved changes");
         }).catch(function(err) {
             console.log(err);
         });
@@ -149,7 +149,7 @@ function lastVisitFromDB(success) {
 
 
 function initializeTextInUI(book, chapter) {
-    document.getElementById('book-chapter-btn').innerHTML = i18n.__("book-"+(booksList[book - 1]).toLowerCase());
+    document.getElementById('book-chapter-btn').innerHTML = i18n.__("book-"+(booksList[book - 1]).replace(/\s+/g, '-').toLowerCase());
     document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ');" >' + chapter + '</a>'
     $("#chapterBtn").attr('title', i18n.__('tooltip-select-chapter'))
     $('[data-toggle=tooltip]').tooltip();
@@ -639,7 +639,7 @@ function createBooksList(booksLimit) {
     for (var i = 1; i <= booksLimit; i++) {
         var li = document.createElement('li'),
             a = document.createElement('a'),
-            bookName = document.createTextNode(i18n.__("book-"+(constants.booksList[i - 1]).toLowerCase()));
+            bookName = document.createTextNode(i18n.__("book-"+(constants.booksList[i - 1]).replace(/\s+/g, '-').toLowerCase()));
         a.id = 'b' + i;
         a.setAttribute('href', "javascript:setBookName(" + "'" + "b" + i + "'" + ")");
         a.appendChild(bookName);
@@ -710,7 +710,7 @@ function setChapter(chapter) {
             createRefSelections();
             createVerseInputs(doc.chapters[parseInt(chapter, 10) - 1].verses, chunkDoc.chunks[parseInt(book, 10) - 1], chapter);
         });
-        document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" data-toggle="tooltip" data-placement="bottom"  title="Select Book" href="javascript:getBookList();" id="book-chapter-btn">' + i18n.__("book-"+ doc.book_name.toLowerCase())  + '</a><span id="chapterBtnSpan"><a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ')" >' + chapter + '</span></a>'
+        document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" data-toggle="tooltip" data-placement="bottom"  title="Select Book" href="javascript:getBookList();" id="book-chapter-btn">' + i18n.__("book-"+ doc.book_name.replace(/\s+/g, '-').toLowerCase())  + '</a><span id="chapterBtnSpan"><a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ')" >' + chapter + '</span></a>'
         $("#book-chapter-btn").attr('title', i18n.__('tooltip-select-book'))
         $('[data-toggle=tooltip]').tooltip();
         setChapterButton(book, chapter);
@@ -835,7 +835,7 @@ function exportUsfm() {
     session.defaultSession.cookies.get({ url: 'http://book.autographa.com' }, (error, cookie) => {
         if (error) {
             $("#exportChoice").modal('hide');
-            alertModal("Error", "Unable to process request.");
+            alertModal("Error", "dynamic-msg-process-req");
             return;
         }
         book = {};
@@ -848,19 +848,19 @@ function exportUsfm() {
             return filepath;
         }).then(function(filepath) {
             $("#exportChoice").modal('hide');
-            alertModal("Book Exported", "Exported file at: " + filepath);
+            alertModal("dynamic-msg-book-exported", "Exported file at: " + filepath);
             return;
         }).catch(function(err) {
             $("#exportChoice").modal('hide');
             console.log('Error: Cannot get details from DB' + err);
-            alertModal("Error", "Please enter Translation Details in the Settings to continue.");
+            alertModal("Error", "dynamic-msg-enter-translation");
         });
     });
 }
 
 function alertModal(heading, formContent) {
-    $("#heading").text(i18n.__(heading.toLowerCase()));
-    $("#content").text(i18n.__(formContent.toLowerCase()));
+    $("#heading").text(i18n.__(heading));
+    $("#content").text(i18n.__(formContent));
     $("#dynamicModal").modal();
     $("#dynamicModal").toggle();
 }
@@ -882,7 +882,7 @@ function getBooksByLimit(start, booksLength) {
     for (var i = start; i <= booksLength; i++) {
         var li = document.createElement('li'),
             a = document.createElement('a'),
-            bookName = document.createTextNode(i18n.__("book-"+(booksList[i - 1]).toLowerCase()));
+            bookName = document.createTextNode(i18n.__("book-"+(booksList[i - 1]).replace(/\s+/g, '-').toLowerCase()));
         a.id = 'b' + i;
         a.setAttribute('href', "javascript:setBookName(" + "'" + "b" + i + "'" + ")");
         a.appendChild(bookName);
@@ -1010,7 +1010,7 @@ $('.check-diff').on('click', function() {
             if (response == false) {
                 // $('.check-diff').p('checked', !($('.check-diff').is(':checked')));
                 $('.check-diff').removeAttr('checked')
-                alertModal("Error", "Compare mode is not meaningful across different languages. Please select the same language across all panes to continue.");
+                alertModal("Error", "dynamic-compare-mode");
                 // $('.check-diff').bootstrapSwitch('state', false);
                 // $(".check-diff").removeClass('is-checked');
                 $('#switchLable')[0].MaterialSwitch.off();
@@ -1120,7 +1120,7 @@ function findAndReplaceText(searchVal, replaceVal, option) {
                     return a + b;
                 }, 0);
                 $("#searchTextModal").modal('toggle');
-                $("#replace-message").html("Book:" + currentBook.book_name + "<br>" + "Total word(s) replaced: " + replacedCount);
+                $("#replace-message").html(i18n.__("dynamic-msg-book") + " : "+ i18n.__("book-"+currentBook.book_name.replace(/\s+/g, '-').toLowerCase()) + "<br>" + i18n.__("label-total-word-replaced") + " :  " + replacedCount);
                 $("#replaced-text-change").modal('toggle');
                 replaceCount = 0;
                 allChapterReplaceCount = [];
@@ -1135,7 +1135,7 @@ function findAndReplaceText(searchVal, replaceVal, option) {
                 var replacedCount = allChapterReplaceCount.reduce(function(a, b) {
                     return a + b;
                 }, 0);
-                $("#replace-message").html("Book:" + currentBook.book_name + "<br>" + "Total word(s) replaced: " + replacedCount);
+                $("#replace-message").html(i18n.__("dynamic-msg-book")+" : " + i18n.__("book-"+currentBook.book_name.replace(/\s+/g, '-').toLowerCase()) + "<br>" + i18n.__("label-total-word-replaced") + " : " + replacedCount);
                 $("#replaced-text-change").modal('toggle');
                 allChapterReplaceCount = [];
             }
@@ -1250,11 +1250,11 @@ $("#btnfindReplace").click(function() {
     option = $(".form-check-input:checked").val();
     $("#chapter-option").val(option);
     if (findVal == "" && findVal.length == 0) {
-        $("#findError").html(i18n.__('error-msg-Please enter value to search'));
+        $("#findError").html(i18n.__('error-msg-search-validation'));
         return
     }
     if (replaceVal == "" && replaceVal.length == 0) {
-        $("#replaceError").html(i18n.__("error-msg-Please enter value to replace"));
+        $("#replaceError").html(i18n.__("error-msg-replace-validation"));
         return
     }
     findAndReplaceText(findVal, replaceVal, option);
@@ -1409,7 +1409,7 @@ document.getElementById('save-settings').addEventListener('click', function(e) {
             targetVersion: document.getElementById('target-version').value,
             targetPath: document.getElementById('export-path').value
         }).then(function(e) {
-            alert_message(".alert-success", "Saved translation details successfully.");
+            alert_message(".alert-success", "dynamic-msg-saved-trans");
         });
     }).catch(function(err) {
         db.put({
@@ -1418,9 +1418,9 @@ document.getElementById('save-settings').addEventListener('click', function(e) {
             targetVersion: document.getElementById('target-version').value,
             targetPath: document.getElementById('export-path').value
         }).then(function(e) {
-            alert_message(".alert-success", "Saved translation details successfully.");
+            alert_message(".alert-success", "dynamic-msg-saved-trans");
         }).catch(function(err) {
-            alert_message(".alert-danger", "Something went wrong. Try again.");
+            alert_message(".alert-danger", "dynamic-msg-went-wrong");
         });
     });
 });
@@ -1446,13 +1446,13 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
             refDb.put(doc).then(function(res) {
                 saveJsonToDB(files);
                 buildReferenceList();
-                alert_message(".alert-success", "Imported reference text successfully.");
+                alert_message(".alert-success", "dynamic-msg-imp-ref-text");
                 clearReferenceSetting();
             });
         } else {
             saveJsonToDB(files);
             buildReferenceList();
-            alert_message(".alert-success", "Imported reference text successfully.");
+            alert_message(".alert-success", "dynamic-msg-imp-ref-text");
             clearReferenceSetting();
 
         }
@@ -1470,12 +1470,12 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
                 alert_message(".alert-success", "Imported reference text successfully.");
                 clearReferenceSetting();
             }).catch(function(internalErr) {
-                alert_message(".alert-danger", "There was an error while importing the USFM file.");
+                alert_message(".alert-danger", "dynamic-msg-imp-error");
             });
         } else if (err.message === 'usfm parser error') {
-            alert_message(".alert-danger", "There was an error while parsing the USFM file.");
+            alert_message(".alert-danger", "dynamic-msg-parse-error");
         } else {
-            alert_message(".alert-danger", "There was an error while importing the USFM file.");
+            alert_message(".alert-danger", "dynamic-msg-imp-error");
         }
     });
 });
@@ -1548,16 +1548,16 @@ function reference_setting() {
         path = $("#ref-path").val(),
         isValid = true;
     if (name == "") {
-        alert_message(".alert-danger", "The Bible name is required.");
+        alert_message(".alert-danger", "dynamic-msg-bib-name-validation");
         isValid = false;
     } else if (langCode === null || langCode === "") {
-        alert_message(".alert-danger", "The Bible language code is required.");
+        alert_message(".alert-danger", "dynamic-msg-bib-code-validation");
         isValid = false;
     } else if (version === null || version === "") {
-        alert_message(".alert-danger", "The Bible version is required.");
+        alert_message(".alert-danger", "dynamic-msg-bib-version-validation");
         isValid = false;
     } else if (path === null || path === "") {
-        alert_message(".alert-danger", "The Bible path is required.");
+        alert_message(".alert-danger", "dynamic-msg-bib-path-validation");
         isValid = false;
     } else {
         isValid = true;
@@ -1574,13 +1574,13 @@ function target_setting() {
         isValid = true;
 
     if (langCode === null || langCode === "") {
-        alert_message(".alert-danger", "The Bible language code is required.");
+        alert_message(".alert-danger", "dynamic-msg-bib-code-validation");
         isValid = false;
     } else if (version === null || version === "") {
-        alert_message(".alert-danger", "The Bible version is required.");
+        alert_message(".alert-danger", "dynamic-msg-bib-version-validation");
         isValid = false;
     } else if (path === null || path === "") {
-        alert_message(".alert-danger", "The Bible path is required.");
+        alert_message(".alert-danger", "dynamic-msg-bib-path-validation");
         isValid = false;
     } else {
         isValid = true;
@@ -1592,7 +1592,7 @@ function import_sync_setting() {
     var targetImportPath = $("#target-import-path").val();
     isValid = true;
     if (targetImportPath === null || targetImportPath === "") {
-        alert_message(".alert-danger", "Import and Sync target must not be blank.");
+        alert_message(".alert-danger", "dynamic-msg-bib-path-validation");
         isValid = false;
     }
     return isValid;
@@ -1604,7 +1604,7 @@ function alert_message(type, message) {
         $(type).css("display", "none");
     });
 
-    $(type + " " + "span").html(i18n.__("dynamic-msg-"+message));
+    $(type + " " + "span").html(i18n.__(message));
 }
 
 function setReferenceSetting() {
@@ -1754,7 +1754,7 @@ $(document).on('click', '.remove-ref', function() {
     removeReferenceLink = element;
     var modal = $("#confirmModal");
     modal.modal("show");
-    $("#confirmMessage").html("Are you sure you want to delete this reference text?");
+    $("#confirmMessage").html("dynamic-msg-del-ref-text");
 });
 $("#confirmOk").click(function() {
     removeRef(removeReferenceLink);
@@ -1776,7 +1776,7 @@ function removeRef(element) {
         $("#confirmModal").modal("hide");
     }).catch(function(err) {
         $("#confirmModal").modal("hide");
-        alertModal("Remove Info", "Unable to delete. Try again.");
+        alertModal("Remove Info", "dynamic-msg-del-unable");
     })
 }
 $(document).on('click', '.save-ref-text', function() {
@@ -1785,7 +1785,7 @@ $(document).on('click', '.save-ref-text', function() {
     var tdElement = $(this).parent();
     var result = false;
     if (textElement.val() === '') {
-        alertModal("Alert", "Reference name is required.");
+        alertModal("Alert", "dynamic-msg-ref-name-validation");
         return;
     }
     var ref_ids = [];
@@ -1809,13 +1809,13 @@ $(document).on('click', '.save-ref-text', function() {
         }
     }).then(function(res) {
         if (res == true) {
-            alertModal("Update Information", "That name is already taken. Try a different name.");
+            alertModal("dynamic-msg-error", "dynamic-msg-name-taken");
         } else {
             tdElement.html(textElement.val());
             tdElement.next().find('.edit-ref').css('pointer-events', '');
         }
     }).catch(function(err) {
-        alertModal("Update Information", "Unable to re-name. Try again.");
+        alertModal("dynamic-msg-error", "dynamic-msg-ren-unable");
     })
 });
 
