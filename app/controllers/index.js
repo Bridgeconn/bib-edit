@@ -513,7 +513,7 @@ $('.ref-drop-down').change(function(event) {
         if (err) {
             selectedRefElement.val(selectedRefElement.next().val());
             console.log(err);
-            alertModal("Error", "This chapter is not available in the selected reference version.");
+            alertModal("dynamic-msg-error", "dynamic-msg-selected-ref-ver");
             return;
         } else {
             selectedRefElement.next().val(selectedRefElement.val());
@@ -824,7 +824,7 @@ $("#exportUsfm").on("click", function() {
 })
 
 function exportChoice() {
-    $("#dropdownBtn").html("Stage in Translation" + ' <span class="caret"></span>');
+    $("#dropdownBtn").html( i18n.__("dynamic-msg-stage-trans") + ' <span class="caret"></span>');
     $("#stageText").val('');
     $("#exportChoice").modal();
     $("#exportChoice").toggle();
@@ -848,7 +848,7 @@ function exportUsfm() {
             return filepath;
         }).then(function(filepath) {
             $("#exportChoice").modal('hide');
-            alertModal("dynamic-msg-book-exported", "Exported file at: " + filepath);
+            alertModal("dynamic-msg-book-exported",  i18n.__("label-exported-file")+" : " + filepath);
             return;
         }).catch(function(err) {
             $("#exportChoice").modal('hide');
@@ -1210,7 +1210,7 @@ function saveReplacedText() {
                 db.put(doc, function(err, response) {
                     if (err) {
                         $("#replaced-text-change").modal('toggle');
-                        alertModal("Error", "Something went wrong. Try again.");
+                        alertModal("dynamic-msg-error", "dynamic-msg-went-wrong");
                     } else {
                         replaceCount = 0;
                         window.location.reload();
@@ -1225,7 +1225,7 @@ function saveReplacedText() {
                 if (err) {
                     chapter_arr = [];
                     $("#replaced-text-change").modal('toggle');
-                    alertModal("Error", "Something went wrong. Try again.");
+                    alertModal("dynamic-msg-error", "dynamic-msg-went-wrong");
                 } else {
                     chapter_arr = [];
                     replacedChapter = {};
@@ -1255,17 +1255,6 @@ $("#btnfindReplace").click(function() {
         return
     }
     findAndReplaceText(findVal, replaceVal, option);
-});
-
-$("#btnfind").click(function() {
-    findVal = $("#searchTextBox").val();
-    if (findVal == "" && findVal.length == 0) {
-        $("#searchTextModal").modal('toggle');
-        alertModal("Error", "Please enter text to search for.");
-        return
-    }
-    findAndReplaceText(findVal, "highlight");
-    $("#searchTextModal").modal('toggle');
 });
 
 $("#searchText").click(function() {
@@ -1464,7 +1453,7 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
             refDb.put(refs).then(function(res) {
                 saveJsonToDB(files);
                 buildReferenceList();
-                alert_message(".alert-success", "Imported reference text successfully.");
+                alert_message(".alert-success", "dynamic-msg-imp-ref-text");
                 clearReferenceSetting();
             }).catch(function(internalErr) {
                 alert_message(".alert-danger", "dynamic-msg-imp-error");
@@ -1773,7 +1762,7 @@ function removeRef(element) {
         $("#confirmModal").modal("hide");
     }).catch(function(err) {
         $("#confirmModal").modal("hide");
-        alertModal("Remove Info", "dynamic-msg-del-unable");
+        alertModal("dynamic-msg-error", "dynamic-msg-del-unable");
     })
 }
 $(document).on('click', '.save-ref-text', function() {
@@ -1782,7 +1771,7 @@ $(document).on('click', '.save-ref-text', function() {
     var tdElement = $(this).parent();
     var result = false;
     if (textElement.val() === '') {
-        alertModal("Alert", "dynamic-msg-ref-name-validation");
+        alertModal("dynamic-msg-error", "dynamic-msg-ref-name-validation");
         return;
     }
     var ref_ids = [];

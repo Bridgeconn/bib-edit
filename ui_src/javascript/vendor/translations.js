@@ -24,6 +24,7 @@ function(n) {
         $("#label-book-chapter").text(i18n.__('label-book-chapter'))
         $(".btn-save").text(i18n.__('btn-save'))
         $(".btn-import").text(i18n.__('btn-import'))
+        $("#exportUsfm").text(i18n.__('btn-export'))
         $("#btn-ok").text(i18n.__('btn-ok'))
         $("#btnfindReplace").text(i18n.__('btn-replace'))
         $("#btn-save-changes").text(i18n.__('btn-save-changes'))
@@ -72,6 +73,8 @@ function(n) {
         $("#ntBooksBtn").attr('title', i18n.__('tooltip-new-testament'))
         $("#app-name").text(i18n.__('app-name-Autographa-Lite'))
         $("#label-hosted-url").text(i18n.__('label-hosted-url'))
+        $(".stage").text(i18n.__('label-stage'))
+        $("#stageText").attr('placeholder', i18n.__('placeholder-stage-trans'))
       },
 
       init: function() {
