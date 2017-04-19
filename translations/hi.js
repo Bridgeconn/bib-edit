@@ -1,12 +1,12 @@
 {
 	
 	"label-ranslation": "अनुवाद",	
-	"app-name-Autographa-Lite" : "ऑटोग्राफ लाइट",
+	"app-name-Autographa-Lite" : "ऑटोग्राफ़ा लाइट",
 	"btn-switch-off": "बंद",
 	"btn-switch-on": "चालू",
 	"btn-all" : "सब",
-	"btn-ot" : "OT",
-	"btn-nt" : "NT",
+	"btn-ot" : "ओ.टी.",
+	"btn-nt" : "एन.टी.",
 	"btn-replace" :  "बदलें" ,
 	"btn-save-changes" : "परिवर्तनों को सुरक्षित करें",
 	"btn-cancel" : "रद्द करें",
@@ -67,6 +67,7 @@
 	"error-msg-search-validation" : "कृपया खोज करने के लिए मूल्य दर्ज करें",
 	"error-msg-replace-validation" : "कृपया बदलने के लिए मूल्य दर्ज करें",
 	"dynamic-msg-error" : "त्रुटि",
+	"dynamic-msg-saved-change" :  "परिवर्तन सफलतापूर्वक सहेजे गए",
 	"dynamic-msg-book-exported" : "पुस्तक निर्यात की गई",
 	"dynamic-msg-trans-data" : "अनुवाद डेटा",
 	"dynamic-msg-enter-translation" : "निर्यात के साथ जारी रखने के लिए सेटिंग्स में कृपया अनुवाद का विवरण दर्ज करें",

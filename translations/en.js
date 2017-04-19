@@ -67,6 +67,7 @@
 	"error-msg-search-validation" : "Please enter value to search",
 	"error-msg-replace-validation" : "Please enter value to replace",
 	"dynamic-msg-error" : "Error",
+	"dynamic-msg-saved-change" :  "Successfully saved changes",
 	"dynamic-msg-book-exported" : "Book Exported",
 	"dynamic-msg-trans-data" : "Translation Data",
 	"dynamic-msg-enter-translation" : "Please enter Translation Details in the Settings to continue with Export.",

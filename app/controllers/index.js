@@ -56,7 +56,7 @@ document.getElementById("save-btn").addEventListener("click", function(e) {
     db.get(currentBook._id).then(function(doc) {
         doc.chapters[parseInt(chapter, 10) - 1].verses = verses;
         db.put(doc).then(function(response) {
-            alertModal("dynamic-msg-translation-data", "Successfully saved changes");
+            alertModal("dynamic-msg-trans-data", "dynamic-msg-saved-change");
         }).catch(function(err) {
             console.log(err);
         });
@@ -811,11 +811,11 @@ document.getElementById('export-usfm').addEventListener('click', function(e) {
             exportChoice();
         }).catch(function(err) {
             // handle any errors
-            alertModal("Error", "Please enter Translation Details in the Settings to continue with Export.");
+            alertModal("dynamic-msg-error", "dynamic-msg-enter-translation");
         });
     }).catch(function(err) {
         // handle any errors
-        alertModal("Error", "Please enter Translation Details in the Settings to continue with Export.");
+        alertModal("dynamic-msg-error", "dynamic-msg-enter-translation");
     });
 });
 
@@ -835,7 +835,7 @@ function exportUsfm() {
     session.defaultSession.cookies.get({ url: 'http://book.autographa.com' }, (error, cookie) => {
         if (error) {
             $("#exportChoice").modal('hide');
-            alertModal("Error", "dynamic-msg-process-req");
+            alertModal("dynamic-msg-error", "dynamic-msg-process-req");
             return;
         }
         book = {};
@@ -853,7 +853,7 @@ function exportUsfm() {
         }).catch(function(err) {
             $("#exportChoice").modal('hide');
             console.log('Error: Cannot get details from DB' + err);
-            alertModal("Error", "dynamic-msg-enter-translation");
+            alertModal("dynamic-msg-error", "dynamic-msg-enter-translation");
         });
     });
 }
@@ -1008,11 +1008,8 @@ $('.check-diff').on('click', function() {
         promise = isSameLanguage();
         promise.then(function(response) {
             if (response == false) {
-                // $('.check-diff').p('checked', !($('.check-diff').is(':checked')));
                 $('.check-diff').removeAttr('checked')
-                alertModal("Error", "dynamic-compare-mode");
-                // $('.check-diff').bootstrapSwitch('state', false);
-                // $(".check-diff").removeClass('is-checked');
+                alertModal("dynamic-msg-error", "dynamic-compare-mode");
                 $('#switchLable')[0].MaterialSwitch.off();
                 return false;
             } else {
