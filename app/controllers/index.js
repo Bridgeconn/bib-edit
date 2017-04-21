@@ -911,6 +911,10 @@ function saveReferenceLayout(layout) {
 
 $(function() {
     // $('#switch-2').bootstrapSwitch();
+    if(i18n.isRtl()){
+        $('head').append('<link rel="stylesheet" href="https://cdn.rtlcss.com/mdl/1.2.1/material.rtl.min.css" integrity="sha384-1z92ngOM16ZY2CickWgUrydff0ExYv2Fn8/6WUwsWxgrcJym3w+ogWivpi3nEh0G" crossorigin="anonymous">');
+        $("#input-verses").attr("dir", "rtl");
+    }
     setReferenceSetting();
     buildReferenceList();
 
@@ -1663,7 +1667,51 @@ function changeInput(val, inputId, fieldValue, listId) {
             }
         });
     }else{
-        $(listId).hide();
+        // $(listId).hide();
+
+        let filteredResults = {};
+        lookupsDb.allDocs({
+            include_docs: true
+        }).then(function(response) {
+            var data = ""
+            if (response != undefined && response.rows.length > 0) {
+                $.each(response.rows, function(index, value) {
+                        doc = value.doc
+                        if (doc) {
+                            //matches.push({ name: doc.name+' ('+doc.lang_code+') ' , id: doc._id });
+                            if (!filteredResults.hasOwnProperty(doc.lang_code)) {
+                                filteredResults[doc.lang_code] = doc.name; // 0 duplicates
+                            } else {
+                                existingValue = filteredResults[doc.lang_code]
+                                filteredResults[doc.lang_code] = (existingValue + " , " + doc.name);
+                            }
+                        }
+
+                })
+                var parent_ul = "<ul>";
+                if (filteredResults) {
+                    $.each(filteredResults, function(langCode, names) {
+                        // CREATE AND ADD SUB LIST ITEMS.
+                        parent_ul += "<li><span class='code-name'>" + names + ' (' + langCode + ') ' + "</span><input type='hidden' value=" + "'" + langCode + "'" + "class='code-id'/> </li>"
+                    });
+                    parent_ul += "</ul>"
+                    $(listId).html(parent_ul).show();
+                    $(listId + " li").on("click", function(e) {
+                        var $clicked = $(this);
+                        codeName = $clicked.children().select(".code-name").text();
+                        codeId = $clicked.find(".code-id");
+                        $(inputId).val(codeName);
+                        $(fieldValue).val(codeId.val());
+                        codeClicked = true;
+                    });
+                }
+            } else {
+                $(listId).hide();
+            }
+        }).catch(function(err) {
+            console.log(err);
+        })
+
     }
     $(document).on("click", function(e) {
         var $clicked = $(e.target);

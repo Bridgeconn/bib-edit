@@ -14,7 +14,15 @@
     <!-- slider css -->
     <link href="../assets/stylesheets/bootstrap-slider.css" rel="stylesheet">
     <!-- material design files -->
+
     <link rel="stylesheet" href="../assets/stylesheets/material.light_blue-indigo.min.css" />
+
+     <!-- <link
+  rel="stylesheet"
+  href="https://cdn.rtlcss.com/mdl/1.2.1/material.rtl.min.css"
+  integrity="sha384-1z92ngOM16ZY2CickWgUrydff0ExYv2Fn8/6WUwsWxgrcJym3w+ogWivpi3nEh0G"
+  crossorigin="anonymous"> -->
+
     <!-- Material Design icon font -->
     <link rel="stylesheet" href="../assets/stylesheets/icon.css">
     <!-- material design files -->
@@ -131,7 +139,7 @@
                         <div id="language-settings" class="tabcontent">
                             <div class="form-group">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <input class="mdl-textfield__input" type="text" id="target-lang" placeholder="eng">
+                                    <input class="mdl-textfield__input" type="text" id="target-lang" placeholder="eng" dir="auto">
                                     <label class="mdl-textfield__label label-language-code" for="target-lang">Language Code</label>
                                     <div id="target-lang-result" class="lang-code"></div>
                                     <input type="hidden" id="target-lang-code" />
@@ -617,9 +625,11 @@
         <!-- stider js -->
         <script src="../assets/javascript/vendor/bootstrap-slider.js"></script>
         <script src="../controllers/index.js"></script>
+
         <script>
           if (window.module) module = window.module;
           window.i18n = new(require('../../translations/i18n'));
+
         </script>
         <script type="text/javascript">
             require('../../app/assets/javascript/vendor/translations');
