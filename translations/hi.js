@@ -115,7 +115,7 @@
 	"book-psalms" : "Psalms",
 	"book-proverbs" : "Proverbs",
 	"book-ecclesiastes" : "Ecclesiastes",
-	"book-song of solomon" : "Song of solomon",
+	"book-song-of-songs" : "Song of Songs",
 	"book-isaiah" : "Isaiah",
 	"book-jeremiah" : "Jeremiah",
 	"book-lamentations" : "Lamentations",
