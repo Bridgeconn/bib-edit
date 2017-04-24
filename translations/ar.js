@@ -70,7 +70,7 @@
 	"label-stage" : "المسرح",
 	"error-msg-search-validation" : "الرجاء إدخال قيمة للبحث",
 	"error-msg-replace-validation" : "الرجاء إدخال قيمة لاستبدالها",
-	"dynamic-msg-error" : "Error",
+	"dynamic-msg-error" : "خطأ",
 	"dynamic-msg-saved-change" :  "خطأ",
 	"dynamic-msg-stage-trans" : "المرحلة في الترجمة",
 	"dynamic-msg-selected-ref-ver" : "هذا الفصل غير متوفر في النسخة المرجعية المحددة",
