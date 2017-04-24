@@ -1682,21 +1682,21 @@ function changeInput(val, inputId, fieldValue, listId) {
 }
 $("#ref-lang-code").keyup(function() {
     $("#langCode").val('');
-    if(app.getLocale() === "en"){
+    if(app.getLocale().split("-")[0] === "en"){
         changeInput($(this).val(), "#ref-lang-code", "#langCode", "#reference-lang-result");
     }
 });
 
 $("#target-lang").keyup(function() {
     $("#target-lang-code").val('');
-    if(app.getLocale() === "en"){
+    if(app.getLocale().split("-")[0] === "en"){
         changeInput($(this).val(), "#target-lang", "#target-lang-code", "#target-lang-result");
     }
 });
 
 
 function loadLanguageCode(inputId, fieldValue, listId){
-    if(app.getLocale() !== 'en'){
+    if(app.getLocale().split("-")[0] != 'en'){
         let filteredResults = {};
         lookupsDb.allDocs({
             include_docs: true
@@ -1896,9 +1896,7 @@ function clearReferenceSetting() {
 
 $("#btnSettings").click(function() {
     $('#bannerformmodal').modal('toggle');
-    if(app.getLocale() !== 'en'){
-        loadLanguageCode("#target-lang", "#target-lang-code", "#target-lang-result");        
-    }
+    loadLanguageCode("#target-lang", "#target-lang-code", "#target-lang-result");        
 })
 $("#btnAbout").click(function() {
     $('#aboutmodal').modal('toggle')
