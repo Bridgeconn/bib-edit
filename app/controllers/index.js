@@ -912,7 +912,7 @@ function saveReferenceLayout(layout) {
 $(function() {
     // $('#switch-2').bootstrapSwitch();
     if(i18n.isRtl()){
-        $('head').append('<link rel="stylesheet" href="https://cdn.rtlcss.com/mdl/1.2.1/material.rtl.min.css" integrity="sha384-1z92ngOM16ZY2CickWgUrydff0ExYv2Fn8/6WUwsWxgrcJym3w+ogWivpi3nEh0G" crossorigin="anonymous">');
+        $('head').append('<link rel="stylesheet" href="../assets/stylesheets/material.rtl.min.css" integrity="sha384-1z92ngOM16ZY2CickWgUrydff0ExYv2Fn8/6WUwsWxgrcJym3w+ogWivpi3nEh0G" crossorigin="anonymous">');
         $("#input-verses").attr("dir", "rtl");
     }
     setReferenceSetting();
