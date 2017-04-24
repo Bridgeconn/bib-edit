@@ -1,6 +1,6 @@
 {
 	
-	"label-ranslation": "Translation",	
+	"label-translation": "Translation",	
 	"app-name-Autographa-Lite" : "Autographa Lite",
 	"btn-switch-off": "OFF",
 	"btn-switch-on": "ON",

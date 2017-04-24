@@ -8,7 +8,7 @@ function(n) {
       },
       translation: function() {
         $('#learn-more-button').text(i18n.__('Learn more'));
-        $('.translation').text(i18n.__('label-ranslation'));
+        $('.translation').text(i18n.__('label-translation'));
         $(document).find("title").text(i18n.__('app-name-Autographa-Lite'))
       },
       settings: function(){

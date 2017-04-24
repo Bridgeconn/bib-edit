@@ -3,7 +3,8 @@ const { dialog } = require('electron').remote;
 var bibUtil = require("../util/json_to_usfm.js"),
     DiffMatchPatch = require('diff-match-patch'),
     dmp_diff = new DiffMatchPatch();
-    i18n = new(require('../../translations/i18n'));
+    i18n = new(require('../../translations/i18n')),
+    app = require('electron').remote.app;
 
 var db = require(`${__dirname}/../util/data-provider`).targetDb(),
     refDb = require(`${__dirname}/../util/data-provider`).referenceDb(),
@@ -97,7 +98,7 @@ function createVerseInputs(verses, chunks, chapter) {
         spanVerse.id = "v" + i;
         spanVerse.appendChild(document.createTextNode(verses[i - 1].verse));
         spanVerseNum.setAttribute("class", "verse-num");
-        spanVerseNum.appendChild(document.createTextNode(i));
+        spanVerseNum.appendChild(document.createTextNode(i.toLocaleString()));
         divContainer.appendChild(spanVerseNum);
         divContainer.appendChild(spanVerse);
         document.getElementById('input-verses').appendChild(divContainer);
@@ -150,7 +151,7 @@ function lastVisitFromDB(success) {
 
 function initializeTextInUI(book, chapter) {
     document.getElementById('book-chapter-btn').innerHTML = i18n.__("book-"+(booksList[book - 1]).replace(/\s+/g, '-').toLowerCase());
-    document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ');" >' + chapter + '</a>'
+    document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ');" >' + parseInt(chapter, 10).toLocaleString() + '</a>'
     $("#chapterBtn").attr('title', i18n.__('tooltip-select-chapter'))
     $('[data-toggle=tooltip]').tooltip();
     db.get(book).then(function(doc) {
@@ -710,7 +711,7 @@ function setChapter(chapter) {
             createRefSelections();
             createVerseInputs(doc.chapters[parseInt(chapter, 10) - 1].verses, chunkDoc.chunks[parseInt(book, 10) - 1], chapter);
         });
-        document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" data-toggle="tooltip" data-placement="bottom"  title="Select Book" href="javascript:getBookList();" id="book-chapter-btn">' + i18n.__("book-"+ doc.book_name.replace(/\s+/g, '-').toLowerCase())  + '</a><span id="chapterBtnSpan"><a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ')" >' + chapter + '</span></a>'
+        document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" data-toggle="tooltip" data-placement="bottom"  title="Select Book" href="javascript:getBookList();" id="book-chapter-btn">' + i18n.__("book-"+ doc.book_name.replace(/\s+/g, '-').toLowerCase())  + '</a><span id="chapterBtnSpan"><a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ')" >' + parseInt(chapter, 10).toLocaleString() + '</span></a>'
         $("#book-chapter-btn").attr('title', i18n.__('tooltip-select-book'))
         $('[data-toggle=tooltip]').tooltip();
         setChapterButton(book, chapter);
@@ -725,7 +726,7 @@ function setChapter(chapter) {
 }
 
 function setChapterButton(bookId, chapterId) {
-    document.getElementById('chapterBtnSpan').innerHTML = '<a id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + bookId + "'" + ');" >' + chapterId + '</a>'
+    document.getElementById('chapterBtnSpan').innerHTML = '<a id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + bookId + "'" + ');" >' + parseInt(chapterId, 10).toLocaleString() + '</a>'
     $("#chapterBtn").attr('title', i18n.__('tooltip-select-chapter'))
     $('[data-toggle=tooltip]').tooltip();
     const cookie = { url: 'http://book.autographa.com', name: 'book', value: bookId };
@@ -912,7 +913,7 @@ function saveReferenceLayout(layout) {
 $(function() {
     // $('#switch-2').bootstrapSwitch();
     if(i18n.isRtl()){
-        $('head').append('<link rel="stylesheet" href="../assets/stylesheets/material.rtl.min.css" integrity="sha384-1z92ngOM16ZY2CickWgUrydff0ExYv2Fn8/6WUwsWxgrcJym3w+ogWivpi3nEh0G" crossorigin="anonymous">');
+        $('head').append('<link rel="stylesheet" href="../assets/stylesheets/material.rtl.min.css">');
         $("#input-verses").attr("dir", "rtl");
     }
     setReferenceSetting();
@@ -1667,8 +1668,35 @@ function changeInput(val, inputId, fieldValue, listId) {
             }
         });
     }else{
-        // $(listId).hide();
+         $(listId).hide();
+    }
+    $(document).on("click", function(e) {
+        var $clicked = $(e.target);
+        if (!$clicked.hasClass("search")) {
+            $(".lang-code").fadeOut();
+        }
+    });
+    $('#inputSearch').click(function() {
+        $(".lang-code").fadeIn();
+    });
+}
+$("#ref-lang-code").keyup(function() {
+    $("#langCode").val('');
+    if(app.getLocale() === "en"){
+        changeInput($(this).val(), "#ref-lang-code", "#langCode", "#reference-lang-result");
+    }
+});
 
+$("#target-lang").keyup(function() {
+    $("#target-lang-code").val('');
+    if(app.getLocale() === "en"){
+        changeInput($(this).val(), "#target-lang", "#target-lang-code", "#target-lang-result");
+    }
+});
+
+
+function loadLanguageCode(inputId, fieldValue, listId){
+    if(app.getLocale() !== 'en'){
         let filteredResults = {};
         lookupsDb.allDocs({
             include_docs: true
@@ -1711,27 +1739,32 @@ function changeInput(val, inputId, fieldValue, listId) {
         }).catch(function(err) {
             console.log(err);
         })
-
+        $(document).on("click", function(e) {
+            var $clicked = $(e.target);
+            if (!$clicked.hasClass("search")) {
+                $(".lang-code").fadeOut();
+            }
+        });
+        $('#inputSearch').click(function() {
+            $(".lang-code").fadeIn();
+        });
     }
-    $(document).on("click", function(e) {
-        var $clicked = $(e.target);
-        if (!$clicked.hasClass("search")) {
-            $(".lang-code").fadeOut();
-        }
-    });
-    $('#inputSearch').click(function() {
-        $(".lang-code").fadeIn();
-    });
 }
-$("#ref-lang-code").keyup(function() {
-    $("#langCode").val('');
-    changeInput($(this).val(), "#ref-lang-code", "#langCode", "#reference-lang-result");
+
+$("#label-import-ref-text").click(function(){
+    loadLanguageCode("#ref-lang-code", "#langCode", "#reference-lang-result");        
 });
 
-$("#target-lang").keyup(function() {
-    $("#target-lang-code").val('');
-    changeInput($(this).val(), "#target-lang", "#target-lang-code", "#target-lang-result");
+$("#defaultOpen").click(function(){
+    loadLanguageCode("#target-lang", "#target-lang-code", "#target-lang-result");        
 });
+$("#target-lang").focus(function(){
+    loadLanguageCode("#target-lang", "#target-lang-code", "#target-lang-result");        
+})
+
+$("#ref-lang-code").focus(function(){
+    loadLanguageCode("#ref-lang-code", "#langCode", "#reference-lang-result");        
+})
 
 $('#ref-lang-code').on('blur', function() {
     if (!codeClicked) {
@@ -1860,8 +1893,12 @@ function clearReferenceSetting() {
     $('#ref-version').val('');
     $("#ref-lang-code").val('');
 }
+
 $("#btnSettings").click(function() {
-    $('#bannerformmodal').modal('toggle')
+    $('#bannerformmodal').modal('toggle');
+    if(app.getLocale() !== 'en'){
+        loadLanguageCode("#target-lang", "#target-lang-code", "#target-lang-result");        
+    }
 })
 $("#btnAbout").click(function() {
     $('#aboutmodal').modal('toggle')

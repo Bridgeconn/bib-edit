@@ -1,6 +1,6 @@
 {
 	
-	"label-ranslation": "अनुवाद",	
+	"label-translation": "अनुवाद",	
 	"app-name-Autographa-Lite" : "ऑटोग्राफ लाइट",
 	"btn-switch-off": "बंद",
 	"btn-switch-on": "चालू",
