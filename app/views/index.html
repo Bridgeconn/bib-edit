@@ -106,7 +106,22 @@
                             <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'target-usfm')" id="label-import-translation">Import Translation</a>
                             <a href="javascript:void(0)" id="label-import-ref-text" class="tablinks" onclick="settings(event, 'usfm-settings')" >Import Reference Text</a>
                             <a href="javascript:void(0)" id="label-manage-ref-texts"class="tablinks" onclick="settings(event, 'modify-reference')">Manage Reference Texts</a>
+                            <a href="javascript:void(0)" class="tablinks" onclick="settings(event, 'app-lang-setting')">App Language</a>
                         </div>
+                        <div id="app-lang-setting" class="tabcontent">
+                            <div class="form-group">
+                                <div class="mdl-selectfield mdl-js-selectfield">
+                                    <select class="mdl-selectfield__select">
+                                        <option value="hin">Hindi</option>
+                                        <option value="eng">English</option>
+                                        <option value="arabic">Arabic</option>
+                                    </select>
+                                    <label for="app-lang-setting" class="mdl-selectfield__label">Choose Language</label>
+                                </div>
+                            </div>
+                            <button style="float:right; margin-right: 33px;" class="btn btn-success" id="btnSaveLang">Change Language</button>
+                        </div>
+
                         <div id="usfm-settings" class="tabcontent">
                             <div class="form-group">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">

@@ -1941,3 +1941,8 @@ function formatDate(date) {
 
   return hours+ ':' + minutes + ':' + seconds +' '+ ampm
 }
+
+$("#btnSaveLang").click(function(){
+    app.relaunch({args: process.argv.slice(1).concat(['--relaunch'])})
+    app.quit();
+})
