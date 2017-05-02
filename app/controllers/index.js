@@ -68,43 +68,46 @@ document.getElementById("save-btn").addEventListener("click", function(e) {
 
 function createVerseInputs(verses, chunks, chapter) {
     document.getElementById('input-verses').innerHTML = "";
-    var i, chunkIndex = 0,
-        chunkVerseStart, chunkVerseEnd;
-    for (i = 0; i < chunks.length; i++) {
-        if (parseInt(chunks[i].chp, 10) === parseInt(chapter, 10)) {
-            chunkIndex = i + 1;
-            chunkVerseStart = parseInt(chunks[i].firstvs, 10);
-            chunkVerseEnd = parseInt(chunks[i + 1].firstvs, 10) - 1;
-            break;
-        }
-    }
-
-    for (i = 1; i <= verses.length; i++) {
-        var divContainer = document.createElement('div'),
-            spanVerseNum = document.createElement('span'),
-            spanVerse = document.createElement('span');
-        if (i > chunkVerseEnd) {
-            chunkVerseStart = parseInt(chunks[chunkIndex].firstvs, 10);
-            if (chunkIndex === chunks.length - 1 || parseInt((chunks[chunkIndex + 1].chp), 10) != chapter) {
-                chunkVerseEnd = verses.length;
-            } else {
-                chunkIndex++;
-                chunkVerseEnd = parseInt(chunks[chunkIndex].firstvs, 10) - 1;
+    i18n.getLocale().then((res) => {
+        var i, chunkIndex = 0,
+            chunkVerseStart, chunkVerseEnd;
+        for (i = 0; i < chunks.length; i++) {
+            if (parseInt(chunks[i].chp, 10) === parseInt(chapter, 10)) {
+                chunkIndex = i + 1;
+                chunkVerseStart = parseInt(chunks[i].firstvs, 10);
+                chunkVerseEnd = parseInt(chunks[i + 1].firstvs, 10) - 1;
+                break;
             }
         }
-        var chunk = chunkVerseStart + '-' + chunkVerseEnd;
-        spanVerse.setAttribute("chunk-group", chunk);
-        spanVerse.contentEditable = true;
-        spanVerse.id = "v" + i;
-        spanVerse.appendChild(document.createTextNode(verses[i - 1].verse));
-        spanVerseNum.setAttribute("class", "verse-num");
-        spanVerseNum.appendChild(document.createTextNode(i.toLocaleString()));
-        divContainer.appendChild(spanVerseNum);
-        divContainer.appendChild(spanVerse);
-        document.getElementById('input-verses').appendChild(divContainer);
-        $(".diff-count-target").html("");
-    }
-    highlightRef();
+
+        for (i = 1; i <= verses.length; i++) {
+            var divContainer = document.createElement('div'),
+                spanVerseNum = document.createElement('span'),
+                spanVerse = document.createElement('span');
+            if (i > chunkVerseEnd) {
+                chunkVerseStart = parseInt(chunks[chunkIndex].firstvs, 10);
+                if (chunkIndex === chunks.length - 1 || parseInt((chunks[chunkIndex + 1].chp), 10) != chapter) {
+                    chunkVerseEnd = verses.length;
+                } else {
+                    chunkIndex++;
+                    chunkVerseEnd = parseInt(chunks[chunkIndex].firstvs, 10) - 1;
+                }
+            }
+            var chunk = chunkVerseStart + '-' + chunkVerseEnd;
+            spanVerse.setAttribute("chunk-group", chunk);
+            spanVerse.contentEditable = true;
+            spanVerse.id = "v" + i;
+            spanVerse.appendChild(document.createTextNode(verses[i - 1].verse));
+            spanVerseNum.setAttribute("class", "verse-num");
+            spanVerseNum.appendChild(document.createTextNode(i.toLocaleString(res)));
+            divContainer.appendChild(spanVerseNum);
+            divContainer.appendChild(spanVerse);
+            document.getElementById('input-verses').appendChild(divContainer);
+            $(".diff-count-target").html("");
+        }
+        highlightRef();
+    });
+    
 }
 
 function lastVisitFromSession(success, failure) {
@@ -1733,73 +1736,79 @@ function changeInput(val, inputId, fieldValue, listId) {
 }
 $("#ref-lang-code").keyup(function() {
     $("#langCode").val('');
-    if(app.getLocale().split("-")[0] === "en"){
-        changeInput($(this).val(), "#ref-lang-code", "#langCode", "#reference-lang-result");
-    }
+    i18n.getLocale().then((locale) => {
+        if(locale === "en"){
+            changeInput($("#ref-lang-code").val(), "#ref-lang-code", "#langCode", "#reference-lang-result");
+        }
+    });
 });
 
 $("#target-lang").keyup(function() {
     $("#target-lang-code").val('');
-    if(app.getLocale().split("-")[0] === "en"){
-        changeInput($(this).val(), "#target-lang", "#target-lang-code", "#target-lang-result");
-    }
+    i18n.getLocale().then((locale) => {
+        if(locale === "en"){
+            changeInput($("#target-lang").val(), "#target-lang", "#target-lang-code", "#target-lang-result");
+        }
+    });
 });
 
 
 function loadLanguageCode(inputId, fieldValue, listId){
-    if(app.getLocale().split("-")[0] != 'en'){
-        let filteredResults = {};
-        lookupsDb.allDocs({
-            include_docs: true
-        }).then(function(response) {
-            var data = ""
-            if (response != undefined && response.rows.length > 0) {
-                $.each(response.rows, function(index, value) {
-                        doc = value.doc
-                        if (doc) {
-                            //matches.push({ name: doc.name+' ('+doc.lang_code+') ' , id: doc._id });
-                            if (!filteredResults.hasOwnProperty(doc.lang_code)) {
-                                filteredResults[doc.lang_code] = doc.name; // 0 duplicates
-                            } else {
-                                existingValue = filteredResults[doc.lang_code]
-                                filteredResults[doc.lang_code] = (existingValue + " , " + doc.name);
+    i18n.getLocale().then((locale) => {
+        if(locale != 'en'){
+            let filteredResults = {};
+            lookupsDb.allDocs({
+                include_docs: true
+            }).then(function(response) {
+                var data = ""
+                if (response != undefined && response.rows.length > 0) {
+                    $.each(response.rows, function(index, value) {
+                            doc = value.doc
+                            if (doc) {
+                                //matches.push({ name: doc.name+' ('+doc.lang_code+') ' , id: doc._id });
+                                if (!filteredResults.hasOwnProperty(doc.lang_code)) {
+                                    filteredResults[doc.lang_code] = doc.name; // 0 duplicates
+                                } else {
+                                    existingValue = filteredResults[doc.lang_code]
+                                    filteredResults[doc.lang_code] = (existingValue + " , " + doc.name);
+                                }
                             }
-                        }
 
-                })
-                var parent_ul = "<ul>";
-                if (filteredResults) {
-                    $.each(filteredResults, function(langCode, names) {
-                        // CREATE AND ADD SUB LIST ITEMS.
-                        parent_ul += "<li><span class='code-name'>" + names + ' (' + langCode + ') ' + "</span><input type='hidden' value=" + "'" + langCode + "'" + "class='code-id'/> </li>"
-                    });
-                    parent_ul += "</ul>"
-                    $(listId).html(parent_ul).show();
-                    $(listId + " li").on("click", function(e) {
-                        var $clicked = $(this);
-                        codeName = $clicked.children().select(".code-name").text();
-                        codeId = $clicked.find(".code-id");
-                        $(inputId).val(codeName);
-                        $(fieldValue).val(codeId.val());
-                        codeClicked = true;
-                    });
+                    })
+                    var parent_ul = "<ul>";
+                    if (filteredResults) {
+                        $.each(filteredResults, function(langCode, names) {
+                            // CREATE AND ADD SUB LIST ITEMS.
+                            parent_ul += "<li><span class='code-name'>" + names + ' (' + langCode + ') ' + "</span><input type='hidden' value=" + "'" + langCode + "'" + "class='code-id'/> </li>"
+                        });
+                        parent_ul += "</ul>"
+                        $(listId).html(parent_ul).show();
+                        $(listId + " li").on("click", function(e) {
+                            var $clicked = $(this);
+                            codeName = $clicked.children().select(".code-name").text();
+                            codeId = $clicked.find(".code-id");
+                            $(inputId).val(codeName);
+                            $(fieldValue).val(codeId.val());
+                            codeClicked = true;
+                        });
+                    }
+                } else {
+                    $(listId).hide();
                 }
-            } else {
-                $(listId).hide();
-            }
-        }).catch(function(err) {
-            console.log(err);
-        })
-        $(document).on("click", function(e) {
-            var $clicked = $(e.target);
-            if (!$clicked.hasClass("search")) {
-                $(".lang-code").fadeOut();
-            }
-        });
-        $('#inputSearch').click(function() {
-            $(".lang-code").fadeIn();
-        });
-    }
+            }).catch(function(err) {
+                console.log(err);
+            })
+            $(document).on("click", function(e) {
+                var $clicked = $(e.target);
+                if (!$clicked.hasClass("search")) {
+                    $(".lang-code").fadeOut();
+                }
+            });
+            $('#inputSearch').click(function() {
+                $(".lang-code").fadeIn();
+            });
+        }
+    });
 }
 
 $("#label-import-ref-text").click(function(){
