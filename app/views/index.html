@@ -112,10 +112,10 @@
                             <div class="form-group">
                                 <form>
                                 <div class="mdl-selectfield mdl-js-selectfield">
-                                    <select class="mdl-selectfield__select">
-                                        <option value="hin">Hindi</option>
-                                        <option value="eng">English</option>
-                                        <option value="arabic">Arabic</option>
+                                    <select class="mdl-selectfield__select" id="localeList">
+                                        <option value="hi">Hindi</option>
+                                        <option value="en">English</option>
+                                        <option value="ar">Arabic</option>
                                     </select>
                                     <label for="app-lang-setting" class="mdl-selectfield__label mdl-textfield__label" style="    margin-left: 239px; margin-top: 20px; font-size: 12px">Choose Language</label>
                                 </div>
@@ -318,7 +318,7 @@
                             <div class="btn-group navbar-btn strong verse-diff-on" role="group" aria-label="..." id="bookBtn" style="margin-left:200px;">
                                 <a href="#" onclick="getBookList()" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Select Book"  id="book-chapter-btn">
                                 </a>
-                                <span id="chapterBtnSpan"><a class="btn btn-default" id="chapterBtn" data-target="#myModal" href="javascript:getBookChapterList('1');" data-toggle="modal" data-placement="bottom"  title="Select Chapter" ></a></span>
+                                <span id="chapterBtnSpan"><a class="btn btn-default" id="chapterBtn" data-target="#myModal" href="javascript:getBookChapterList('1');" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" ></a></span>
                             </div>
                             
                         </li>

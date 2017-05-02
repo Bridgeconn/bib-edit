@@ -150,13 +150,20 @@ function lastVisitFromDB(success) {
 
 
 function initializeTextInUI(book, chapter) {
-    document.getElementById('book-chapter-btn').innerHTML = i18n.__("book-"+(booksList[book - 1]).replace(/\s+/g, '-').toLowerCase());
-    document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ');" >' + parseInt(chapter, 10).toLocaleString() + '</a>'
-    $("#chapterBtn").attr('title', i18n.__('tooltip-select-chapter'))
-    $('[data-toggle=tooltip]').tooltip();
+    setLocaleText("#book-chapter-btn", ("book-"+(booksList[book - 1]).replace(/\s+/g, '-').toLowerCase()), "text");
+    i18n.getLocale().then((lang) => {
+        document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ');" >' + parseInt(chapter, 10).toLocaleString(lang) + '</a>'
+        setLocaleText('#chapterBtn', "tooltip-select-chapter", 'title');
+        // $('[data-toggle=tooltip]').tooltip();
+
+    }).catch(function(err){
+        document.getElementById('chapterBtnSpan').innerHTML = '<a  id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ');" >' + parseInt(chapter, 10).toLocaleString() + '</a>'
+        // $('[data-toggle=tooltip]').tooltip();
+
+    });
+    setLocaleText("#chapterBtn", 'tooltip-select-chapter', "title");
     db.get(book).then(function(doc) {
         refDb.get('refChunks').then(function(chunkDoc) {
-            // console.log(doc.chapters[parseInt(chapter,10)-1].verses.length);
             currentBook = doc;
             createRefSelections();
             createVerseInputs(doc.chapters[parseInt(chapter, 10) - 1].verses, chunkDoc.chunks[parseInt(book, 10) - 1], chapter);
@@ -638,50 +645,57 @@ $('a[role="multi-window-btn"]').click(function() {
 function createBooksList(booksLimit) {
     document.getElementById('books-pane').innerHTML = "";
     for (var i = 1; i <= booksLimit; i++) {
-        var li = document.createElement('li'),
-            a = document.createElement('a'),
-            bookName = document.createTextNode(i18n.__("book-"+(constants.booksList[i - 1]).replace(/\s+/g, '-').toLowerCase()));
-        a.id = 'b' + i;
-        a.setAttribute('href', "javascript:setBookName(" + "'" + "b" + i + "'" + ")");
-        a.appendChild(bookName);
-        li.appendChild(a);
-        document.getElementById('books-pane').appendChild(li);
-    }
-    session.defaultSession.cookies.get({ url: 'http://book.autographa.com' }, (error, cookie) => {
-        if (cookie.length > 0) {
-            book = cookie[0].value;
-            $("#b" + book).addClass("link-active");
-            $("#c" + $("#chapterBtn").text()).addClass("link-active");
-        } else {
-            refDb.get("ref_history").then(function(doc) {
-                book = doc.visit_history[0].bookId;
-                chapter = doc.visit_history[0].chapter;
-                $("#b" + book).addClass("link-active");
-                $("#c" + chapter).addClass("link-active");
-            });
+            (function(j){
+                i18n.__("book-"+(constants.booksList[j - 1]).replace(/\s+/g, '-').toLowerCase()).then((res)=>{
+                      var li = document.createElement('li'),
+                        a = document.createElement('a'),
+                        bookName = document.createTextNode(res);
+                    a.id = 'b' + j;
+                    a.setAttribute('href', "javascript:setBookName(" + "'" + "b" + j + "'" + ")");
+                    a.appendChild(bookName);
+                    li.appendChild(a);
+                    document.getElementById('books-pane').appendChild(li);
+                }); 
+            })(i);
         }
-    });
+        session.defaultSession.cookies.get({ url: 'http://book.autographa.com' }, (error, cookie) => {
+            if (cookie.length > 0) {
+                book = cookie[0].value;
+                $("#b" + book).addClass("link-active");
+                $("#c" + $("#chapterBtn").text()).addClass("link-active");
+            } else {
+                refDb.get("ref_history").then(function(doc) {
+                    book = doc.visit_history[0].bookId;
+                    chapter = doc.visit_history[0].chapter;
+                    $("#b" + book).addClass("link-active");
+                    $("#c" + chapter).addClass("link-active");
+                });
+            }
+        });  
+    
 }
 
 function createChaptersList(chaptersLimit) {
     document.getElementById('chaptersList').innerHTML = "";
-    for (var i = 1; i <= chaptersLimit; i++) {
-        var li = document.createElement('li'),
-            a = document.createElement('a'),
-            chapterNumber = document.createTextNode(i.toLocaleString());
-        a.id = 'c' + i;
-        a.setAttribute('href', "javascript:setChapter(" + "'" + i + "'" + ")");
-        a.appendChild(chapterNumber);
-        li.appendChild(a);
-        document.getElementById('chaptersList').appendChild(li);
-        a.addEventListener('click', function(e) {
-            const cookie = { url: 'http://chapter.autographa.com', name: 'chapter', value: e.target.id.substring(1) };
-            session.defaultSession.cookies.set(cookie, (error) => {
-                if (error)
-                    console.error(error);
-            });
-        });
-    }
+        i18n.getLocale().then((locale) => {
+             for (var i = 1; i <= chaptersLimit; i++) {
+                var li = document.createElement('li'),
+                    a = document.createElement('a'),
+                    chapterNumber = document.createTextNode(i.toLocaleString(locale));
+                a.id = 'c' + i;
+                a.setAttribute('href', "javascript:setChapter(" + "'" + i + "'" + ")");
+                a.appendChild(chapterNumber);
+                li.appendChild(a);
+                document.getElementById('chaptersList').appendChild(li);
+                a.addEventListener('click', function(e) {
+                    const cookie = { url: 'http://chapter.autographa.com', name: 'chapter', value: e.target.id.substring(1) };
+                    session.defaultSession.cookies.set(cookie, (error) => {
+                        if (error)
+                            console.error(error);
+                    });
+                });
+             }
+        })
 }
 
 function setBookName(bookId) {
@@ -702,7 +716,6 @@ function setBookName(bookId) {
 
 }
 
-
 function setChapter(chapter) {
     db.get(book).then(function(doc) {
         refDb.get('refChunks').then(function(chunkDoc) {
@@ -711,10 +724,13 @@ function setChapter(chapter) {
             createRefSelections();
             createVerseInputs(doc.chapters[parseInt(chapter, 10) - 1].verses, chunkDoc.chunks[parseInt(book, 10) - 1], chapter);
         });
-        document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" data-toggle="tooltip" data-placement="bottom"  title="Select Book" href="javascript:getBookList();" id="book-chapter-btn">' + i18n.__("book-"+ doc.book_name.replace(/\s+/g, '-').toLowerCase())  + '</a><span id="chapterBtnSpan"><a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ')" >' + parseInt(chapter, 10).toLocaleString() + '</span></a>'
-        $("#book-chapter-btn").attr('title', i18n.__('tooltip-select-book'))
-        $('[data-toggle=tooltip]').tooltip();
-        setChapterButton(book, chapter);
+        i18n.__("book-"+ doc.book_name.replace(/\s+/g, '-').toLowerCase()).then((res) => {
+            i18n.getLocale().then((locale) => {
+                document.getElementById("bookBtn").innerHTML = '<a class="btn btn-default" data-toggle="tooltip" data-placement="bottom"  title="Select Book" href="javascript:getBookList();" id="book-chapter-btn">' + res  + '</a><span id="chapterBtnSpan"><a id="chapterBtn" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + book + "'" + ')" >' + parseInt(chapter, 10).toLocaleString(locale) + '</span></a>'
+                setLocaleText("#book-chapter-btn", 'tooltip-select-book', 'title');
+                setChapterButton(book, chapter);
+            });
+        });
         setChapterCookie(chapter);
         saveLastVisit(book, chapter);
         closeModal($("#bookChapTabModal"));
@@ -722,13 +738,13 @@ function setChapter(chapter) {
         closeModal($("#bookChapTabModal"));
         console.log('Error: While retrieving document. ' + err);
     });
-
 }
-
 function setChapterButton(bookId, chapterId) {
-    document.getElementById('chapterBtnSpan').innerHTML = '<a id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + bookId + "'" + ');" >' + parseInt(chapterId, 10).toLocaleString() + '</a>'
-    $("#chapterBtn").attr('title', i18n.__('tooltip-select-chapter'))
-    $('[data-toggle=tooltip]').tooltip();
+    i18n.getLocale().then((locale) => {
+        document.getElementById('chapterBtnSpan').innerHTML = '<a id="chapterBtn" data-toggle="tooltip" data-placement="bottom"  title="Select Chapter" class="btn btn-default" class="btn btn-default" href="javascript:getBookChapterList(' + "'" + bookId + "'" + ');" >' + parseInt(chapterId, 10).toLocaleString(locale) + '</a>'    
+        setLocaleText("#chapterBtn", 'tooltip-select-chapter', "title");
+    });
+    
     const cookie = { url: 'http://book.autographa.com', name: 'book', value: bookId };
     session.defaultSession.cookies.set(cookie, (error) => {
         if (error)
@@ -825,7 +841,9 @@ $("#exportUsfm").on("click", function() {
 })
 
 function exportChoice() {
-    $("#dropdownBtn").html( i18n.__("dynamic-msg-stage-trans") + ' <span class="caret"></span>');
+    i18n.__("dynamic-msg-stage-trans").then((res) => {
+        $("#dropdownBtn").html(res + ' <span class="caret"></span>');
+    });
     $("#stageText").val('');
     $("#exportChoice").modal();
     $("#exportChoice").toggle();
@@ -849,8 +867,11 @@ function exportUsfm() {
             return filepath;
         }).then(function(filepath) {
             $("#exportChoice").modal('hide');
-            alertModal("dynamic-msg-book-exported",  i18n.__("label-exported-file")+" : " + filepath);
-            return;
+            i18n.__("label-exported-file").then((res) => {
+                alertModal("dynamic-msg-book-exported", res +" : " + filepath);
+                return;
+            })
+            
         }).catch(function(err) {
             $("#exportChoice").modal('hide');
             console.log('Error: Cannot get details from DB' + err);
@@ -860,8 +881,8 @@ function exportUsfm() {
 }
 
 function alertModal(heading, formContent) {
-    $("#heading").text(i18n.__(heading));
-    $("#content").text(i18n.__(formContent));
+    setLocaleText("#heading", heading, 'text');
+    setLocaleText("#content", formContent, 'text');
     $("#dynamicModal").modal();
     $("#dynamicModal").toggle();
 }
@@ -881,16 +902,21 @@ $("#allBooksBtn").on("click", function() {
 function getBooksByLimit(start, booksLength) {
     document.getElementById('books-pane').innerHTML = "";
     for (var i = start; i <= booksLength; i++) {
-        var li = document.createElement('li'),
-            a = document.createElement('a'),
-            bookName = document.createTextNode(i18n.__("book-"+(booksList[i - 1]).replace(/\s+/g, '-').toLowerCase()));
-        a.id = 'b' + i;
-        a.setAttribute('href', "javascript:setBookName(" + "'" + "b" + i + "'" + ")");
-        a.appendChild(bookName);
-        li.appendChild(a);
-        document.getElementById('books-pane').appendChild(li);
+        (function(j){
+            i18n.__("book-"+(constants.booksList[j - 1]).replace(/\s+/g, '-').toLowerCase()).then((res)=>{
+                  var li = document.createElement('li'),
+                    a = document.createElement('a'),
+                    bookName = document.createTextNode(res);
+                a.id = 'b' + j;
+                a.setAttribute('href', "javascript:setBookName(" + "'" + "b" + j + "'" + ")");
+                a.appendChild(bookName);
+                li.appendChild(a);
+                document.getElementById('books-pane').appendChild(li);
+            });   
+
+        })(i);
     }
-    $("#b"+currentBook._id).addClass('link-active')
+    $("#b"+currentBook._id).addClass('link-active');
 }
 
 function saveReferenceLayout(layout) {
@@ -912,10 +938,12 @@ function saveReferenceLayout(layout) {
 
 $(function() {
     // $('#switch-2').bootstrapSwitch();
-    if(i18n.isRtl()){
-        $('head').append('<link rel="stylesheet" href="../assets/stylesheets/material.rtl.min.css">');
-        $("#input-verses").attr("dir", "rtl");
-    }
+    i18n.isRtl().then((res)=>{
+        if(res){
+            $('head').append('<link rel="stylesheet" href="../assets/stylesheets/material.rtl.min.css">');
+            $("#input-verses").attr("dir", "rtl");
+        }
+    })
     setReferenceSetting();
     buildReferenceList();
 
@@ -1095,7 +1123,9 @@ function setAutoSaveTime(dateTime) {
 
 session.defaultSession.cookies.get({ url: 'http://autosave.autographa.com' }, (error, cookie) => {
     if (cookie.length > 0) {
-        $("#saved-time").html(i18n.__('label-last-saved') +"  "+ cookie[0].value);
+        i18n.__('label-last-saved').then((res)=>{
+            $("#saved-time").html(res+"  "+ cookie[0].value);
+        });
     }
 });
 
@@ -1122,7 +1152,16 @@ function findAndReplaceText(searchVal, replaceVal, option) {
                     return a + b;
                 }, 0);
                 $("#searchTextModal").modal('toggle');
-                $("#replace-message").html(i18n.__("dynamic-msg-book") + " : "+ i18n.__("book-"+currentBook.book_name.replace(/\s+/g, '-').toLowerCase()) + "<br>" + i18n.__("label-total-word-replaced") + " :  " + replacedCount);
+                i18n.__("dynamic-msg-book").then((dynMsgBook)=>{
+
+                    i18n.__("book-"+currentBook.book_name.replace(/\s+/g, '-').toLowerCase()).then((currentBookWord)=>{
+                        return dynMsgBook +" : "+currentBookWord
+                    }).then((res)=>{
+                        i18n.__("label-total-word-replaced").then((totalWordMsg)=>{
+                            $("#replace-message").html(res + "<br>" + totalWordMsg + " :  " + replacedCount);
+                        });
+                    });
+                });
                 $("#replaced-text-change").modal('toggle');
                 replaceCount = 0;
                 allChapterReplaceCount = [];
@@ -1137,7 +1176,16 @@ function findAndReplaceText(searchVal, replaceVal, option) {
                 var replacedCount = allChapterReplaceCount.reduce(function(a, b) {
                     return a + b;
                 }, 0);
-                $("#replace-message").html(i18n.__("dynamic-msg-book")+" : " + i18n.__("book-"+currentBook.book_name.replace(/\s+/g, '-').toLowerCase()) + "<br>" + i18n.__("label-total-word-replaced") + " : " + replacedCount);
+                i18n.__("dynamic-msg-book").then((dynMsgBook)=>{
+
+                    i18n.__("book-"+currentBook.book_name.replace(/\s+/g, '-').toLowerCase()).then((currentBookWord)=>{
+                        return dynMsgBook +" : "+currentBookWord
+                    }).then((res)=>{
+                        i18n.__("label-total-word-replaced").then((totalWordMsg)=>{
+                            $("#replace-message").html(res + "<br>" + totalWordMsg + " :  " + replacedCount);
+                        });
+                    });
+                });
                 $("#replaced-text-change").modal('toggle');
                 allChapterReplaceCount = [];
             }
@@ -1252,11 +1300,11 @@ $("#btnfindReplace").click(function() {
     option = $(".form-check-input:checked").val();
     $("#chapter-option").val(option);
     if (findVal == "" && findVal.length == 0) {
-        $("#findError").html(i18n.__('error-msg-search-validation'));
+        setLocaleText("#findError", 'error-msg-search-validation', 'html')
         return
     }
     if (replaceVal == "" && replaceVal.length == 0) {
-        $("#replaceError").html(i18n.__("error-msg-replace-validation"));
+        setLocaleText("#replaceError", "error-msg-replace-validation", 'html');
         return
     }
     findAndReplaceText(findVal, replaceVal, option);
@@ -1293,13 +1341,17 @@ function saveTarget() {
         currentBook._rev = book._rev;
         db.put(currentBook).then(function(response) {
             var dateTime = new Date();
-            $("#saved-time").html(i18n.__('label-last-saved')+"  " + formatDate(dateTime));
+            i18n.__('label-last-saved').then((res)=>{
+                $("#saved-time").html(res+"  "+ formatDate(dateTime));
+            });
             setAutoSaveTime(formatDate(dateTime));
             clearInterval(intervalId);
         }).catch(function(err) {
             db.put(currentBook).then(function(response) {
                 var dateTime = new Date();
-                $("#saved-time").html(i18n.__('label-last-saved')+"  "+ formatDate(dateTime));
+                i18n.__('label-last-saved').then((res)=>{
+                    $("#saved-time").html(res+"  "+ formatDate(dateTime));
+                });
                 setAutoSaveTime(formatDate(dateTime));
             }).catch(function(err) {
                 clearInterval(intervalId);
@@ -1425,50 +1477,50 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
     ref_entry.ref_id = ref_id_value;
     ref_entry.ref_name = document.getElementById('ref-name').value;
     ref_entry.isDefault = false;
-    refDb.get('refs').then(function(doc) {
-        var refExistsFlag = false;
-        var updatedDoc = doc.ref_ids.forEach(function(ref_doc) {
-            if (ref_doc.ref_id === ref_id_value) {
-                refExistsFlag = true;
+        refDb.get('refs').then(function(doc) {
+            var refExistsFlag = false;
+            var updatedDoc = doc.ref_ids.forEach(function(ref_doc) {
+                if (ref_doc.ref_id === ref_id_value) {
+                    refExistsFlag = true;
+                }
+            });
+            if (!refExistsFlag) {
+                doc.ref_ids.push(ref_entry);
+                refDb.put(doc).then(function(res) {
+                    saveJsonToDB(files);
+                    buildReferenceList();
+                    alert_message(".alert-success", "dynamic-msg-imp-ref-text");
+                    clearReferenceSetting();
+                });
+            } else {
+                saveJsonToDB(files);
+                buildReferenceList();
+                alert_message(".alert-success", "dynamic-msg-imp-ref-text");
+                clearReferenceSetting();
+
+            }
+        }).catch(function(err) {
+            if (err.message === 'missing') {
+                var refs = {
+                    _id: 'refs',
+                    ref_ids: []
+                };
+                ref_entry.isDefault = true;
+                refs.ref_ids.push(ref_entry);
+                refDb.put(refs).then(function(res) {
+                    saveJsonToDB(files);
+                    buildReferenceList();
+                    alert_message(".alert-success", "dynamic-msg-imp-ref-text");
+                    clearReferenceSetting();
+                }).catch(function(internalErr) {
+                    alert_message(".alert-danger", "dynamic-msg-imp-error");
+                });
+            } else if (err.message === 'usfm parser error') {
+                alert_message(".alert-danger", "dynamic-msg-parse-error");
+            } else {
+                alert_message(".alert-danger", "dynamic-msg-imp-error");
             }
         });
-        if (!refExistsFlag) {
-            doc.ref_ids.push(ref_entry);
-            refDb.put(doc).then(function(res) {
-                saveJsonToDB(files);
-                buildReferenceList();
-                alert_message(".alert-success", "dynamic-msg-imp-ref-text");
-                clearReferenceSetting();
-            });
-        } else {
-            saveJsonToDB(files);
-            buildReferenceList();
-            alert_message(".alert-success", "dynamic-msg-imp-ref-text");
-            clearReferenceSetting();
-
-        }
-    }).catch(function(err) {
-        if (err.message === 'missing') {
-            var refs = {
-                _id: 'refs',
-                ref_ids: []
-            };
-            ref_entry.isDefault = true;
-            refs.ref_ids.push(ref_entry);
-            refDb.put(refs).then(function(res) {
-                saveJsonToDB(files);
-                buildReferenceList();
-                alert_message(".alert-success", "dynamic-msg-imp-ref-text");
-                clearReferenceSetting();
-            }).catch(function(internalErr) {
-                alert_message(".alert-danger", "dynamic-msg-imp-error");
-            });
-        } else if (err.message === 'usfm parser error') {
-            alert_message(".alert-danger", "dynamic-msg-parse-error");
-        } else {
-            alert_message(".alert-danger", "dynamic-msg-imp-error");
-        }
-    });
 });
 
 document.getElementById('target-import-btn').addEventListener('click', function(e) {
@@ -1594,8 +1646,7 @@ function alert_message(type, message) {
     $(type).fadeTo(2000, 1000).slideUp(1000, function() {
         $(type).css("display", "none");
     });
-
-    $(type + " " + "span").html(i18n.__(message));
+    setLocaleText(type + " " + "span", message, 'html')
 }
 
 function setReferenceSetting() {
@@ -1943,6 +1994,40 @@ function formatDate(date) {
 }
 
 $("#btnSaveLang").click(function(){
-    app.relaunch({args: process.argv.slice(1).concat(['--relaunch'])})
-    app.quit();
+    // app.relaunch({args: process.argv.slice(1).concat(['--relaunch'])})
+    // app.quit();
+    refDb.get('app_locale').then(function(doc) {
+            let appLang = $("#localeList").val();
+            doc.appLang = appLang;
+            refDb.put(doc);
+            alert_message(".alert-success", "Language saved.Please restart the application to see the changes.");
+        }).catch(function(err) {
+            if (err.message === 'missing') {
+                var locale = {
+                    _id: 'app_locale',
+                    appLang: $("#localeList").val()
+                };
+                refDb.put(locale).then(function(res) {
+                    alert_message(".alert-success", "Language saved.Please restart the application to see the changes."); 
+                }).catch(function(internalErr) {
+                    alert_message(".alert-danger", "dynamic-msg-went-wrong");
+                });
+            } 
+        });
 })
+
+function setLocaleText(id, phrase, option){
+    switch(option){
+        case 'text':
+            i18n.__(phrase).then((trans)=> $(id).text(trans));
+            break;
+        case 'html':
+            i18n.__(phrase).then((trans)=> $(id).html(trans));
+            break;
+        case 'title':
+            i18n.__(phrase).then((trans)=> $(id).attr('title', trans).tooltip('fixTitle').tooltip('setContent'));
+        case 'placeholder':
+            i18n.__(phrase).then((trans)=> $(id).attr('placeholder', trans));
+    }
+    
+}
