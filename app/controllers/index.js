@@ -2009,7 +2009,7 @@ $("#btnSaveLang").click(function(){
             let appLang = $("#localeList").val();
             doc.appLang = appLang;
             refDb.put(doc);
-            alert_message(".alert-success", "Language saved.Please restart the application to see the changes.");
+            alert_message(".alert-success", "dynamic-msg-save-language");
         }).catch(function(err) {
             if (err.message === 'missing') {
                 var locale = {
@@ -2017,7 +2017,7 @@ $("#btnSaveLang").click(function(){
                     appLang: $("#localeList").val()
                 };
                 refDb.put(locale).then(function(res) {
-                    alert_message(".alert-success", "Language saved.Please restart the application to see the changes."); 
+                    alert_message(".alert-success", "dynamic-msg-save-language"); 
                 }).catch(function(internalErr) {
                     alert_message(".alert-danger", "dynamic-msg-went-wrong");
                 });
