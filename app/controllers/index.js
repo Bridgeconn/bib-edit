@@ -2040,3 +2040,11 @@ function setLocaleText(id, phrase, option){
     }
     
 }
+$("#label-language").click(function(){
+
+    refDb.get('app_locale').then(function(doc) {
+            $("#localeList").val(doc.appLang);
+        }).catch(function(err) {
+            console.log(err);
+        });
+});
