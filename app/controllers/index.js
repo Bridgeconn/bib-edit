@@ -945,6 +945,7 @@ $(function() {
         if(res){
             $('head').append('<link rel="stylesheet" href="../assets/stylesheets/material.rtl.min.css">');
             $("#input-verses").attr("dir", "rtl");
+            $("#input-verses").addClass('rtl');
         }
     })
     setReferenceSetting();
