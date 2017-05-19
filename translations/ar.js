@@ -29,7 +29,7 @@
 	"label-replaced-information" : "تم استبدال المعلومات",
 	"label-last-saved" : "تم الحفظ",
 	"label-exported-file" : "تم تصدير الملف في",
-	"label-language" : "لغة",
+	"label-language" : "لغة التطبيق",
 	"label-select-language": "حدد اللغة لإعداد التطبيق",
 	"placeholder-search-text" : "البحث عن النص",
 	"placeholder-replace-text" : "إستبدال",

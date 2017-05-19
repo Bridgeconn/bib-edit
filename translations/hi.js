@@ -29,7 +29,7 @@
 	"label-replaced-information" : "प्रतिस्थापित जानकारी",
 	"label-last-saved" : "सहेजा",
 	"label-exported-file" : "निर्यात की गई फ़ाइल यहां पर",
-	"label-language" : "भाषा",
+	"label-language" : "उपयोग भाषा",
 	"label-select-language": "एप्लिकेशन को सेटअप करने के लिए भाषा का चयन करें",
 	"placeholder-search-text" : "पाठ खोजें",
 	"placeholder-replace-text" : "प्रतिस्थापन",

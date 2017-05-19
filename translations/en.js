@@ -29,7 +29,7 @@
 	"label-replaced-information" : "Replaced Information",
 	"label-last-saved" : "Saved",
 	"label-exported-file" : "Exported file at",
-	"label-language" : "Language",
+	"label-language" : "App Language",
 	"label-select-language": "Select the language to setup the application in:",
 	"placeholder-search-text" : "Search text",
 	"placeholder-replace-text" : "Replacement",
