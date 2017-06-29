@@ -71,7 +71,7 @@ module.exports = {
 	    if(!usfmBibleBook)
 		throw new Error('not usfm file');
 
-	    console.log(book);
+	    /*console.log(book);
 	      require('fs').writeFileSync('/Users/fox/output.json', JSON.stringify(book), {
 	      encoding: 'utf8',
 	      flag: 'a'
@@ -79,9 +79,8 @@ module.exports = {
 	      require('fs').writeFileSync('/Users/fox/output.json', ',\n', {
 	      encoding: 'utf8',
 	      flag: 'a'
-	      });
+	      });*/
 
-	  /*
 //	    const PouchDB = require('pouchdb-core')
 //		  .plugin(require('pouchdb-adapter-leveldb'));
 	    if(options.targetDb === 'refs') {
@@ -131,7 +130,7 @@ module.exports = {
 			console.log('Error: While trying to save to DB. ' + err);
 		    });
 		});
-	    }*/
+	    }
 	});
 
 	lineReader.on('error', function(lineReaderErr) {
