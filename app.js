@@ -14,6 +14,8 @@ const fs = require('original-fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const dialog = require('electron').dialog;
+const dir = path.join(app.getPath('temp'), '..', 'Autographa');
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -30,7 +32,6 @@ let getLatestRelease = () => {
   }).reverse();
   return versionsDesc[0];
 }
-const dir = path.join(app.getPath('temp'), '..', 'Autographa');
 
 
 function deleteFile(dir, file) {
@@ -79,17 +80,6 @@ function deleteDirectory(dir) {
         });
     });
 };
-
-fs.readdirSync(dir).filter((file) => {
-    if(file.startsWith("app-") && file != getLatestRelease()){
-      const filePath = path.join(dir, file);
-      deleteDirectory(filePath).then(function(res){
-        console.log(res)
-      }).catch(function(err){
-        console.log(err);
-      })
-    }
-})
 
 
 function createWindow() {
@@ -184,6 +174,18 @@ function preProcess() {
         });
      })
      .then((response) => {
+            if (fs.existsSync(dir)){
+              fs.readdirSync(dir).filter((file) => {
+                  if(file.startsWith("app-") && file != getLatestRelease()){
+                    const filePath = path.join(dir, file);
+                    deleteDirectory(filePath).then(function(res){
+                      console.log(res)
+                    }).catch(function(err){
+                      console.log(err);
+                    })
+                  }
+              });
+            }
             createWindow(); 
             win.refDb = require(`${__dirname}/app/util/data-provider`).referenceDb();
             win.targetDb =  require(`${__dirname}/app/util/data-provider`).targetDb();
