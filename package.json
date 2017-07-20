@@ -4,6 +4,7 @@
   "ProductName": "Autographa Lite",
   "description": "A Bible translation editor for everyone.",
   "main": "app.js",
+  "hostname": "autographaus.bridgeconn.com",
   "Autoupdate-endpoint": "http://autographaus.bridgeconn.com/releases/win32",
   "scripts": {
     "start": "electron .",
