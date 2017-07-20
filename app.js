@@ -23,7 +23,6 @@ let win;
 let willQuitApp = false;
 
 let getLatestRelease = () => {
-  const dir = path.join(app.getPath('temp'), '..', 'Autographa');
   const versionsDesc = fs.readdirSync(dir).filter((file) => {
     if(file.startsWith("app-")){
       const filePath = path.join(dir, file);
