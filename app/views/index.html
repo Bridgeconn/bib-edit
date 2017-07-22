@@ -35,7 +35,7 @@
   
 #loading-img {
     background: url(../assets/images/loader.gif) center center no-repeat;
-  text-align: center;
+    text-align: center;
     background:#fff;
     opacity: 0.85;
     margin-bottom:10px;
@@ -44,7 +44,7 @@
     top: 0;
     left: 0;
     position:fixed;
-    display:none;
+    display:inline;
     z-index: 999999;
 }
  
@@ -63,15 +63,19 @@
   vertical-align: middle;
   color: white;
 }
-
+.loader-css {
+    height: 10%;
+    width: 10%;
+    margin-top: 22%;
+}
 
 </style>
     
 </head>
     <body>
          <div id="loading-img">
-           <div><img src="../assets/images/loader.gif" />
-            <p>Please wait...</p></div>
+           <div><img class="loader-css" src="../assets/images/loader.gif" />
+            <p class="loading">Please wait</p></div>
 
         </div>
         <div class="modal fade aboutmodal" tabindex="-1" role="dialog" aria-labelledby="aboutmodal" aria-hidden="true" id="aboutmodal">
