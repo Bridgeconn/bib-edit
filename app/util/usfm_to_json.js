@@ -130,10 +130,10 @@ module.exports = {
 		    }
 		    db.put(doc).then(function (response) {
 			//console.log(response);
-				$("#loading-img").hide();
+				// $("#loading-img").hide();
 				$("#importModal").modal('toggle');
 		    }).catch(function (err) {
-		    	$("#loading-img").hide();
+		    	// $("#loading-img").hide();
 		    	$("#importModal").modal('toggle');
 				console.log('Error: While trying to save to DB. ' + err);
 		    });
@@ -142,7 +142,8 @@ module.exports = {
 	});
 
 	lineReader.on('error', function(lineReaderErr) {
-		$("#loading-img").hide();
+	  $("#loading-img").hide();
+	  $("#importModal").modal('toggle');
 	    if(lineReaderErr.message === 'not usfm file')
 		console.log(options.usfmFile + ' is not a valid USFM file.');
 	    else
