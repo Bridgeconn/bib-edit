@@ -32,46 +32,13 @@
         left: 50%;
         transform: translatex(-50%);
     }
-  
-#loading-img {
-    background: url(../assets/images/loader.gif) center center no-repeat;
-  text-align: center;
-    background:#fff;
-    opacity: 0.85;
-    margin-bottom:10px;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    position:fixed;
-    display:none;
-    z-index: 999999;
-}
- 
-/* The ghost, nudged to maintain perfect centering */
-#loading-img:before {
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  margin-right: -0.25em; /* Adjusts for spacing */
-}
-
-/* The element to be centered, can
-   also be of any width and height */ 
-#loading > div {
-  display: inline-block;
-  vertical-align: middle;
-  color: white;
-}
-
-
-</style>
+    </style>
     
 </head>
     <body>
          <div id="loading-img">
-           <div><img src="../assets/images/loader.gif" />
-            <p>Please wait...</p></div>
+           <div><img class="loader-css" src="../assets/images/loader.gif" />
+            <p class="loading">Please wait</p></div>
 
         </div>
         <div class="modal fade aboutmodal" tabindex="-1" role="dialog" aria-labelledby="aboutmodal" aria-hidden="true" id="aboutmodal">
