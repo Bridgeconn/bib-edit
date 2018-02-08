@@ -998,7 +998,9 @@ $(function() {
             $("#input-verses").attr("dir", "rtl");
             $("#input-verses").addClass('rtl');
             $(".lang-code-selection").removeAttr('data-tip');
-            $(".lang-code-selection").attr("data-tip-rtl", "Length should be between 3 and 8 characters and can’t start with a number.")
+            i18n.__('tooltip-language-validation').then((res)=>{
+                $(".lang-code-selection").attr("data-tip-rtl", res);
+            })
         }
     });
     db.get('targetBible').then((doc) => {
