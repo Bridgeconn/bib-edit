@@ -1001,7 +1001,11 @@ $(function() {
             i18n.__('tooltip-language-validation').then((res)=>{
                 $(".lang-code-selection").attr("data-tip-rtl", res);
             })
+        }else{
+            $(".lang-code-selection").removeAttr('data-tip-rtl');
         }
+    }, (err)=> {
+        console.log(err);
     });
     db.get('targetBible').then((doc) => {
         if(doc.langScript == "RTL"){
