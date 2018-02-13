@@ -31,6 +31,7 @@
 	"label-exported-file" : "इस पर एक्सपोर्ट की गई फ़ाइल",
 	"label-language" : "एैप भाषा",
 	"label-select-language": "इस में एप्लीकेशन स्थापित करने के लिए भाषा चुनें",
+	"label-heading-confirmation" : "पुष्टीकरण",
 	"placeholder-search-text" : "विषय ढूंढें",
 	"placeholder-replace-text" : "प्रतिस्थापन",
 	"placeholder-path-to-destination" : "लक्षित फोल्डर की ओर मार्ग",

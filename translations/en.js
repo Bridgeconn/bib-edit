@@ -31,6 +31,7 @@
 	"label-exported-file" : "Exported file at",
 	"label-language" : "App Language",
 	"label-select-language": "Select the language to setup the application in:",
+	"label-heading-confirmation" : "Confirmation",
 	"placeholder-search-text" : "Search text",
 	"placeholder-replace-text" : "Replacement",
 	"placeholder-path-to-destination" : "Path to destination folder",

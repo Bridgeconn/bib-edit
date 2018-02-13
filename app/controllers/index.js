@@ -2031,7 +2031,9 @@ $(document).on('click', '.remove-ref', function() {
     removeReferenceLink = element;
     var modal = $("#confirmModal");
     modal.modal("show");
-    $("#confirmMessage").html("dynamic-msg-del-ref-text");
+    i18n.__("dynamic-msg-del-ref-text").then((trans)=> {
+        $("#confirmMessage").html(trans);
+    });
 });
 $("#confirmOk").click(function() {
     removeRef(removeReferenceLink);
