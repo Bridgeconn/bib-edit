@@ -58,6 +58,9 @@ document.getElementById("print-pdf").addEventListener("click", function(e){
     let id = $('.ref-drop-down').val() + '_' + bookCodeList[parseInt(book, 10) - 1];
     db.get('targetBible').then((doc) => {
         exportHtml.exportHtml(id, currentBook, db, doc.langScript);
+    }).catch(function(err) {
+        // handle any errors
+        alertModal("dynamic-msg-error", "dynamic-msg-enter-translation");
     });  
 });
 

@@ -50,6 +50,7 @@
 	"tooltip-compare-mode" : "मोड चुनें",
 	"tooltip-find-and-replace" : "ढूंढें और प्रतिस्थापन करें",
 	"tooltip-export-usfm" : "युएसऍफ़एम् के रूप में एक्सपोर्ट करें",
+	"tooltip-export-html" : "HTML के रूप में निर्यात करें",
 	"tooltip-about" : "के विषय में",
 	"tooltip-settings" : "सेटिंग्स",
 	"tooltip-modal-close" : "बंद करें",

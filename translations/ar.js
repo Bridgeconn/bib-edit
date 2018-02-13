@@ -50,6 +50,7 @@
 	"tooltip-compare-mode" : "قارن الوضع",
 	"tooltip-find-and-replace" : "البحث واستبدال",
 	"tooltip-export-usfm" : "تصدير كما أوسفم",
+	"tooltip-export-html" : "تصدير ك هتمل",
 	"tooltip-about" : "حول",
 	"tooltip-settings" : "إعدادات",
 	"tooltip-modal-close" : "قريب",

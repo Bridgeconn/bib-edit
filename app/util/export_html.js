@@ -167,6 +167,7 @@ module.exports = {
 	                    contentFlag = false;
 	                 })
 	                inlineData+= '</div></body></html>'
+	                
 	                db.get('targetBible').then((doc) => {
 	                    let filepath = path.join(doc.targetPath, `${currentBook.book_name}.html`);
 	                    fs.writeFile(filepath, inlineData , function (err) {

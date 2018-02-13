@@ -50,6 +50,7 @@
 	"tooltip-compare-mode" : "Modo de comparação",
 	"tooltip-find-and-replace" : "Procurar  e substituir",
 	"tooltip-export-usfm" : "Exportar como USFM",
+	"tooltip-export-html" : "Exportar como HTML",
 	"tooltip-about" : "Sobre",
 	"tooltip-settings" : "Configurações",
 	"tooltip-modal-close" : "Fechar",
