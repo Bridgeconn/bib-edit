@@ -1,7 +1,7 @@
 const i18n = new(require('../../translations/i18n'));
 var fs = Promise.promisifyAll(require("fs"));
 module.exports = {
-	exportHtml: function(id, currentBook, db, direction){
+	exportHtml: function(id, currentBook, db, direction, column){
 		i18n.isRtl().then((res)=>{
 	    	if(!res && direction !== "RTL"){
 	        	let htmlContent = '';
@@ -13,131 +13,127 @@ module.exports = {
 	                    <meta name="viewport" content="width=device-width, initial-scale=1">
 	                    <meta name="description" content="">
 	                    <style >
-	                    p {
-	                        font-size: 100%;
-	                    }
-	                    .newspaper ul li ol li:before {
-	                        font-size: 62%
-	                    }
-	                     .chapter {
-	                        font-size: 180%;
-	                        }
+			                    p {
+			                        font-size: 100%;
+			                    }
+			                    .newspaper ul li ol li span {
+			                        font-size: 62%
+			                    }
+			                     .chapter {
+			                        font-size: 180%;
+			                        }
 
-	                    p {
-	                        font-family: Helvetica;
-	                    }
+			                    p {
+			                        font-family: Helvetica;
+			                    }
 
-	                    .body {
-	                        background-color: #f5f8fa;
-	                        line-height: 100%;
-	                    }
+			                    .body {
+			                        background-color: #f5f8fa;
+			                        line-height: 100%;
+			                    }
 
-	                    .newspaper {
-	                        -webkit-column-count: 2;
-	                        -moz-column-count: 2;
-	                        column-count: 2;
-	                    }
+			                    .newspaper {
+			                        -webkit-column-count: ${column};
+			                        -moz-column-count: ${column};
+			                        column-count: ${column};
+			                    }
 
-	                    .chapter {
-	                        display: inline-block;
-	                        margin-left: 4px;
-	                        float: left;
-	                        text-align: right;
-	                        margin-right: 5px;
-	                    }
+			                    .chapter {
+			                        display: inline-block;
+			                        margin-left: 4px;
+			                        float: left;
+			                        text-align: right;
+			                        margin-right: 5px;
+			                    }
 
-	                    .list {
-	                        margin: 0 auto;
-	                        padding-top: 0px;
-	                    }
-	                    .newspaper ul{float: left; width: 100%;}
-	                    .newspaper ul li {
-	                        list-style: none;
-	                        float: left;
-	                        display: block;
-	                        width: 100%;
-	                    }
+			                    .list {
+			                        margin: 0 auto;
+			                        padding-top: 0px;
+			                    }
+			                    .newspaper ul{float: left; width: 100%;}
+			                    .newspaper ul li {
+			                        list-style: none;
+			                        float: left;
+			                        display: block;
+			                        width: 100%;
+			                    }
 
-	                    .newspaper ul li ol {
-	                        counter-reset: item+1;
-	                        list-style-type: none;
-	                        margin: 0;
-	                        padding: 0;
-	                        margin-left: -16px;
-	                    }
+			                    .newspaper ul li ol {
+			                        counter-reset: item+1;
+			                        list-style-type: none;
+			                        margin: 0;
+			                        padding: 0;
+			                        margin-left: -16px;
+			                    }
 
-	                    .newspaper ul li ol li {
-	                        display: block;
-	                        float: left;
-	                        width: 100%;
-	                    }
-	                    .newspaper ul li ol li:before {
-	                       width: 3%;
-	                    float: left;
-	                    font-weight: bold;
-	                    content: counter(item) " ";
-	                    counter-increment: item;
-	                    margin-right: 8px;
-	                    padding-left: 10px;
-	                    text-align: right;
-	                    }
-	                    .newspaper ul li ol li p {width: 90%; margin:0 0 10px 0; padding: 0 29px 0px 0px; float: left; box-sizing: border-box;}
-	                    .firstLi {margin-bottom: 8px; line-height: 20px; width: 80%}
+			                    .newspaper ul li ol li {
+			                        display: block;
+			                        float: left;
+			                        width: 100%;
+			                    }
+			                    .newspaper ul li ol li span {
+			                    	width: 3%;
+				                    float: left;
+				                    font-weight: bold;
+				                    margin-right: 8px;
+				                    padding-left: 10px;
+				                    text-align: right;
+			                    }
+			                    .newspaper ul li ol li p {width: 90%; margin:0 0 10px 0; padding: 0 29px 0px 0px; float: left; box-sizing: border-box;}
+			                    .firstLi {margin-bottom: 8px; line-height: 20px; width: 80%}
 
-	                    @media only screen and (max-width: 1024px) {
-	                        .newspaper ul li ol li p {
-	                    width: 80%;
-	                    margin: 0 0 10px 0;
-	                    padding: 0 8px 0px 0px;
-	                    float: left;
-	                    line-height: 20px;
-	                    box-sizing: border-box;
-	                }
-	                .newspaper ul li {
-	                    list-style: none;
-	                    float: left;
-	                    display: block;
-	                    width: 90%;
-	                    padding-right: 21px;
-	                }
-	                .chapter {
-	                        margin-right: 6px;
-	                    width: 18%;
-	                }
-	                      }
-	                @media only screen and (max-width: 768px) {
-	                .chapter {
-	                    margin-right: 4px;
-	                    width: 31%;
-	                }
-	                }
+			                    @media only screen and (max-width: 1024px) {
+			                        .newspaper ul li ol li p {
+					                    width: 80%;
+					                    margin: 0 0 10px 0;
+					                    padding: 0 8px 0px 0px;
+					                    float: left;
+					                    line-height: 20px;
+					                    box-sizing: border-box;
+					                }
+					                .newspaper ul li {
+					                    list-style: none;
+					                    float: left;
+					                    display: block;
+					                    width: 90%;
+					                    padding-right: 21px;
+					                }
+					                .chapter {
+					                        margin-right: 6px;
+					                    width: 18%;
+					                }
+					                      }
+					                @media only screen and (max-width: 768px) {
+					                .chapter {
+					                    margin-right: 4px;
+					                    width: 31%;
+					                }
+			                	}
 
-	                    @media only screen and (max-width: 700px) {
-	                    .newspaper ul li ol li p {
-	                    width: 80%;
-	                }
-	                    .newspaper ul li ol li:before {
-	                    width: 7%;
-	                    }
-	                    .chapter {
-	                         display: inline-block;
-	                    margin-left: -44px;
-	                    float: right;
-	                    text-align: right;
-	                    margin-right: 12px;
-	                    width: 100%;
-	                }
-	                    }
-	                    .newspaper{margin-right: 2px}
-	                    .firstLi {display: inline-flex;}
+				                @media only screen and (max-width: 700px) {
+				                    .newspaper ul li ol li p {
+				                    	width: 70%;
+				                	}
+					                .newspaper ul li ol li span {
+					                	width: 7%;
+					                }
+					                .chapter {
+					                    display: inline-block;
+					                    float: right;
+					                    text-align: center;
+					                    margin-right: 12px;
+					                    width: 100%;
+					                }
+				                }
+				                .newspaper{margin-right: 2px}
+				                .firstLi {display: inline-flex;}
+				                @media only print {
+				                    .body {
+				                        line-height: 120%;
+				                       margin-top: 2px;
+				                    }
 
-	                @media only print {
-	                     .body {
-	                        line-height: 120%;
-	                       margin-top: 2px;
-	                    }
-
-	                }
+				                }
 	                    </style>
 	</head><body class="body">
 	    <center><h1>${currentBook.book_name}</h1></center>
@@ -153,11 +149,11 @@ module.exports = {
 	                            htmlContent += 
 	                            `<ul class="list">
 	                                <li>
-	                                    <p class="firstLi"><span class="chapter">${obj.chapter}</span>${obj.verses[i].verse}</p>
+	                                    <p class="firstLi"><span class="chapter">${obj.chapter}</span></p>
 	                                </li><li><ol>`
 	                        }else{
 	                            htmlContent += `
-	                            <div><li><p>${obj.verses[i].verse}</p></li></div>`
+	                            <div><li><span>${i}</span><p>${obj.verses[i].verse}</p></li></div>`
 	                        }
 	                    }
 	                    htmlContent+= `</ol></li></ul>`
@@ -196,7 +192,7 @@ module.exports = {
                         p {
                         font-size: 100%;
                     }
-                    .newspaper ul li ol li:before {
+                    .newspaper ul li ol li span {
                         font-size: 62%
                     }
                      .chapter {
@@ -213,9 +209,9 @@ module.exports = {
                     }
 
                     .newspaper {
-                        -webkit-column-count: 2;
-                        -moz-column-count: 2;
-                        column-count: 2;
+                        -webkit-column-count: ${column};
+                        -moz-column-count: ${column};
+                        column-count: ${column};
                     }
                     .list {
                         margin: 0 auto;
@@ -245,12 +241,10 @@ module.exports = {
                         width: 100%;
                     }
 
-                    .newspaper ul li ol li:before {
+                    .newspaper ul li ol li span {
                         width: 3%;
                         float: right;
                         font-weight: bold;
-                        content: counter(item, arabic-indic) "  ";
-                        counter-increment: item;
                         margin-top: 3px;
                     }
                     .newspaper ul li ol li p {
@@ -286,11 +280,11 @@ module.exports = {
                                 htmlContent += 
                                 `<ul class="list">
                                     <li>
-                                        <p class="firstLi"><span class="chapter">${obj.chapter.toLocaleString('ar')}</span>${obj.verses[i].verse}</p>
+                                        <p class="firstLi"><span class="chapter">${obj.chapter.toLocaleString('ar')}</span></p>
                                     </li><li><ol>`
                             }else{
                                 htmlContent += `
-                                <li><p>${obj.verses[i].verse}</p></li>`
+                                <li><p><span>${i.toLocaleString('ar')}</span>${obj.verses[i].verse}</p></li>`
                             }
                         }
                         htmlContent+= `</ol></li></ul>`

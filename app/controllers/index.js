@@ -54,15 +54,7 @@ var stringReplace = require('../util/string_replace.js'),
     langcodeLimit = 100,
     exportHtml = require(`${__dirname}/../util/export_html.js`);
 
-document.getElementById("print-pdf").addEventListener("click", function(e){
-    let id = $('.ref-drop-down').val() + '_' + bookCodeList[parseInt(book, 10) - 1];
-    db.get('targetBible').then((doc) => {
-        exportHtml.exportHtml(id, currentBook, db, doc.langScript);
-    }).catch(function(err) {
-        // handle any errors
-        alertModal("dynamic-msg-error", "dynamic-msg-enter-translation");
-    });  
-});
+
 
 document.getElementById("save-btn").addEventListener("click", function(e) {
     var verses = currentBook.chapters[parseInt(chapter, 10) - 1].verses;
@@ -1077,6 +1069,17 @@ $(function() {
     }).catch(function(error){
         console.log(error)
     })
+
+    $(".export-html").click(function(e){
+        let id = $('.ref-drop-down').val() + '_' + bookCodeList[parseInt(book, 10) - 1];
+        let column = $(this).data('column');
+        db.get('targetBible').then((doc) => {
+            exportHtml.exportHtml(id, currentBook, db, doc.langScript, column);
+        }).catch(function(err) {
+            // handle any errors
+            alertModal("dynamic-msg-error", "dynamic-msg-enter-translation");
+        });  
+    });
 
 });
 //check same langauge in the reference
