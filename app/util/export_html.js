@@ -141,20 +141,19 @@ module.exports = {
 	            var contentFlag = false;
 	            db.get(currentBook._id).then(function(doc) {
 	                doc.chapters.map((obj, i) => {
-	                    for( let i=0; i<obj.verses.length; i++){
-	                        if (obj.verses[i].verse !== "" && obj.verses[i].verse !== null){
-	                            contentFlag = true;
-	                        }
-	                        if(i==0){
-	                            htmlContent += 
+	                	htmlContent += 
 	                            `<ul class="list">
 	                                <li>
 	                                    <p class="firstLi"><span class="chapter">${obj.chapter}</span></p>
 	                                </li><li><ol>`
-	                        }else{
-	                            htmlContent += `
-	                            <div><li><span>${i}</span><p>${obj.verses[i].verse}</p></li></div>`
+	                    for( let i=0; i<obj.verses.length; i++){
+	                        if (obj.verses[i].verse !== "" && obj.verses[i].verse !== null){
+	                            contentFlag = true;
 	                        }
+	                        
+	                            htmlContent += `
+	                            <div><li><span>${i+1}</span><p>${obj.verses[i].verse}</p></li></div>`
+	                        
 	                    }
 	                    htmlContent+= `</ol></li></ul>`
 	                    if(contentFlag)
@@ -272,20 +271,19 @@ module.exports = {
                 var contentFlag = false;
                 db.get(currentBook._id).then(function(doc) {
                     doc.chapters.map((obj, i) => {
-                        for( let i=0; i<obj.verses.length; i++){
-                            if (obj.verses[i].verse !== "" && obj.verses[i].verse !== null){
-                                contentFlag = true;
-                            }
-                            if(i==0){
-                                htmlContent += 
+                    	htmlContent += 
                                 `<ul class="list">
                                     <li>
                                         <p class="firstLi"><span class="chapter">${obj.chapter.toLocaleString('ar')}</span></p>
                                     </li><li><ol>`
-                            }else{
-                                htmlContent += `
-                                <li><p><span>${i.toLocaleString('ar')}</span>${obj.verses[i].verse}</p></li>`
+                        for( let i=0; i<obj.verses.length; i++){
+                            if (obj.verses[i].verse !== "" && obj.verses[i].verse !== null){
+                                contentFlag = true;
                             }
+                            
+                            htmlContent += `
+                            	<li><p><span>${(i+1).toLocaleString('ar')}</span>${obj.verses[i].verse}</p></li>`
+                            
                         }
                         htmlContent+= `</ol></li></ul>`
                         if(contentFlag)
