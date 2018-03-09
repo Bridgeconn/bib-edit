@@ -16,7 +16,7 @@ module.exports = {
 			                    p {
 			                        font-size: 100%;
 			                    }
-			                    .newspaper ul li ol li span {
+			                    .newspaper ul li ol li:before {
 			                        font-size: 62%
 			                    }
 			                     .chapter {
@@ -59,7 +59,7 @@ module.exports = {
 			                    }
 
 			                    .newspaper ul li ol {
-			                        counter-reset: item+1;
+			                        counter-reset: item;
 			                        list-style-type: none;
 			                        margin: 0;
 			                        padding: 0;
@@ -71,10 +71,12 @@ module.exports = {
 			                        float: left;
 			                        width: 100%;
 			                    }
-			                    .newspaper ul li ol li span {
+			                    .newspaper ul li ol li:before{
 			                    	width: 3%;
 				                    float: left;
 				                    font-weight: bold;
+				                    content: counter(item) " ";
+				                    counter-increment: item;
 				                    margin-right: 8px;
 				                    padding-left: 10px;
 				                    text-align: right;
@@ -151,8 +153,7 @@ module.exports = {
 	                            contentFlag = true;
 	                        }
 	                        
-	                            htmlContent += `
-	                            <div><li><span>${i+1}</span><p>${obj.verses[i].verse}</p></li></div>`
+	                        htmlContent += `<div><li><p>${obj.verses[i].verse}</p></li></div>`
 	                        
 	                    }
 	                    htmlContent+= `</ol></li></ul>`
@@ -228,7 +229,7 @@ module.exports = {
                     }
 
                     .newspaper ul li ol {
-                        counter-reset: item+1;
+                        counter-reset: item;
                         list-style-type: none;
                         margin: 0;
                         padding: 0;
@@ -240,11 +241,14 @@ module.exports = {
                         width: 100%;
                     }
 
-                    .newspaper ul li ol li span {
+                    .newspaper ul li ol li:before {
                         width: 3%;
                         float: right;
                         font-weight: bold;
+                        content: counter(item, arabic-indic) "  ";
+                        counter-increment: item;
                         margin-top: 3px;
+
                     }
                     .newspaper ul li ol li p {
                     width: 90%;
@@ -280,10 +284,7 @@ module.exports = {
                             if (obj.verses[i].verse !== "" && obj.verses[i].verse !== null){
                                 contentFlag = true;
                             }
-                            
-                            htmlContent += `
-                            	<li><p><span>${(i+1).toLocaleString('ar')}</span>${obj.verses[i].verse}</p></li>`
-                            
+                            htmlContent += `<li><p>${obj.verses[i].verse}</p></li>`
                         }
                         htmlContent+= `</ol></li></ul>`
                         if(contentFlag)
