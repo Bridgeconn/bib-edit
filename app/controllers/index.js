@@ -1002,14 +1002,7 @@ $(function() {
     }, (err)=> {
         console.log(err);
     });
-    db.get('targetBible').then((doc) => {
-        if(doc.langScript == "RTL"){
-            $("#input-verses").attr("dir", "rtl").addClass("arabic").removeClass("english");
-            $("#script-dir-rtl")[0].MaterialRadio.check();
-
-        }
-    }, (err) => {
-    })
+    
     setReferenceSetting();
     buildReferenceList();
 
@@ -1054,10 +1047,22 @@ $(function() {
     refDb.get('autoupdate').then(function(doc) {
         if(doc.enable){
             $("#label-autoupdate-enable")[0].MaterialRadio.check();
+        }else{
+            $("#label-autoupdate-disable")[0].MaterialRadio.check();
         }
     }).catch(function(err){
         console.log(err)
     });
+
+    db.get('targetBible').then((doc) => {
+        if(doc.langScript == "RTL"){
+            $("#input-verses").attr("dir", "rtl").addClass("arabic").removeClass("english");
+            $("#script-dir-rtl")[0].MaterialRadio.check();
+        }else{
+            $("#script-dir-ltr")[0].MaterialRadio.check();
+        }
+    }, (err) => {
+    })
 
     refDb.get('appFirstRun').then(function(doc){
         if(doc.isFirstRun){
