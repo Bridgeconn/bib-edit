@@ -232,9 +232,9 @@ body {line-height: inherit !important;}
 }
 .rtl div {display: flex;}
 .english div .verse-num {display:inline-block; float:left; width:3%; margin-top: 2px}
-.english div span:nth-child(2){display:inline-block; float:left; width:97%; margin-bottom: 10px;}
+.english div span:nth-child(2){display:inline-block; float:left; width:96%; margin-bottom: 10px;}
 .arabic div .verse-num {display:inline-block; float:right; width:3%;margin-top: 2px}
-.arabic div span:nth-child(2){display:inline-block; float:right; width:97%; margin-bottom: 10px;padding-right: 3px}
+.arabic div span:nth-child(2){display:inline-block; float:right; width:96%; margin-bottom: 10px;padding-right: 3px}
 
 [data-tip] {
   position:relative;
