@@ -129,13 +129,7 @@ module.exports = {
 				                }
 				                .newspaper{margin-right: 2px}
 				                .firstLi {display: inline-flex;}
-				                @media only print {
-				                    .body {
-				                        line-height: 120%;
-				                       margin-top: 2px;
-				                    }
-
-				                }
+				               
 	                    </style>
 	</head><body class="body">
 	    <center><h1>${currentBook.book_name}</h1></center>
@@ -180,7 +174,7 @@ module.exports = {
                 i18n.getLocale().then((locale) => {
             	let htmlContent = '';
             	let inlineData = `<!DOCTYPE html>
-                <html lang="en" dir="rtl">
+                <html lang="ar" dir="rtl">
 
                 <head>
                     <meta charset="utf-8">
@@ -205,7 +199,6 @@ module.exports = {
 
                     .body {
                         background-color: #f5f8fa;
-                        line-height: 120%;
                     }
 
                     .newspaper {
@@ -225,7 +218,7 @@ module.exports = {
                         float: right;
                         display: block;
                         width: 100%;
-                            margin-right: 16px;
+                        margin-right: ${column==2? "16px" : "0px"};
                     }
 
                     .newspaper ul li ol {
@@ -245,9 +238,10 @@ module.exports = {
                         width: 3%;
                         float: right;
                         font-weight: bold;
-                        content: counter(item, arabic-indic) "  ";
+                        content: counter(item, ${column == 2 ? 'arabic-indic' : 'decimal'}) "  ";
                         counter-increment: item;
                         margin-top: 3px;
+                        font-size:14px : 14px;
 
                     }
                     .newspaper ul li ol li p {
@@ -260,13 +254,9 @@ module.exports = {
                 }
 
                 ul li span.chapter { float: right; display: inline-block !important; min-height: 11px; width: 6%;}
-                .firstLi {float: right;  text-align: right; margin-right: 23px; width: 60%}
+                .firstLi {float: right;  text-align: right; margin-right: ${column==2 ? '23px' : '0px'}; width: 60%}
 
-                    @media only print {
-                        .firstLi {width: 80%; margin-bottom: 0px;}
-                        ul li span.chapter {margin-left: 5px}
-                    }
-        
+                    
                     </style>
                     </head>
                 <body class="body">
@@ -278,7 +268,7 @@ module.exports = {
                     	htmlContent += 
                                 `<ul class="list">
                                     <li>
-                                        <p class="firstLi"><span class="chapter">${obj.chapter.toLocaleString('ar')}</span></p>
+                                        <p class="firstLi"><span class="chapter">${obj.chapter.toLocaleString( column == 2 ? 'ar' : 'en')}</span></p>
                                     </li><li><ol>`
                         for( let i=0; i<obj.verses.length; i++){
                             if (obj.verses[i].verse !== "" && obj.verses[i].verse !== null){
