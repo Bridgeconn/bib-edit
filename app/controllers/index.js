@@ -430,7 +430,7 @@ function getReferenceText(refId, callback) {
                     }
                 }
                 ref_string = doc.chapters[i].verses.map(function(verse, verseNum) {
-                    let transLatedVerse = refId === "arb_vdt" ? (verseNum+1).toLocaleString('ar') : (verseNum+1);
+                    let transLatedVerse = doc.scriptDirection === "RTL" ? (verseNum+1).toLocaleString('ar') : (verseNum+1);
                     return '<div data-verse="r' + (verseNum + 1) + '"><span class="verse-num">' + transLatedVerse + '</span><span>' + verse.verse + '</span></div>';
                 }).join('');
                 callback(null, ref_string);
@@ -454,7 +454,7 @@ function createRefSelections() {
                             console.log('Info: No references found in database. ' + err);
                             return;
                         }
-                        if(ref_doc.ref_id == "arb_vdt"){
+                        if(ref_doc.scriptDirection == "RTL"){
                              $('div[type="ref"]').html(refContent).attr("dir", "rtl").addClass("rtl");
                         }else{
                             $('div[type="ref"]').html(refContent);
@@ -490,31 +490,40 @@ function createRefSelections() {
                         $(".current-val")[i].value = val;
                     }
                     getReferenceText(val, function(err, refContent) {
+                        let id = val + '_' + bookCodeList[parseInt(book, 10) - 1]
                         if (err) {
                             $(".ref-drop-down")[i].value = val;
                             getReferenceText(val, function(err, refContent) {
                                 if (err) {
                                     console.log("This chapter is not available in the selected reference version.");
                                 }
-                                if(val === "arb_vdt"){
-                                    $('div[type="ref"]').html(refContent).attr('dir', 'rtl');
-                                }else{
-                                    $('div[type="ref"]').html(refContent);
+                                
+                                refDb.get(id).then((doc)=>{
+                                    if(doc.scriptDirection === "RTL"){
+                                        $('div[type="ref"]').html(refContent).attr('dir', 'rtl');
+                                    }else{
+                                        $('div[type="ref"]').html(refContent);
 
-                                }
+                                    }
+                                })
+                                
                             })
                             return;
-                        }                        
-                        if(val === "arb_vdt"){
-                            $("#section-" + i).find('div[type="ref"]').html(refContent).attr('dir', 'rtl').addClass('rtl');
-                        }else{
-                            $("#section-" + i).find('div[type="ref"]').html(refContent);
-                        }
+                        }  
+                        refDb.get(id).then((doc)=>{
+                            if(doc.scriptDirection === "RTL"){
+                                $("#section-" + i).find('div[type="ref"]').html(refContent).attr('dir', 'rtl').addClass('rtl');
+                            }else{
+                                $("#section-" + i).find('div[type="ref"]').html(refContent);
+                            }
+                        })                      
+                        
                     });
                 });
             }else {
                 $('.ref-drop-down :selected').each(function(i, selected) {
                     $(".current-val").val($(selected).val());
+                    let id = $(selected).val() + '_' + bookCodeList[parseInt(book, 10) - 1]
                     getReferenceText($(selected).val(), function(err, refContent) {
                         if (err) {
                             $(".ref-drop-down").val($(".ref-drop-down option:first").val());
@@ -526,12 +535,15 @@ function createRefSelections() {
                             })
                             return;
                         }
-                        if($(selected).val() == "arb_vdt") {
-                            $('div[type="ref"]').attr("dir", "rtl");
-                            $('div[type="ref"]').addClass('rtl');
-                        }else{
-                            $('div[type="ref"]').removeAttr("dir", "rtl");
-                        }
+                        refDb.get(id).then((doc)=>{
+                            if(doc.scriptDirection === "RTL"){
+                                $('div[type="ref"]').attr("dir", "rtl");
+                                $('div[type="ref"]').addClass('rtl');
+                            }else{
+                                $('div[type="ref"]').removeAttr("dir", "rtl");
+
+                            }
+                        })
                         if ($("#section-" + i).length > 0) {
                             $("#section-" + i).find('div[type="ref"]').html(refContent);
                         } else {
@@ -563,6 +575,8 @@ $('.ref-drop-down').change(function(event) {
             console.log(err);
         });
     });
+    let refId = ($(this).val() === 0 ? document.getElementById('refs-select').value : $(this).val());
+    let id = refId + '_' + bookCodeList[parseInt(book, 10) - 1]
     getReferenceText($(this).val(), function(err, refContent) {
         if (err) {
             selectedRefElement.val(selectedRefElement.next().val());
@@ -570,12 +584,14 @@ $('.ref-drop-down').change(function(event) {
             return;
         } else {
             selectedRefElement.next().val(selectedRefElement.val());
-        }        
-        if(selectedRefElement.val() === 'arb_vdt'){
-            selectedRefElement.closest('div.row').next('div.row').children('div[type="ref"]').html(refContent).attr("dir", "rtl").addClass("rtl");
-        }else{
-            selectedRefElement.closest('div.row').next('div.row').children('div[type="ref"]').html(refContent).removeAttr("dir")
-        }        
+        }
+        refDb.get(id).then((doc)=>{
+           if(doc.scriptDirection == "RTL"){
+                selectedRefElement.closest('div.row').next('div.row').children('div[type="ref"]').html(refContent).attr("dir", "rtl").addClass("rtl");
+           }else{
+                selectedRefElement.closest('div.row').next('div.row').children('div[type="ref"]').html(refContent).removeAttr("dir")
+           }
+        })      
     });
 });
 
@@ -1561,6 +1577,10 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
     ref_entry.ref_id = ref_id_value;
     ref_entry.ref_name = document.getElementById('ref-name').value;
     ref_entry.isDefault = false;
+    const location = document.getElementById('ref-path').value
+    const langCode = document.getElementById('langCode').value.toLowerCase();
+    const version = document.getElementById('ref-version').value.toLowerCase();
+    const scriptDirection = $("#ref-lang-script-ltr").is(':checked') ? "LTR" : "RTL"
     ref_arr.push(ref_entry);
         refDb.get('refs').then(function(doc) {
             ref_entry = {}
@@ -1572,6 +1592,7 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
                 ref_entry.ref_id = ref_doc.ref_id;
                 ref_entry.ref_name = ref_doc.ref_name;
                 ref_entry.isDefault = ref_doc.isDefault;
+                ref_entry.scriptDirection = ref_doc.scriptDirection;
                 ref_arr.push(ref_entry)
                 ref_entry= {};
             });
@@ -1579,13 +1600,13 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
                 // doc.ref_ids.push(ref_entry);
                 doc.ref_ids = ref_arr;
                 refDb.put(doc).then(function(res) {
-                    saveJsonToDB(files);
+                    saveJsonToDB(files, langCode, version, location, 'refs', scriptDirection);
                     buildReferenceList();
                     alert_message(".alert-success", "dynamic-msg-imp-ref-text");
                     clearReferenceSetting();
                 });
             } else {
-                saveJsonToDB(files);
+                saveJsonToDB(files, langCode, version, location, 'refs', scriptDirection);
                 buildReferenceList();
                 alert_message(".alert-success", "dynamic-msg-imp-ref-text");
                 clearReferenceSetting();
@@ -1595,12 +1616,13 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
             if (err.message === 'missing') {
                 var refs = {
                     _id: 'refs',
-                    ref_ids: []
+                    ref_ids: [],
+                    scriptDirection: scriptDirection
                 };
                 ref_entry.isDefault = true;
                 refs.ref_ids.push(ref_entry);
                 refDb.put(refs).then(function(res) {
-                    saveJsonToDB(files);
+                    saveJsonToDB(files, langCode, version, location, 'refs', scriptDirection);
                     buildReferenceList();
                     alert_message(".alert-success", "dynamic-msg-imp-ref-text");
                     clearReferenceSetting();
@@ -1618,25 +1640,29 @@ document.getElementById('ref-import-btn').addEventListener('click', function(e) 
 document.getElementById('target-import-btn').addEventListener('click', function(e) {
     if (import_sync_setting() == false)
         return;
-    $("#loading-img").show();
     var inputPath = document.getElementById('target-import-path').value;
     var files = fs.readdirSync(inputPath);
-    Promise.map(files, function(file){
-        var filePath = path.join(inputPath, file);
-        if (fs.statSync(filePath).isFile() && !file.startsWith('.')) {
-            var options = {
-                lang: 'hi',
-                version: 'ulb',
-                usfmFile: filePath,
-                targetDb: 'target'
-            }
-            bibUtil_to_json.toJson(options);
-        }
-    }).then(function(res){
-        $("#loading-img").hide();
-    }).catch(function(err){
-        $("#loading-img").hide();
-    })
+    $("#loading-img").show();
+    // Promise.map(files, function(file){    
+    //     var filePath = path.join(inputPath, file);
+    //     if (fs.statSync(filePath).isFile() && !file.startsWith('.')) {
+    //         var options = {
+    //             lang: 'hi',
+    //             version: 'ulb',
+    //             usfmFile: filePath,
+    //             targetDb: 'target'
+    //         }
+    //         bibUtil_to_json.toJson(options);
+    //     }
+    // }).then(function(res){
+    //     $("#loading-img").hide();
+    // }).catch(function(err){
+    //     $("#loading-img").hide();
+    // })
+    saveJsonToDB(files, 'hi', 'ulb', inputPath, 'target');
+
+
+    
     // files.forEach(function(file) {
     //     var filePath = path.join(inputPath, file);
     //     if (fs.statSync(filePath).isFile() && !file.startsWith('.')) {
@@ -1657,46 +1683,39 @@ $('#importModal').on('hidden.bs.modal', function () {
     window.location.reload();
 })
 
+function getStuffAsync(param){
+    return new Promise(function(resolve,reject){
+         bibUtil_to_json.toJson(param, function(err, data){
+            if(err !== null) return reject(err);
+             resolve(data);
+         });
+    });
+}
 
-
-function saveJsonToDB(files) {
-    const location = document.getElementById('ref-path').value
-    const langCode = document.getElementById('langCode').value.toLowerCase();
-    const version = document.getElementById('ref-version').value.toLowerCase();
+function saveJsonToDB(files, langCode, version, filepath, db, scriptDirection) {
     Promise.map(files, function(file){
-        console.log(file)
         if (!file.startsWith('.')) {
-            var filePath = path.join(location, file);
+            var filePath = path.join(filepath, file);
             if (fs.statSync(filePath).isFile()) {
                 var options = {
                     lang: langCode,
                     version: version,
                     usfmFile: filePath,
-                    targetDb: 'refs'
+                    targetDb: db,
+                    scriptDirection: scriptDirection
                 }
-                bibUtil_to_json.toJson(options);
+                return getStuffAsync(options).then((res) => {
+                    return res;
+                }, (err)=>{
+                    return err;
+                })
             }
         }
     }).then(function() {
-        $("#loading-img").hide();
+        window.location.reload();
     }).catch(function(err){
-        $("#loading-img").hide();
-    })
-    // files.forEach(function(file) {
-        // if (!file.startsWith('.')) {
-        //     var filePath = path.join(document.getElementById('ref-path').value, file);
-        //     //console.log(filePath + ' ' + fs.statSync(filePath).isFile());
-        //     if (fs.statSync(filePath).isFile()) {
-        //         var options = {
-        //             lang: document.getElementById('langCode').value.toLowerCase(),
-        //             version: document.getElementById('ref-version').value.toLowerCase(),
-        //             usfmFile: filePath,
-        //             targetDb: 'refs'
-        //         }
-        //         bibUtil_to_json.toJson(options);
-        //     }
-        // }
-    // });
+        window.location.reload();
+    });
 }
 
 document.getElementById('ref-path').addEventListener('click', function(e) {
