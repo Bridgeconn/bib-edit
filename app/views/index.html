@@ -157,7 +157,7 @@
                                     <label class="mdl-textfield__label" for="ref-name" id="label-bible-name">Bible name</label>
                                 </div>
                             </div>
-                        <div data-tip="Length should be between 3 and 8 characters and can’t start with a number." class="form-group lang-code-selection">
+                            <div data-tip="Length should be between 3 and 8 characters and can’t start with a number." class="form-group lang-code-selection">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                     <input  class="mdl-textfield__input search" type="text" id="ref-lang-code" placeholder="eng">
                                     <label class="mdl-textfield__label label-language-code" for="ref-lang-code">Language Code</label>
@@ -170,6 +170,17 @@
                                     <input class="mdl-textfield__input" type="text" id="ref-version" placeholder="NET-S3">
                                     <label class="mdl-textfield__label label-version" for="ref-version">Version</label>
                                 </div>
+                            </div>
+                            <div style="display: flex;" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <label style="margin-top: -24px;margin-left: 10px;font-size: 12px;" class="mdl-textfield__label" for="export-path" id="label-script-dir">Script Direction</label>
+                                    <label style = "margin-left:8px" id="ref-script-dir-ltr" class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="ref-lang-script-ltr">
+                                  <input type="radio" id="ref-lang-script-ltr" class="mdl-radio__button" name="ref-script-dir" value="true" checked>
+                                  <span class="mdl-radio__label" id="label-ltr">LTR</span>
+                                </label>
+                                <label id= "ref-script-dir-rtl" class="mdl-radio gap mdl-js-radio mdl-js-ripple-effect" for="ref-lang-script-rtl">
+                                  <input type="radio" id="ref-lang-script-rtl" class="mdl-radio__button" name="ref-script-dir" value="false" >
+                                  <span class="mdl-radio__label" id="label-rtl">RTL</span>
+                                </label>
                             </div>
                             <div class="form-group">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
