@@ -111,6 +111,7 @@
 	"label-auto-update" : "التحديث التلقائي",
 	"label-radio-enable": "مكن",
 	"label-radio-disable": "تعطيل",
+	"label-please-wait": "قد يستغرق هذا بضع دقائق. أرجو الإنتظار",
 	"book-genesis" : "تكوين",
 	"book-exodus" : "خروج",
 	"book-leviticus" : "لاويين",

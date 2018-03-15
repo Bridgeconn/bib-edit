@@ -111,6 +111,7 @@
 	"label-auto-update" : "Actualización automática",
 	"label-radio-enable": "Habilitar",
 	"label-radio-disable": "Inhabilitar",
+	"label-please-wait": "Esto puede tomar unos pocos minutos. por favor espera",
 	"book-genesis" : "Génesis",
 	"book-exodus" : "Éxodo",
 	"book-leviticus" : "Levíticio",
