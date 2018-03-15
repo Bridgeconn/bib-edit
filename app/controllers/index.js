@@ -1552,13 +1552,11 @@ document.getElementById('save-settings').addEventListener('click', function(e) {
     db.get('targetBible').then((doc) => {
         settingData._rev = doc._rev;
         db.put(settingData).then((res) => {
-            window.location.reload();
-            // alert_message(".alert-success", "dynamic-msg-saved-trans");
+            alert_message(".alert-success", "dynamic-msg-save-language");
         });
     }, (err) => {
         db.put(settingData).then((res) => {
-            // alert_message(".alert-success", "dynamic-msg-saved-trans");
-            window.location.reload();
+            alert_message(".alert-success", "dynamic-msg-save-language");
         }, (err) => {
             console.log(err)
             alert_message(".alert-danger", "dynamic-msg-went-wrong");
@@ -1643,40 +1641,7 @@ document.getElementById('target-import-btn').addEventListener('click', function(
     var inputPath = document.getElementById('target-import-path').value;
     var files = fs.readdirSync(inputPath);
     $("#loading-img").show();
-    // Promise.map(files, function(file){    
-    //     var filePath = path.join(inputPath, file);
-    //     if (fs.statSync(filePath).isFile() && !file.startsWith('.')) {
-    //         var options = {
-    //             lang: 'hi',
-    //             version: 'ulb',
-    //             usfmFile: filePath,
-    //             targetDb: 'target'
-    //         }
-    //         bibUtil_to_json.toJson(options);
-    //     }
-    // }).then(function(res){
-    //     $("#loading-img").hide();
-    // }).catch(function(err){
-    //     $("#loading-img").hide();
-    // })
     saveJsonToDB(files, 'hi', 'ulb', inputPath, 'target');
-
-
-    
-    // files.forEach(function(file) {
-    //     var filePath = path.join(inputPath, file);
-    //     if (fs.statSync(filePath).isFile() && !file.startsWith('.')) {
-    //         //console.log(filePath);
-    //         var options = {
-    //             lang: 'hi',
-    //             version: 'ulb',
-    //             usfmFile: filePath,
-    //             targetDb: 'target'
-    //         }
-    //         bibUtil_to_json.toJson(options);
-    //     }
-    // });
-    
 });
 
 $('#importModal').on('hidden.bs.modal', function () {
@@ -1807,7 +1772,7 @@ function import_sync_setting() {
 
 function alert_message(type, message) {
     $(type).css("display", "block");
-    $(type).fadeTo(2000, 1000).slideUp(1000, function() {
+    $(type).fadeTo(10000, 2000).slideUp(1000, function() {
         $(type).css("display", "none");
     });
     setLocaleText(type + " " + "span", message, 'html')
